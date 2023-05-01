@@ -1,0 +1,12 @@
+{
+    "user_name": "User Name",
+    "password": "Password",
+    "email": "Email",
+    "phone": "Phone Number",
+    "confirm_password": "Confirm Password",
+    "name_validate": "The name should be larger than 2 charcter",
+    "email_validate": "The email should contain (@) and (.com)",
+    "phone_validate": "The phone number should be in 11 number",
+    "password_validate": "The password should be larger than 8 charcter",
+    "confirm_password_validate": "the confirm password dosn't match the password"
+}
