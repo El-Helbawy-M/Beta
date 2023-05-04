@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_project_base/handlers/qr_code_scanner/qr_scanner_view.dart';
 import 'package:flutter_project_base/routers/routers.dart';
 import 'package:flutter_project_base/services/authentication/login/pages/login_page.dart';
+import 'package:flutter_project_base/services/home/pages/home_page.dart';
 import 'package:flutter_project_base/services/onboarding/blocs/onboarding_bloc.dart';
 import 'package:flutter_project_base/services/onboarding/pages/on_boarding.dart';
 import '../base/pages/base_page.dart';
@@ -34,6 +35,8 @@ class CustomNavigator {
         return _pageRoute(const SplashPage());
       case Routes.boarding:
         return _pageRoute(BlocProvider(create: (context) => OnBoardingCubit(), child: const OnBoardingPage()));
+      case Routes.home:
+        return _pageRoute(const BasePage());
     }
     return MaterialPageRoute(builder: (_) => Container());
   }

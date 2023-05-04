@@ -14,8 +14,8 @@ class ColoresThemes {
         scaffoldBackgroundColor: Colors.white,
         colorScheme: ColorScheme.light(
           primary: const Color(0xff1B72C0),
-          onPrimary: const Color(0xffFBFBFB),
-          primaryContainer: const Color(0xffFAFAFA),
+          onPrimary: const Color(0xffEDEDED),
+          primaryContainer: const Color(0xffEDEDED),
           secondary: const Color(0xff2D3436),
           onSecondary: const Color(0xffAD8B73).withOpacity(.2),
           error: const Color(0xffEA3939).withOpacity(.2),
@@ -52,9 +52,10 @@ class ColoresThemes {
         //=================================
         //================================= Bottom Navigation Bar Theme
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-          unselectedItemColor: Color(0xffA7A7A7),
-          selectedItemColor: Color(0xffe26166),
-          backgroundColor: Colors.white,
+          unselectedItemColor: Color(0xffffffff),
+          selectedItemColor: Color(0xff1B72C0),
+          selectedLabelStyle: TextStyle(color: Color(0xffffffff)),
+          backgroundColor: Color(0xff1B72C0),
           elevation: 3,
         ),
         //=================================

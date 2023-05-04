@@ -39,6 +39,8 @@ dependencies:
   # UI packages
   cupertino_icons: ^1.0.2
   flutter_svg: ^1.1.5
+  fl_chart: ^0.62.0
+  intl: ^0.17.0
 
   # Network packages
   dio: ^4.0.6
@@ -91,6 +93,7 @@ flutter:
     - assets/icons/png/
     - assets/icons/svg/
     - assets/icons/svg/video_icons/
+    - assets/icons/svg/base_icons/
     - assets/lang/
     - assets/videos/
   #   - images/a_dot_ham.jpeg

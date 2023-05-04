@@ -46,7 +46,7 @@ class _LocationInputFieldState extends State<LocationInputField> {
             FocusScope.of(context).requestFocus(FocusNode());
           },
           child: Container(
-            height: 50,
+            height: 46,
             padding: const EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
               border: value != null ? _mapBorder(borderColor: Theme.of(context).colorScheme.primary) : _mapBorder(borderColor: Colors.grey),
