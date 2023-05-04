@@ -9,7 +9,7 @@ class CustomPageBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: Colors.white,
       floatingActionButton: floatingActionButton,
       appBar: appBar,
       body: SizedBox(

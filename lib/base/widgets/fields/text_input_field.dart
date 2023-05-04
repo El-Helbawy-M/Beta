@@ -66,7 +66,7 @@ class _TextInputFieldState extends State<TextInputField> {
         if (widget.labelText != null) Text(widget.labelText ?? ""),
         const SizedBox(height: 4),
         SizedBox(
-          height: 56,
+          height: 46,
           child: TextFormField(
             controller: widget.controller,
             initialValue: widget.controller != null ? null : widget.initialValue,
