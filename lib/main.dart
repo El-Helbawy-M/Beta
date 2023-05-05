@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_project_base/base/blocs/settings_bloc.dart';
 import 'package:flutter_project_base/config/app_states.dart';
+import 'package:flutter_project_base/debug/log_printer.dart';
 import 'package:flutter_project_base/handlers/shared_handler.dart';
 import 'package:flutter_project_base/network/network_handler.dart';
 import 'package:flutter_project_base/routers/navigator.dart';
@@ -44,9 +45,9 @@ class Launch extends StatelessWidget {
       builder: (context, state) {
         return MaterialApp(
             title: 'Project Title',
-            theme: ColoresThemes().mapColor(settingsBloc.settingsModel.theme, ""),
+            theme: ColoresThemes().mapColor(settingsBloc.settingsModel.theme, "Cairo"),
             debugShowCheckedModeBanner: false,
-            initialRoute: Routes.splash,
+            initialRoute: Routes.home,
             navigatorKey: CustomNavigator.navigatorState,
             navigatorObservers: [CustomNavigator.routeObserver],
             scaffoldMessengerKey: CustomNavigator.scaffoldState,

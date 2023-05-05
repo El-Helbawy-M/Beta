@@ -5,6 +5,8 @@ import 'package:flutter_project_base/utilities/theme/media.dart';
 import 'package:flutter_project_base/utilities/theme/text_styles.dart';
 import '../../../utilities/components/custom_page_body.dart';
 import '../widgets/chart_view.dart';
+import '../widgets/follow_doctor_btn.dart';
+import '../widgets/service_card.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -90,41 +92,11 @@ class HomePage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("تابع حالة", style: AppTextStyles.w700.copyWith(fontSize: 16)),
+                          Text("تابع حالة", style: AppTextStyles.w600.copyWith(fontSize: 20)),
                           const SizedBox(height: 16),
                           ...List.generate(
                             6,
-                            (index) => GestureDetector(
-                              onTap: onTaps[index],
-                              child: Container(
-                                height: 64,
-                                padding: const EdgeInsets.symmetric(horizontal: 16),
-                                margin: const EdgeInsets.only(bottom: 16),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(8),
-                                  border: Border.all(color: Theme.of(context).dividerColor.withOpacity(.05)),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Theme.of(context).dividerColor.withOpacity(.02),
-                                      blurRadius: 8,
-                                      offset: Offset(0, 4),
-                                    ),
-                                  ],
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Image.asset("assets/images/${imagesPaths[index]}.png", width: 32, height: 32),
-                                    const SizedBox(width: 16),
-                                    Text(
-                                      labels[index],
-                                      style: AppTextStyles.w700.copyWith(fontSize: 22),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                            (index) => ServiceCard(onTaps: onTaps[index], imagesPaths: imagesPaths[index], labels: labels[index]),
                           ),
                         ],
                       ),
@@ -136,44 +108,6 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class FollowDoctorButton extends StatelessWidget {
-  const FollowDoctorButton({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      clipBehavior: Clip.none,
-      children: [
-        Container(
-          height: 64,
-          alignment: Alignment.centerRight,
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          margin: const EdgeInsets.symmetric(horizontal: 24),
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.primary,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Text(
-            "تابع مع أحد الأطباء",
-            style: AppTextStyles.w700.copyWith(fontSize: 22, color: Colors.white),
-          ),
-        ),
-        Positioned(
-          bottom: 0,
-          left: 24,
-          child: Image.asset(
-            "assets/images/follow_image.png",
-            width: 134,
-            height: 95,
-          ),
-        )
-      ],
     );
   }
 }

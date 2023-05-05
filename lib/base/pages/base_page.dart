@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project_base/handlers/icon_handler.dart';
 import 'package:flutter_project_base/services/home/pages/home_page.dart';
 
+import '../../services/chats/pages/chats_list_page.dart';
+
 class BasePage extends StatefulWidget {
   const BasePage({super.key});
 
@@ -23,7 +25,7 @@ class _BasePageState extends State<BasePage> {
 
   List<Widget> screen = [
     Container(),
-    Container(),
+    const ChatListPage(),
     const HomePage(),
     Container(),
     Container(),
