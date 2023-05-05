@@ -23,7 +23,7 @@ class ColoresThemes {
         //=================================
         //=================================
         //================================= Text Theme
-        // fontFamily: fontFamily,
+        fontFamily: fontFamily,
         textTheme: const TextTheme(
           headline1: TextStyle(fontSize: 103, fontWeight: FontWeight.w300, letterSpacing: -1.5),
           headline2: TextStyle(fontSize: 64, fontWeight: FontWeight.w300, letterSpacing: -0.5),
@@ -43,7 +43,7 @@ class ColoresThemes {
         //=================================
         //================================= App Bar Theme
         appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0xffAD8B73),
+          backgroundColor: Color(0xff1B72C0),
           toolbarTextStyle: TextStyle(color: Colors.white),
           iconTheme: IconThemeData(color: Colors.white),
           elevation: 0,

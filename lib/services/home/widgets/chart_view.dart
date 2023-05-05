@@ -107,7 +107,7 @@ class ChartWidget extends StatelessWidget {
                               space: 4.0,
                               child: Text(
                                 data[value.toInt()].label,
-                                style: AppTextStyles.w600.copyWith(fontSize: 12, fontFamily: "txt", color: Theme.of(context).colorScheme.primaryContainer),
+                                style: AppTextStyles.w600.copyWith(fontSize: 12, fontFamily: "txt", color: Colors.black),
                               ),
                             ),
                           ),
@@ -123,7 +123,7 @@ class ChartWidget extends StatelessWidget {
                               child: Center(
                                 child: Text(
                                   value.toInt().toString(),
-                                  style: AppTextStyles.w600.copyWith(fontSize: 12, fontFamily: "txt", color: Theme.of(context).colorScheme.primaryContainer),
+                                  style: AppTextStyles.w600.copyWith(fontSize: 12, fontFamily: "txt", color: Colors.black),
                                 ),
                               ),
                             ),
