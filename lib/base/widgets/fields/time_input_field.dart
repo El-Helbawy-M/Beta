@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project_base/handlers/icon_handler.dart';
 import 'package:flutter_project_base/routers/navigator.dart';
 import 'package:flutter_project_base/utilities/components/custom_btn.dart';
-import 'package:flutter_project_base/utilities/extensions/date_formatter.dart';
 import 'package:flutter_project_base/utilities/theme/text_styles.dart';
 
-class DateInputField extends StatefulWidget {
-  const DateInputField({
+class TimeInputField extends StatefulWidget {
+  const TimeInputField({
     super.key,
     this.onChange,
     this.errorText,
@@ -26,10 +25,10 @@ class DateInputField extends StatefulWidget {
   final String? initialValue;
 
   @override
-  State<DateInputField> createState() => _DateInputFieldState();
+  State<TimeInputField> createState() => _TimeInputFieldState();
 }
 
-class _DateInputFieldState extends State<DateInputField> {
+class _TimeInputFieldState extends State<TimeInputField> {
   String? value;
   @override
   Widget build(BuildContext context) {
@@ -48,10 +47,10 @@ class _DateInputFieldState extends State<DateInputField> {
             },
           ),
           child: Container(
-            height: 46,
+            height: 56,
             padding: const EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
-              border: _mapBorder(borderColor: value != null ? Theme.of(context).colorScheme.primary : Colors.grey),
+              border: _mapBorder(borderColor: Colors.grey),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Row(
@@ -64,12 +63,8 @@ class _DateInputFieldState extends State<DateInputField> {
                             value == null ? Theme.of(context).hintColor : null),
                   ),
                 ),
-<<<<<<< HEAD
                 drawSvgIcon("calendar",
                     iconColor: Theme.of(context).iconTheme.color),
-=======
-                drawSvgIcon("calendar", iconColor: value == null ? Theme.of(context).iconTheme.color : Theme.of(context).colorScheme.primary),
->>>>>>> 250d317568fdee383efb384064293739dd7ee6ed
               ],
             ),
           ),
@@ -92,7 +87,8 @@ class _DateInputFieldState extends State<DateInputField> {
 //===============================================================
 
 showDatePicker({required Function(String) onChange}) {
-  String date = DateTime.now().toYearMonthDayFormatte();
+  DateTime now = DateTime.now();
+  String time = "${now.hour}:${now.minute}";
   return showModalBottomSheet(
     context: CustomNavigator.navigatorState.currentContext!,
     shape: const RoundedRectangleBorder(
@@ -129,11 +125,12 @@ showDatePicker({required Function(String) onChange}) {
               minimumDate: DateTime(1900),
               maximumDate: DateTime.now().add(const Duration(days: 1000)),
               initialDateTime: DateTime.now(),
-              mode: CupertinoDatePickerMode.date,
+              use24hFormat: false,
+              mode: CupertinoDatePickerMode.time,
               dateOrder: DatePickerDateOrder.ymd,
               onDateTimeChanged: (value) {
-                date = value.toYearMonthDayFormatte();
-                onChange(value.toYearMonthDayFormatte());
+                time = "${value.hour}:${value.minute}";
+                onChange("${value.hour}:${value.minute}");
               },
             ),
           ),
@@ -144,7 +141,7 @@ showDatePicker({required Function(String) onChange}) {
             text: "Pick",
             height: 56,
             onTap: () {
-              onChange(date);
+              onChange(time);
               Navigator.pop(context);
             },
           ),
