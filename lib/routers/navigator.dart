@@ -9,6 +9,7 @@ import 'package:flutter_project_base/services/onboarding/blocs/onboarding_bloc.d
 import 'package:flutter_project_base/services/onboarding/pages/on_boarding.dart';
 import '../base/pages/base_page.dart';
 import '../services/chat_room/blocs/chat_room_bloc.dart';
+import '../services/doctor_details/pages/doctor_details_page.dart';
 import '../services/splash/pages/splash_page.dart';
 
 const begin = Offset(0.0, 1.0);
@@ -39,6 +40,8 @@ class CustomNavigator {
         return _pageRoute(BlocProvider(create: (context) => OnBoardingCubit(), child: const OnBoardingPage()));
       case Routes.home:
         return _pageRoute(const BasePage());
+      case Routes.diabtesList:
+        return _pageRoute(const DoctorDetailsPage());
       case Routes.chatRoom:
         return _pageRoute(
           BlocProvider(

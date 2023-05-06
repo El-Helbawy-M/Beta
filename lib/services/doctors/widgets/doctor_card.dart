@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import '../../../utilities/theme/text_styles.dart';
-import '../pages/doctors_list_page.dart';
 import 'info_chip.dart';
 
 class DoctorCard extends StatelessWidget {

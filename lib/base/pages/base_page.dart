@@ -3,6 +3,7 @@ import 'package:flutter_project_base/handlers/icon_handler.dart';
 import 'package:flutter_project_base/services/home/pages/home_page.dart';
 
 import '../../services/chats/pages/chats_list_page.dart';
+import '../../services/doctor_details/pages/doctor_details_page.dart';
 import '../../services/doctors/pages/doctors_list_page.dart';
 
 class BasePage extends StatefulWidget {
