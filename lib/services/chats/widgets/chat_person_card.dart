@@ -23,9 +23,10 @@ class ChatPersonCard extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CircleAvatar(
+                const CircleAvatar(
                   radius: 24,
-                  backgroundImage: NetworkImage("https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"),
+                  backgroundImage: NetworkImage(
+                      "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"),
                 ),
                 const SizedBox(width: 16),
                 Expanded(
@@ -33,15 +34,21 @@ class ChatPersonCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("محمد احمد", style: AppTextStyles.w500.copyWith(fontSize: 16)),
+                      Text("محمد احمد",
+                          style: AppTextStyles.w500.copyWith(fontSize: 16)),
                       const SizedBox(height: 4),
-                      Text("كيف حالك\nهل انت بخير ؟ ...", style: AppTextStyles.w500.copyWith(fontSize: 14, color: Theme.of(context).hintColor)),
+                      Text("كيف حالك\nهل انت بخير ؟ ...",
+                          style: AppTextStyles.w500.copyWith(
+                              fontSize: 14,
+                              color: Theme.of(context).hintColor)),
                     ],
                   ),
                 ),
                 Text(
                   "الخميس - 12:30",
-                  style: AppTextStyles.w500.copyWith(fontSize: 12, color: Theme.of(context).colorScheme.primary),
+                  style: AppTextStyles.w500.copyWith(
+                      fontSize: 12,
+                      color: Theme.of(context).colorScheme.primary),
                 )
               ],
             ),

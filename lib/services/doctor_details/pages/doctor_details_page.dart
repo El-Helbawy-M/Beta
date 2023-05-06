@@ -17,10 +17,10 @@ class DoctorDetailsPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: .2,
-        leading: Row(
+        leading: const Row(
           children: [
-            const SizedBox(width: 16),
-            const ArrowBack(),
+            SizedBox(width: 16),
+            ArrowBack(),
           ],
         ),
         titleSpacing: 4,
@@ -40,7 +40,10 @@ class DoctorDetailsPage extends StatelessWidget {
               decoration: BoxDecoration(
                 color: const Color(0xffD3E4FF),
                 borderRadius: BorderRadius.circular(20),
-                image: const DecorationImage(image: NetworkImage("https://th.bing.com/th/id/R.00f8e62a60bba40c1cbc109b2a8c559a?rik=MabAto9xvonFDw&pid=ImgRaw&r=0"), fit: BoxFit.cover),
+                image: const DecorationImage(
+                    image: NetworkImage(
+                        "https://th.bing.com/th/id/R.00f8e62a60bba40c1cbc109b2a8c559a?rik=MabAto9xvonFDw&pid=ImgRaw&r=0"),
+                    fit: BoxFit.cover),
               ),
             ),
             const SizedBox(height: 24),
@@ -61,8 +64,14 @@ class DoctorDetailsPage extends StatelessWidget {
                 trimMode: TrimMode.Line,
                 trimCollapsedText: '\t\tاظهر المزيد',
                 trimExpandedText: '\t\tاختصار',
-                moreStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary),
-                lessStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary),
+                moreStyle: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.primary),
+                lessStyle: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.primary),
               ),
             ),
             Divider(
@@ -82,18 +91,19 @@ class DoctorDetailsPage extends StatelessWidget {
                         const SizedBox(width: 8),
                         Text(
                           " 150 ج.م",
-                          style: AppTextStyles.w500.copyWith(fontSize: 18, color: Colors.green),
+                          style: AppTextStyles.w500
+                              .copyWith(fontSize: 18, color: Colors.green),
                         ),
                       ],
                     ),
                   ),
                   const SizedBox(height: 16),
-                  SingleChildScrollView(
+                  const SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
-                    physics: const BouncingScrollPhysics(),
+                    physics: BouncingScrollPhysics(),
                     child: Row(
                       children: [
-                        const SizedBox(width: 24),
+                        SizedBox(width: 24),
                         TicketCard(),
                         TicketCard(isTaken: true),
                         TicketCard(isTaken: true),

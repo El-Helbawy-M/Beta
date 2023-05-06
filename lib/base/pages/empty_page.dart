@@ -1,8 +1,6 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_project_base/utilities/components/custom_btn.dart';
 import 'package:flutter_project_base/utilities/components/custom_page_body.dart';
 
 class EmptyPage extends StatelessWidget {
@@ -18,7 +16,9 @@ class EmptyPage extends StatelessWidget {
             "assets/images/empty.png",
             fit: BoxFit.contain,
           ),
-          body ?? Text("No data found", style: Theme.of(context).textTheme.headline6),
+          body ??
+              Text("No data found",
+                  style: Theme.of(context).textTheme.headline6),
         ],
       ),
     );

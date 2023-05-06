@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project_base/utilities/components/custom_page_body.dart';
 import 'package:flutter_project_base/utilities/theme/text_styles.dart';
 
 import '../widgets/chat_person_card.dart';
@@ -35,7 +34,7 @@ class ChatListPage extends StatelessWidget {
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Column(
-                children: List.generate(12, (index) => ChatPersonCard()),
+                children: List.generate(12, (index) => const ChatPersonCard()),
               ),
             ),
           ),

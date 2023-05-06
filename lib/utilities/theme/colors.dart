@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:flutter_project_base/utilities/theme/text_styles.dart';
 
@@ -8,7 +10,8 @@ class ColoresThemes {
   //=========================================================================================
   //========================================================================================= Light Theme
   ThemeData lightTheme(String fontFamily) => ThemeData(
-        progressIndicatorTheme: const ProgressIndicatorThemeData(color: Color(0xff2D3436)),
+        progressIndicatorTheme:
+            const ProgressIndicatorThemeData(color: Color(0xff2D3436)),
         iconTheme: const IconThemeData(color: Color(0xff2D3436)),
         hintColor: const Color(0xffBFBFBF),
         scaffoldBackgroundColor: Colors.white,
@@ -25,19 +28,30 @@ class ColoresThemes {
         //================================= Text Theme
         fontFamily: fontFamily,
         textTheme: const TextTheme(
-          headline1: TextStyle(fontSize: 103, fontWeight: FontWeight.w300, letterSpacing: -1.5),
-          headline2: TextStyle(fontSize: 64, fontWeight: FontWeight.w300, letterSpacing: -0.5),
+          headline1: TextStyle(
+              fontSize: 103, fontWeight: FontWeight.w300, letterSpacing: -1.5),
+          headline2: TextStyle(
+              fontSize: 64, fontWeight: FontWeight.w300, letterSpacing: -0.5),
           headline3: TextStyle(fontSize: 51, fontWeight: FontWeight.w400),
-          headline4: TextStyle(fontSize: 36, fontWeight: FontWeight.w400, letterSpacing: 0.25),
+          headline4: TextStyle(
+              fontSize: 36, fontWeight: FontWeight.w400, letterSpacing: 0.25),
           headline5: TextStyle(fontSize: 26, fontWeight: FontWeight.w500),
-          headline6: TextStyle(fontSize: 21, fontWeight: FontWeight.w500, letterSpacing: 0.15),
-          subtitle1: TextStyle(fontSize: 17, fontWeight: FontWeight.w400, letterSpacing: 0.15),
-          subtitle2: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, letterSpacing: 0.1),
-          bodyText1: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, letterSpacing: 0.5),
-          bodyText2: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, letterSpacing: 0.25),
-          button: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, letterSpacing: 1.25),
-          caption: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, letterSpacing: 0.4),
-          overline: TextStyle(fontSize: 10, fontWeight: FontWeight.w400, letterSpacing: 1.5),
+          headline6: TextStyle(
+              fontSize: 21, fontWeight: FontWeight.w500, letterSpacing: 0.15),
+          subtitle1: TextStyle(
+              fontSize: 17, fontWeight: FontWeight.w400, letterSpacing: 0.15),
+          subtitle2: TextStyle(
+              fontSize: 15, fontWeight: FontWeight.w500, letterSpacing: 0.1),
+          bodyText1: TextStyle(
+              fontSize: 16, fontWeight: FontWeight.w400, letterSpacing: 0.5),
+          bodyText2: TextStyle(
+              fontSize: 14, fontWeight: FontWeight.w400, letterSpacing: 0.25),
+          button: TextStyle(
+              fontSize: 14, fontWeight: FontWeight.w500, letterSpacing: 1.25),
+          caption: TextStyle(
+              fontSize: 12, fontWeight: FontWeight.w400, letterSpacing: 0.4),
+          overline: TextStyle(
+              fontSize: 10, fontWeight: FontWeight.w400, letterSpacing: 1.5),
         ),
         //=================================
         //=================================
@@ -74,7 +88,8 @@ class ColoresThemes {
   //========================================================================================= Dark Theme
 
   ThemeData darkTheme(String fontFamily) => ThemeData(
-        progressIndicatorTheme: const ProgressIndicatorThemeData(color: Color(0xff704E37)),
+        progressIndicatorTheme:
+            const ProgressIndicatorThemeData(color: Color(0xff704E37)),
         iconTheme: const IconThemeData(color: Color(0xffffffff)),
         hintColor: const Color(0xff5C5C5C),
         scaffoldBackgroundColor: const Color(0xff0d0d0d),

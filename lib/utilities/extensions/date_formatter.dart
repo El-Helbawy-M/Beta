@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_this
+
 extension DateFormatter on DateTime {
   /// yyyy-MM-dd
   String toYearMonthDayFormatte() {
@@ -10,5 +12,6 @@ extension DateFormatter on DateTime {
   }
 
   /// HH:mm:ss
-  String toHoursMinutesSeconds() => "${this.hour} : ${this.minute} : ${this.second}";
+  String toHoursMinutesSeconds() =>
+      "${this.hour} : ${this.minute} : ${this.second}";
 }

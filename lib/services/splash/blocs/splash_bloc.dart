@@ -1,7 +1,3 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_project_base/config/app_states.dart';
-import 'package:flutter_project_base/handlers/shared_handler.dart';
-import 'package:flutter_project_base/routers/routers.dart';
 
 // import '../../../routers/navigator.dart';
 

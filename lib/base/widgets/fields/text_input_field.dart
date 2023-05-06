@@ -1,6 +1,6 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_project_base/handlers/icon_handler.dart';
 import 'package:flutter_project_base/utilities/theme/text_styles.dart';
 
@@ -38,13 +38,16 @@ class _TextInputFieldState extends State<TextInputField> {
       return null;
     } else if (widget.keyboardType == TextInputType.phone) {
       return Padding(
-        padding: const EdgeInsets.only(left: 12, right: 16, top: 12, bottom: 12),
-        child: drawSvgIcon("phone", iconColor: Theme.of(context).colorScheme.primary),
+        padding:
+            const EdgeInsets.only(left: 12, right: 16, top: 12, bottom: 12),
+        child: drawSvgIcon("phone",
+            iconColor: Theme.of(context).colorScheme.primary),
       );
     } else if (widget.keyboardType == TextInputType.visiblePassword) {
       return GestureDetector(
         child: Padding(
-          padding: const EdgeInsets.only(left: 12, right: 16, top: 12, bottom: 12),
+          padding:
+              const EdgeInsets.only(left: 12, right: 16, top: 12, bottom: 12),
           child: drawSvgIcon(showText ? "eye_hide" : "eye_show"),
         ),
         onTap: () {
@@ -69,7 +72,8 @@ class _TextInputFieldState extends State<TextInputField> {
           height: 46,
           child: TextFormField(
             controller: widget.controller,
-            initialValue: widget.controller != null ? null : widget.initialValue,
+            initialValue:
+                widget.controller != null ? null : widget.initialValue,
             onChanged: widget.onChange,
             keyboardType: widget.keyboardType ?? TextInputType.text,
             style: AppTextStyles.w300,
@@ -80,7 +84,8 @@ class _TextInputFieldState extends State<TextInputField> {
               contentPadding: const EdgeInsets.symmetric(horizontal: 16),
               suffixIcon: _mapSuffixIcon(),
               enabledBorder: _mapBorder(borderColor: Colors.grey),
-              focusedBorder: _mapBorder(borderColor: Theme.of(context).colorScheme.primary),
+              focusedBorder: _mapBorder(
+                  borderColor: Theme.of(context).colorScheme.primary),
               errorBorder: _mapBorder(borderColor: Colors.red),
             ),
           ),
@@ -90,7 +95,8 @@ class _TextInputFieldState extends State<TextInputField> {
             children: [
               const Icon(Icons.error_outline, color: Colors.red, size: 16),
               const SizedBox(width: 4),
-              Text(widget.errorText ?? "Error", style: const TextStyle(color: Colors.red)),
+              Text(widget.errorText ?? "Error",
+                  style: const TextStyle(color: Colors.red)),
             ],
           ),
         if (widget.withBottomPadding) const SizedBox(height: 16),

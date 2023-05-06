@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_project_base/config/app_states.dart';
@@ -37,7 +39,11 @@ class OnBoardingPage extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 24),
                         child: Text(
                           "اسم الخدمة",
-                          style: Theme.of(context).textTheme.headline3!.copyWith(color: Theme.of(context).colorScheme.primary),
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline3!
+                              .copyWith(
+                                  color: Theme.of(context).colorScheme.primary),
                           textAlign: TextAlign.center,
                         ),
                       ),

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project_base/handlers/icon_handler.dart';
 import 'package:flutter_project_base/services/home/models/char_data_model.dart';
-import 'package:flutter_project_base/utilities/theme/media.dart';
 import 'package:flutter_project_base/utilities/theme/text_styles.dart';
 import '../../../utilities/components/custom_page_body.dart';
 import '../widgets/chart_view.dart';
@@ -47,21 +45,24 @@ class HomePage extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     radius: 21,
-                    backgroundImage: NetworkImage("https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"),
+                    backgroundImage: NetworkImage(
+                        "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"),
                   ),
-                  SizedBox(width: 16),
+                  const SizedBox(width: 16),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("مرحباً بك 🖐", style: AppTextStyles.w500.copyWith(fontSize: 14)),
-                      Text("محمد", style: AppTextStyles.w700.copyWith(fontSize: 20)),
+                      Text("مرحباً بك 🖐",
+                          style: AppTextStyles.w500.copyWith(fontSize: 14)),
+                      Text("محمد",
+                          style: AppTextStyles.w700.copyWith(fontSize: 20)),
                     ],
                   ),
-                  Spacer(),
-                  Icon(Icons.menu),
+                  const Spacer(),
+                  const Icon(Icons.menu),
                 ],
               ),
             ),
@@ -72,7 +73,7 @@ class HomePage extends StatelessWidget {
             ),
             Expanded(
               child: SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 child: Column(
                   children: [
                     ChartWidget(
@@ -85,18 +86,22 @@ class HomePage extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 64),
-                    FollowDoctorButton(),
+                    const FollowDoctorButton(),
                     const SizedBox(height: 32),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 24),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("تابع حالة", style: AppTextStyles.w600.copyWith(fontSize: 20)),
+                          Text("تابع حالة",
+                              style: AppTextStyles.w600.copyWith(fontSize: 20)),
                           const SizedBox(height: 16),
                           ...List.generate(
                             6,
-                            (index) => ServiceCard(onTaps: onTaps[index], imagesPaths: imagesPaths[index], labels: labels[index]),
+                            (index) => ServiceCard(
+                                onTaps: onTaps[index],
+                                imagesPaths: imagesPaths[index],
+                                labels: labels[index]),
                           ),
                         ],
                       ),

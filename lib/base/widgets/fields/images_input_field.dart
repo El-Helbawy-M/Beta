@@ -1,9 +1,10 @@
+// ignore_for_file: deprecated_member_use
+
 import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_project_base/handlers/image_picker_handler.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../../../handlers/icon_handler.dart';
 
@@ -77,7 +78,9 @@ class _ImagesListInputFieldState extends State<ImagesListInputField> {
                               width: 48,
                               decoration: BoxDecoration(
                                 color: Theme.of(context).errorColor,
-                                borderRadius: const BorderRadius.only(topRight: Radius.circular(8), bottomLeft: Radius.circular(8)),
+                                borderRadius: const BorderRadius.only(
+                                    topRight: Radius.circular(8),
+                                    bottomLeft: Radius.circular(8)),
                               ),
                               child: const Icon(
                                 Icons.close,
@@ -100,7 +103,10 @@ class _ImagesListInputFieldState extends State<ImagesListInputField> {
                     setState(() {
                       log(controller.offset.toString());
                       _images.add(file);
-                      controller.animateTo(controller.position.maxScrollExtent + 191, duration: const Duration(milliseconds: 600), curve: Curves.easeInOut);
+                      controller.animateTo(
+                          controller.position.maxScrollExtent + 191,
+                          duration: const Duration(milliseconds: 600),
+                          curve: Curves.easeInOut);
                     });
                     widget.onChange?.call(_images);
                   }
@@ -111,10 +117,13 @@ class _ImagesListInputFieldState extends State<ImagesListInputField> {
                   width: 175,
                   padding: const EdgeInsets.all(48),
                   decoration: BoxDecoration(
-                    border: Border.all(width: 1, color: Theme.of(context).hintColor.withOpacity(.5)),
+                    border: Border.all(
+                        width: 1,
+                        color: Theme.of(context).hintColor.withOpacity(.5)),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: drawSvgIcon("image", iconColor: Theme.of(context).hintColor.withOpacity(.5)),
+                  child: drawSvgIcon("image",
+                      iconColor: Theme.of(context).hintColor.withOpacity(.5)),
                 ),
               ),
               const SizedBox(width: 16)
