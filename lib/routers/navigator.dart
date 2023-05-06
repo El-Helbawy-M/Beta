@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_project_base/handlers/qr_code_scanner/qr_scanner_view.dart';
 import 'package:flutter_project_base/routers/routers.dart';
-import 'package:flutter_project_base/services/authentication/login/pages/login_page.dart';
 import 'package:flutter_project_base/services/onboarding/blocs/onboarding_bloc.dart';
 import 'package:flutter_project_base/services/onboarding/pages/on_boarding.dart';
-import '../base/pages/base_page.dart';
+
+import '../services/diabetes/presentation/views/add_diabetes_details.dart';
+import '../services/diabetes/presentation/views/diabetes_details.dart';
 import '../services/splash/pages/splash_page.dart';
 
 const begin = Offset(0.0, 1.0);
@@ -14,9 +14,12 @@ const curve = Curves.easeInOut;
 var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
 class CustomNavigator {
-  static final GlobalKey<NavigatorState> navigatorState = GlobalKey<NavigatorState>();
-  static final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
-  static final GlobalKey<ScaffoldMessengerState> scaffoldState = GlobalKey<ScaffoldMessengerState>();
+  static final GlobalKey<NavigatorState> navigatorState =
+      GlobalKey<NavigatorState>();
+  static final RouteObserver<PageRoute> routeObserver =
+      RouteObserver<PageRoute>();
+  static final GlobalKey<ScaffoldMessengerState> scaffoldState =
+      GlobalKey<ScaffoldMessengerState>();
 
   static _pageRoute(Widget screen) => PageRouteBuilder(
         pageBuilder: (context, animation, secondaryAnimation) => screen,
@@ -33,7 +36,13 @@ class CustomNavigator {
       case Routes.splash:
         return _pageRoute(const SplashPage());
       case Routes.boarding:
-        return _pageRoute(BlocProvider(create: (context) => OnBoardingCubit(), child: const OnBoardingPage()));
+        return _pageRoute(BlocProvider(
+            create: (context) => OnBoardingCubit(),
+            child: const OnBoardingPage()));
+      case Routes.diabetesDetails:
+        return _pageRoute(const DiabetesDetails());
+      case Routes.addDiabetesDetails:
+        return _pageRoute(const AddDiabetesDetails());
     }
     return MaterialPageRoute(builder: (_) => Container());
   }
@@ -44,13 +53,18 @@ class CustomNavigator {
     }
   }
 
-  static push(String routeName, {arguments, bool replace = false, bool clean = false}) {
+  static push(String routeName,
+      {arguments, bool replace = false, bool clean = false}) {
     if (clean) {
-      return navigatorState.currentState!.pushNamedAndRemoveUntil(routeName, (_) => false, arguments: arguments);
+      return navigatorState.currentState!.pushNamedAndRemoveUntil(
+          routeName, (_) => false,
+          arguments: arguments);
     } else if (replace) {
-      return navigatorState.currentState!.pushReplacementNamed(routeName, arguments: arguments);
+      return navigatorState.currentState!
+          .pushReplacementNamed(routeName, arguments: arguments);
     } else {
-      return navigatorState.currentState!.pushNamed(routeName, arguments: arguments);
+      return navigatorState.currentState!
+          .pushNamed(routeName, arguments: arguments);
     }
   }
 }

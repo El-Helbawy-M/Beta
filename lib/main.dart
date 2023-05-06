@@ -7,7 +7,6 @@ import 'package:flutter_project_base/handlers/shared_handler.dart';
 import 'package:flutter_project_base/network/network_handler.dart';
 import 'package:flutter_project_base/routers/navigator.dart';
 import 'package:flutter_project_base/routers/routers.dart';
-import 'package:flutter_project_base/services/authentication/login/pages/login_page.dart';
 
 import 'handlers/localization_handler.dart';
 
@@ -15,7 +14,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SharedHandler.init();
   NetworkHandler.init();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -53,7 +52,7 @@ class Launch extends StatelessWidget {
               // fontFamily: langBloc.lang.valueOrNull == 'en' ? "roboto" : "cairo",
             ),
             debugShowCheckedModeBanner: false,
-            initialRoute: Routes.splash,
+            initialRoute: Routes.addDiabetesDetails,
             navigatorKey: CustomNavigator.navigatorState,
             navigatorObservers: [CustomNavigator.routeObserver],
             scaffoldMessengerKey: CustomNavigator.scaffoldState,
@@ -83,7 +82,7 @@ class Launch extends StatelessWidget {
             //   }
             //   return supportedLangs.first;
             // },
-            locale: Locale("ar") //(settingsBloc.settingsModel.lang),
+            locale: const Locale("ar") //(settingsBloc.settingsModel.lang),
             );
       },
     );

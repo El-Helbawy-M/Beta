@@ -88,7 +88,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/onboarding/
-    - assets/icons/png/
+  #  - assets/icons/png/
     - assets/icons/svg/
     - assets/icons/svg/video_icons/
     - assets/lang/
