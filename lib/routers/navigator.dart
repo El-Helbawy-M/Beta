@@ -8,6 +8,7 @@ import 'package:flutter_project_base/services/home/pages/home_page.dart';
 import 'package:flutter_project_base/services/onboarding/blocs/onboarding_bloc.dart';
 import 'package:flutter_project_base/services/onboarding/pages/on_boarding.dart';
 import '../base/pages/base_page.dart';
+import '../services/chat_room/blocs/chat_room_bloc.dart';
 import '../services/splash/pages/splash_page.dart';
 
 const begin = Offset(0.0, 1.0);
@@ -39,7 +40,12 @@ class CustomNavigator {
       case Routes.home:
         return _pageRoute(const BasePage());
       case Routes.chatRoom:
-        return _pageRoute(const ChatRoomPage());
+        return _pageRoute(
+          BlocProvider(
+            create: (context) => ChatRoomBloc(),
+            child: const ChatRoomPage(),
+          ),
+        );
     }
     return MaterialPageRoute(builder: (_) => Container());
   }
