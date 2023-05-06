@@ -8,4 +8,6 @@ abstract class Routes {
   static const String diabetesDetails = "diabetes_details";
   static const String addDiabetesDetails = "add_diabetes_details";
   static const String chatRoom = "chat_room";
+  static const String doctorDetails = "doctor_details";
+  static const String diabtesList = "diabtes_list";
 }

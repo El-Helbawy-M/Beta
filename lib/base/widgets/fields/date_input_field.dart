@@ -59,23 +59,15 @@ class _DateInputFieldState extends State<DateInputField> {
                 Expanded(
                   child: Text(
                     value ?? widget.hintText ?? "",
-                    style: AppTextStyles.w300.copyWith(
-                        color:
-                            value == null ? Theme.of(context).hintColor : null),
+                    style: AppTextStyles.w300.copyWith(color: value == null ? Theme.of(context).hintColor : null),
                   ),
                 ),
-<<<<<<< HEAD
-                drawSvgIcon("calendar",
-                    iconColor: Theme.of(context).iconTheme.color),
-=======
                 drawSvgIcon("calendar", iconColor: value == null ? Theme.of(context).iconTheme.color : Theme.of(context).colorScheme.primary),
->>>>>>> 250d317568fdee383efb384064293739dd7ee6ed
               ],
             ),
           ),
         ),
-        if (widget.hasError)
-          const Text("Error", style: TextStyle(color: Colors.red)),
+        if (widget.hasError) const Text("Error", style: TextStyle(color: Colors.red)),
         if (widget.withBottomPadding) const SizedBox(height: 16),
       ],
     );
@@ -111,12 +103,10 @@ showDatePicker({required Function(String) onChange}) {
               height: 24,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all(
-                    width: 1, color: Theme.of(context).colorScheme.primary),
+                border: Border.all(width: 1, color: Theme.of(context).colorScheme.primary),
               ),
               child: Center(
-                child: Icon(Icons.close,
-                    color: Theme.of(context).colorScheme.primary, size: 16),
+                child: Icon(Icons.close, color: Theme.of(context).colorScheme.primary, size: 16),
               ),
             ),
           ),
