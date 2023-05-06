@@ -1,11 +1,11 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_constructors_in_immutables
 
 import 'package:flutter/material.dart';
 import 'package:flutter_project_base/handlers/icon_handler.dart';
 import 'package:flutter_project_base/utilities/theme/text_styles.dart';
 
 class TextInputField extends StatefulWidget {
-  const TextInputField({
+  TextInputField({
     super.key,
     this.onChange,
     this.controller,
@@ -80,7 +80,10 @@ class _TextInputFieldState extends State<TextInputField> {
             obscureText: !showText,
             decoration: InputDecoration(
               hintText: widget.hintText,
-              hintStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w100),
+              hintStyle: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w100,
+                  color: Theme.of(context).hintColor),
               contentPadding: const EdgeInsets.symmetric(horizontal: 16),
               suffixIcon: _mapSuffixIcon(),
               enabledBorder: _mapBorder(borderColor: Colors.grey),

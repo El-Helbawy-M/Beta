@@ -13,7 +13,7 @@ class ColoresThemes {
         progressIndicatorTheme:
             const ProgressIndicatorThemeData(color: Color(0xff2D3436)),
         iconTheme: const IconThemeData(color: Color(0xff2D3436)),
-        hintColor: const Color(0xffBFBFBF),
+        hintColor: const Color(0xff0F1A29),
         scaffoldBackgroundColor: Colors.white,
         colorScheme: ColorScheme.light(
           primary: const Color(0xff1B72C0),
