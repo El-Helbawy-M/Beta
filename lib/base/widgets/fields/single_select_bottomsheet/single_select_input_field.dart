@@ -68,7 +68,7 @@ class _SingleSelectSheetFieldState extends State<SingleSelectSheetField> {
             FocusScope.of(context).requestFocus(FocusNode());
           },
           child: Container(
-            height: 50,
+            height: 46,
             padding: const EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
               border: value != null

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_project_base/config/app_states.dart';
+import 'package:flutter_project_base/routers/navigator.dart';
+import 'package:flutter_project_base/routers/routers.dart';
 import 'package:flutter_project_base/services/onboarding/blocs/onboarding_bloc.dart';
 import 'package:flutter_project_base/utilities/components/arrow_back.dart';
 import 'package:flutter_project_base/utilities/components/custom_page_body.dart';
@@ -71,6 +73,7 @@ class OnBoardingPage extends StatelessWidget {
                       onTap: () {
                         if (bloc.pageIndex == 3) {
                           // bloc.completeOnBoarding();
+                          CustomNavigator.push(Routes.home);
                         } else {
                           bloc.goToNextPage();
                         }

@@ -39,6 +39,8 @@ dependencies:
   # UI packages
   cupertino_icons: ^1.0.2
   flutter_svg: ^1.1.5
+  fl_chart: ^0.62.0
+  intl: ^0.17.0
 
   # Network packages
   dio: ^4.0.6
@@ -91,8 +93,10 @@ flutter:
   #  - assets/icons/png/
     - assets/icons/svg/
     - assets/icons/svg/video_icons/
+    - assets/icons/svg/base_icons/
     - assets/lang/
     - assets/videos/
+    - assets/fonts/roboto/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -106,17 +110,19 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
+  fonts:
+    - family: Cairo
+      fonts:
+        - asset: assets/fonts/roboto/w100.ttf
+        - asset: assets/fonts/roboto/w200.ttf
+        - asset: assets/fonts/roboto/w300.ttf
+        - asset: assets/fonts/roboto/w400.ttf
+        - asset: assets/fonts/roboto/w500.ttf
+        - asset: assets/fonts/roboto/w600.ttf
+        - asset: assets/fonts/roboto/w700.ttf
+        - asset: assets/fonts/roboto/w800.ttf
+        - asset: assets/fonts/roboto/w900.ttf
+        
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

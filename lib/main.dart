@@ -7,6 +7,7 @@ import 'package:flutter_project_base/handlers/shared_handler.dart';
 import 'package:flutter_project_base/network/network_handler.dart';
 import 'package:flutter_project_base/routers/navigator.dart';
 import 'package:flutter_project_base/routers/routers.dart';
+import 'package:flutter_project_base/utilities/theme/colors.dart';
 
 import 'handlers/localization_handler.dart';
 
@@ -42,17 +43,10 @@ class Launch extends StatelessWidget {
       builder: (context, state) {
         return MaterialApp(
             title: 'Project Title',
-            theme: ThemeData(
-              pageTransitionsTheme: const PageTransitionsTheme(
-                builders: {
-                  TargetPlatform.android: CupertinoPageTransitionsBuilder(),
-                  TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-                },
-              ),
-              // fontFamily: langBloc.lang.valueOrNull == 'en' ? "roboto" : "cairo",
-            ),
+            theme: ColoresThemes()
+                .mapColor(settingsBloc.settingsModel.theme, "Cairo"),
             debugShowCheckedModeBanner: false,
-            initialRoute: Routes.addDiabetesDetails,
+            initialRoute: Routes.home,
             navigatorKey: CustomNavigator.navigatorState,
             navigatorObservers: [CustomNavigator.routeObserver],
             scaffoldMessengerKey: CustomNavigator.scaffoldState,

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_project_base/routers/routers.dart';
+import 'package:flutter_project_base/services/chat_room/pages/chat_room_page.dart';
 import 'package:flutter_project_base/services/onboarding/blocs/onboarding_bloc.dart';
 import 'package:flutter_project_base/services/onboarding/pages/on_boarding.dart';
 
+import '../base/pages/base_page.dart';
+import '../services/chat_room/blocs/chat_room_bloc.dart';
 import '../services/diabetes/presentation/views/add_diabetes_details.dart';
 import '../services/diabetes/presentation/views/diabetes_details.dart';
 import '../services/splash/pages/splash_page.dart';
@@ -43,6 +46,15 @@ class CustomNavigator {
         return _pageRoute(const DiabetesDetails());
       case Routes.addDiabetesDetails:
         return _pageRoute(const AddDiabetesDetails());
+      case Routes.home:
+        return _pageRoute(const BasePage());
+      case Routes.chatRoom:
+        return _pageRoute(
+          BlocProvider(
+            create: (context) => ChatRoomBloc(),
+            child: const ChatRoomPage(),
+          ),
+        );
     }
     return MaterialPageRoute(builder: (_) => Container());
   }

@@ -7,4 +7,5 @@ abstract class Routes {
   static const String qrScannerCode = "qr_scanner_code";
   static const String diabetesDetails = "diabetes_details";
   static const String addDiabetesDetails = "add_diabetes_details";
+  static const String chatRoom = "chat_room";
 }

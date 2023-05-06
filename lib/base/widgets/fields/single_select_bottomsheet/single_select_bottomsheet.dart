@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project_base/handlers/icon_handler.dart';
+import 'package:flutter_project_base/utilities/theme/text_styles.dart';
 import '../../../../routers/navigator.dart';
 import '../../../models/select_option.dart';
 import '../../check_box_view.dart';
@@ -50,7 +51,7 @@ class _SingleSelectBottomSheetState extends State<SingleSelectBottomSheet> {
                     child: Center(
                       child: Text(
                         "Select Category",
-                        style: Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.secondary),
+                        style: AppTextStyles.w600.copyWith(fontSize: 18, color: Theme.of(context).colorScheme.primary),
                       ),
                     ),
                   ),
@@ -76,7 +77,7 @@ class _SingleSelectBottomSheetState extends State<SingleSelectBottomSheet> {
                     ),
                     title: Text(
                       widget.valueSet[index].label,
-                      style: Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).colorScheme.secondary),
+                      style: AppTextStyles.w600.copyWith(fontSize: 18, color: Colors.black),
                     ),
                   ),
                 ),

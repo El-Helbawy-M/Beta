@@ -48,10 +48,10 @@ class _DateInputFieldState extends State<DateInputField> {
             },
           ),
           child: Container(
-            height: 56,
+            height: 46,
             padding: const EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
-              border: _mapBorder(borderColor: Colors.grey),
+              border: _mapBorder(borderColor: value != null ? Theme.of(context).colorScheme.primary : Colors.grey),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Row(
@@ -64,8 +64,12 @@ class _DateInputFieldState extends State<DateInputField> {
                             value == null ? Theme.of(context).hintColor : null),
                   ),
                 ),
+<<<<<<< HEAD
                 drawSvgIcon("calendar",
                     iconColor: Theme.of(context).iconTheme.color),
+=======
+                drawSvgIcon("calendar", iconColor: value == null ? Theme.of(context).iconTheme.color : Theme.of(context).colorScheme.primary),
+>>>>>>> 250d317568fdee383efb384064293739dd7ee6ed
               ],
             ),
           ),
