@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 extension TimerFormatter on num {
   String toTimerFormatte() {
     String minutes = (toInt() ~/ 60).toString();

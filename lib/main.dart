@@ -3,12 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_project_base/base/blocs/settings_bloc.dart';
 import 'package:flutter_project_base/config/app_states.dart';
-import 'package:flutter_project_base/debug/log_printer.dart';
 import 'package:flutter_project_base/handlers/shared_handler.dart';
 import 'package:flutter_project_base/network/network_handler.dart';
 import 'package:flutter_project_base/routers/navigator.dart';
 import 'package:flutter_project_base/routers/routers.dart';
-import 'package:flutter_project_base/services/authentication/login/pages/login_page.dart';
 import 'package:flutter_project_base/utilities/theme/colors.dart';
 
 import 'handlers/localization_handler.dart';
@@ -17,7 +15,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SharedHandler.init();
   NetworkHandler.init();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -45,7 +43,8 @@ class Launch extends StatelessWidget {
       builder: (context, state) {
         return MaterialApp(
             title: 'Project Title',
-            theme: ColoresThemes().mapColor(settingsBloc.settingsModel.theme, "Cairo"),
+            theme: ColoresThemes()
+                .mapColor(settingsBloc.settingsModel.theme, "Cairo"),
             debugShowCheckedModeBanner: false,
             initialRoute: Routes.home,
             navigatorKey: CustomNavigator.navigatorState,
@@ -77,7 +76,7 @@ class Launch extends StatelessWidget {
             //   }
             //   return supportedLangs.first;
             // },
-            locale: Locale("ar") //(settingsBloc.settingsModel.lang),
+            locale: const Locale("ar") //(settingsBloc.settingsModel.lang),
             );
       },
     );

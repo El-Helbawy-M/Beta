@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:flutter_project_base/handlers/icon_handler.dart';
 import 'package:flutter_project_base/utilities/theme/text_styles.dart';
 
-class TextDescrabtionInputField extends StatefulWidget {
-  const TextDescrabtionInputField({
+class TextDescriptionInputField extends StatefulWidget {
+  const TextDescriptionInputField({
     super.key,
     this.onChange,
     this.controller,
@@ -25,10 +22,11 @@ class TextDescrabtionInputField extends StatefulWidget {
   final Function(String)? onChange;
   final bool withBottomPadding;
   @override
-  State<TextDescrabtionInputField> createState() => _TextDescrabtionInputFieldState();
+  State<TextDescriptionInputField> createState() =>
+      _TextDescriptionInputFieldState();
 }
 
-class _TextDescrabtionInputFieldState extends State<TextDescrabtionInputField> {
+class _TextDescriptionInputFieldState extends State<TextDescriptionInputField> {
   bool showText = true;
 
   @override
@@ -46,17 +44,21 @@ class _TextDescrabtionInputFieldState extends State<TextDescrabtionInputField> {
             minLines: null,
             textAlignVertical: TextAlignVertical.top,
             controller: widget.controller,
-            initialValue: widget.controller != null ? null : widget.initialValue,
+            initialValue:
+                widget.controller != null ? null : widget.initialValue,
             onChanged: widget.onChange,
             keyboardType: TextInputType.multiline,
             style: AppTextStyles.w300,
             obscureText: !showText,
             decoration: InputDecoration(
               hintText: widget.hintText,
-              hintStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w100),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              hintStyle:
+                  const TextStyle(fontSize: 14, fontWeight: FontWeight.w100),
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               enabledBorder: _mapBorder(borderColor: Colors.grey),
-              focusedBorder: _mapBorder(borderColor: Theme.of(context).colorScheme.primary),
+              focusedBorder: _mapBorder(
+                  borderColor: Theme.of(context).colorScheme.primary),
               errorBorder: _mapBorder(borderColor: Colors.red),
             ),
           ),
@@ -67,7 +69,8 @@ class _TextDescrabtionInputFieldState extends State<TextDescrabtionInputField> {
             children: [
               const Icon(Icons.error_outline, color: Colors.red, size: 16),
               const SizedBox(width: 4),
-              Text(widget.errorText ?? "Error", style: const TextStyle(color: Colors.red)),
+              Text(widget.errorText ?? "Error",
+                  style: const TextStyle(color: Colors.red)),
             ],
           ),
         if (widget.withBottomPadding) const SizedBox(height: 16),
