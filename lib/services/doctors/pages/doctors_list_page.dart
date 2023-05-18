@@ -36,9 +36,9 @@ class DoctorsListPage extends StatelessWidget {
               physics: const BouncingScrollPhysics(),
               child: Column(
                 children: [
-                  SizedBox(height: 36),
+                  const SizedBox(height: 36),
                   ...List.generate(
-                    12,
+                    1,
                     (index) => const DoctorCard(),
                   ),
                 ],

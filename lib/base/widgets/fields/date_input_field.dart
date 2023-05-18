@@ -39,7 +39,7 @@ class _DateInputFieldState extends State<DateInputField> {
         if (widget.labelText != null) Text(widget.labelText ?? ""),
         const SizedBox(height: 4),
         GestureDetector(
-          onTap: () => showDatePicker(
+          onTap: () => showBottomSheetDatePicker(
             onChange: (value) {
               setState(() {
                 this.value = value;
@@ -59,7 +59,7 @@ class _DateInputFieldState extends State<DateInputField> {
                 Expanded(
                   child: Text(
                     value ?? widget.hintText ?? "",
-                    style: AppTextStyles.w300.copyWith(color: value == null ? Theme.of(context).hintColor : null),
+                    style: AppTextStyles.w400.copyWith(color: value == null ? Theme.of(context).hintColor : null),
                   ),
                 ),
                 drawSvgIcon("calendar", iconColor: value == null ? Theme.of(context).iconTheme.color : Theme.of(context).colorScheme.primary),
@@ -83,7 +83,7 @@ class _DateInputFieldState extends State<DateInputField> {
 
 //===============================================================
 
-showDatePicker({required Function(String) onChange}) {
+showBottomSheetDatePicker({required Function(String) onChange}) {
   String date = DateTime.now().toYearMonthDayFormatte();
   return showModalBottomSheet(
     context: CustomNavigator.navigatorState.currentContext!,

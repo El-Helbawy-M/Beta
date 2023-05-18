@@ -47,7 +47,7 @@ class _TimeInputFieldState extends State<TimeInputField> {
             },
           ),
           child: Container(
-            height: 56,
+            height: 46,
             padding: const EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
               border: _mapBorder(borderColor: Colors.grey),
@@ -58,19 +58,15 @@ class _TimeInputFieldState extends State<TimeInputField> {
                 Expanded(
                   child: Text(
                     value ?? widget.hintText ?? "",
-                    style: AppTextStyles.w300.copyWith(
-                        color:
-                            value == null ? Theme.of(context).hintColor : null),
+                    style: AppTextStyles.w400.copyWith(color: value == null ? Theme.of(context).hintColor : null),
                   ),
                 ),
-                drawSvgIcon("calendar",
-                    iconColor: Theme.of(context).iconTheme.color),
+                drawSvgIcon("calendar", iconColor: Theme.of(context).iconTheme.color),
               ],
             ),
           ),
         ),
-        if (widget.hasError)
-          const Text("Error", style: TextStyle(color: Colors.red)),
+        if (widget.hasError) const Text("Error", style: TextStyle(color: Colors.red)),
         if (widget.withBottomPadding) const SizedBox(height: 16),
       ],
     );
@@ -107,12 +103,10 @@ showDatePicker({required Function(String) onChange}) {
               height: 24,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all(
-                    width: 1, color: Theme.of(context).colorScheme.primary),
+                border: Border.all(width: 1, color: Theme.of(context).colorScheme.primary),
               ),
               child: Center(
-                child: Icon(Icons.close,
-                    color: Theme.of(context).colorScheme.primary, size: 16),
+                child: Icon(Icons.close, color: Theme.of(context).colorScheme.primary, size: 16),
               ),
             ),
           ),

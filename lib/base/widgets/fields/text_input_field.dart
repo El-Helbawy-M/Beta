@@ -1,22 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_project_base/handlers/icon_handler.dart';
 import 'package:flutter_project_base/utilities/theme/text_styles.dart';
 
 class TextInputField extends StatefulWidget {
-  const TextInputField({
-    super.key,
-    this.onChange,
-    this.controller,
-    this.errorText,
-    this.hintText,
-    this.initialValue,
-    this.labelText,
-    this.withBottomPadding = true,
-    this.hasError = false,
-    this.keyboardType,
-  });
+  const TextInputField({super.key, this.onChange, this.controller, this.errorText, this.hintText, this.initialValue, this.labelText, this.withBottomPadding = true, this.hasError = false, this.keyboardType, this.suffixIcon});
   final String? hintText;
   final String? labelText;
   final String? errorText;
@@ -25,6 +12,7 @@ class TextInputField extends StatefulWidget {
   final TextEditingController? controller;
   final Function(String)? onChange;
   final bool withBottomPadding;
+  final Widget? suffixIcon;
   final TextInputType? keyboardType;
   @override
   State<TextInputField> createState() => _TextInputFieldState();
@@ -76,9 +64,9 @@ class _TextInputFieldState extends State<TextInputField> {
             obscureText: !showText,
             decoration: InputDecoration(
               hintText: widget.hintText,
-              hintStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w100),
+              hintStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
               contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-              suffixIcon: _mapSuffixIcon(),
+              suffixIcon: widget.suffixIcon ?? _mapSuffixIcon(),
               enabledBorder: _mapBorder(borderColor: Colors.grey),
               focusedBorder: _mapBorder(borderColor: Theme.of(context).colorScheme.primary),
               errorBorder: _mapBorder(borderColor: Colors.red),

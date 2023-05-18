@@ -28,7 +28,7 @@ class _BasePageState extends State<BasePage> {
   List<Widget> screen = [
     Container(),
     const ChatListPage(),
-    const HomePage(),
+    HomePage(),
     const DoctorsListPage(),
     Container(),
   ];

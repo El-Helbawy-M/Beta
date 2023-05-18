@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project_base/handlers/icon_handler.dart';
+import 'package:flutter_project_base/routers/navigator.dart';
+import 'package:flutter_project_base/routers/routers.dart';
 import 'package:flutter_project_base/services/home/models/char_data_model.dart';
-import 'package:flutter_project_base/utilities/theme/media.dart';
 import 'package:flutter_project_base/utilities/theme/text_styles.dart';
 import '../../../utilities/components/custom_page_body.dart';
 import '../widgets/chart_view.dart';
@@ -9,7 +9,7 @@ import '../widgets/follow_doctor_btn.dart';
 import '../widgets/service_card.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  HomePage({super.key});
   final List<String> labels = const [
     "سكر الدم",
     "ضغط الدم",
@@ -26,10 +26,10 @@ class HomePage extends StatelessWidget {
     "weight-scale 1",
     "dinner 1",
   ];
-  final List<Function()?> onTaps = const [
-    null,
-    null,
-    null,
+  final List<Function()?> onTaps = [
+    () => CustomNavigator.push(Routes.diabtesList),
+    () => CustomNavigator.push(Routes.pressuresList),
+    () => CustomNavigator.push(Routes.medicinesList),
     null,
     null,
     null,

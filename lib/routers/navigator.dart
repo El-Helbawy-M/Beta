@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_project_base/routers/routers.dart';
+import 'package:flutter_project_base/services/add_pressure/pages/add_pressure_page.dart';
 import 'package:flutter_project_base/services/chat_room/pages/chat_room_page.dart';
+import 'package:flutter_project_base/services/medicins_list/pages/medicine_list_page.dart';
 import 'package:flutter_project_base/services/onboarding/blocs/onboarding_bloc.dart';
 import 'package:flutter_project_base/services/onboarding/pages/on_boarding.dart';
+import 'package:flutter_project_base/services/pressures_list/pages/pressures_list_page.dart';
 
 import '../base/pages/base_page.dart';
 import '../services/chat_room/blocs/chat_room_bloc.dart';
 import '../services/doctor_details/pages/doctor_details_page.dart';
-import '../services/diabetes/presentation/views/add_diabetes_details.dart';
-import '../services/diabetes/presentation/views/diabetes_details.dart';
+import '../services/add_diabetes/pages/add_diabetes_page.dart';
+import '../services/diabtes_list/pages/diabetes_details.dart';
 import '../services/splash/pages/splash_page.dart';
 
 const begin = Offset(0.0, 1.0);
@@ -38,14 +41,21 @@ class CustomNavigator {
         return _pageRoute(const SplashPage());
       case Routes.boarding:
         return _pageRoute(BlocProvider(create: (context) => OnBoardingCubit(), child: const OnBoardingPage()));
-      case Routes.diabetesDetails:
-        return _pageRoute(const DiabetesDetails());
-      case Routes.addDiabetesDetails:
-        return _pageRoute(const AddDiabetesDetails());
       case Routes.home:
         return _pageRoute(const BasePage());
       case Routes.diabtesList:
+        return _pageRoute(const DiabetesListPage());
+      case Routes.doctorDetails:
         return _pageRoute(const DoctorDetailsPage());
+
+      case Routes.addNewDiabte:
+        return _pageRoute(const AddDiabetesPage());
+      case Routes.addPressure:
+        return _pageRoute(const AddPressurePage());
+      case Routes.pressuresList:
+        return _pageRoute(const PressuresListPage());
+      case Routes.medicinesList:
+        return _pageRoute(const MedicinesListPage());
       case Routes.chatRoom:
         return _pageRoute(
           BlocProvider(
