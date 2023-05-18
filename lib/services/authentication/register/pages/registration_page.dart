@@ -21,27 +21,40 @@ class RegistrationPage extends StatelessWidget {
         ),
         body: BlocBuilder<RegisterHandler, RegisterState>(
           builder: (context, state) {
-            if (state is RegisterCurrentState &&
-                state.currentState == CurrentState.mainScreen) {
-              return const MainRegisterPage();
-            } else if (state is RegisterCurrentState &&
-                state.currentState == CurrentState.infoType) {
-              return RegisterInfoTypePage(
-                registerCurrentState: state,
-              );
-            } else if (state is RegisterCurrentState &&
-                state.currentState == CurrentState.infoDuration) {
-              return RegisterDurationPage(
-                registerCurrentState: state,
-              );
-            } else if (state is RegisterCurrentState &&
-                state.currentState == CurrentState.infoCounts) {
-              return RegisterCountsPage(
-                registerCurrentState: state,
-              );
-            } else {
-              return const SizedBox();
-            }
+            return WillPopScope(
+              onWillPop: () async {
+                if (state is RegisterCurrentState) {
+                  context.read<RegisterHandler>().back();
+                  return false;
+                }
+                return true;
+              },
+              child: BlocBuilder<RegisterHandler, RegisterState>(
+                builder: (context, state) {
+                  if (state is RegisterCurrentState &&
+                      state.currentState == CurrentState.mainScreen) {
+                    return const MainRegisterPage();
+                  } else if (state is RegisterCurrentState &&
+                      state.currentState == CurrentState.infoType) {
+                    return RegisterInfoTypePage(
+                      registerCurrentState: state,
+                    );
+                  } else if (state is RegisterCurrentState &&
+                      state.currentState == CurrentState.infoDuration) {
+                    return RegisterDurationPage(
+                      registerCurrentState: state,
+                    );
+                  } else if (state is RegisterCurrentState &&
+                      state.currentState == CurrentState.infoCounts) {
+                    return RegisterCountsPage(
+                      registerCurrentState: state,
+                    );
+                  } else {
+                    return const SizedBox();
+                  }
+                },
+              ),
+            );
           },
         ),
       ),
@@ -337,6 +350,7 @@ class RegisterCountsPage extends StatelessWidget {
                   text: "التالي",
                   height: 40,
                   onTap: () {
+                    context.read<RegisterHandler>().countNext();
                     Navigator.of(context).pushNamed(Routes.home);
                   },
                 ),

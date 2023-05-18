@@ -62,7 +62,6 @@ class RegisterHandler extends Cubit<RegisterState> {
     }
   }
 
-//TODO: DO THE 2 METHODS FOR THE COUNT VALUE
   updateCountValue({required String countValue}) {
     emit((state as RegisterCurrentState).copyWith(
       typeValue: (state as RegisterCurrentState).typeValue,
@@ -83,7 +82,29 @@ class RegisterHandler extends Cubit<RegisterState> {
     }
   }
 
-//TODO: DO THE METHOD FOR THE BACK BUTTON
+  back() {
+    if (state is RegisterCurrentState &&
+        (state as RegisterCurrentState).currentState == CurrentState.infoType) {
+      emit(
+        (state as RegisterCurrentState)
+            .copyWith(currentState: CurrentState.mainScreen),
+      );
+    } else if (state is RegisterCurrentState &&
+        (state as RegisterCurrentState).currentState ==
+            CurrentState.infoDuration) {
+      emit(
+        (state as RegisterCurrentState)
+            .copyWith(currentState: CurrentState.infoType),
+      );
+    } else if (state is RegisterCurrentState &&
+        (state as RegisterCurrentState).currentState ==
+            CurrentState.infoCounts) {
+      emit(
+        (state as RegisterCurrentState)
+            .copyWith(currentState: CurrentState.infoDuration),
+      );
+    }
+  }
 
   Decoration getBoxDecoration() {
     return const BoxDecoration(
