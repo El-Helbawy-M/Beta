@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import, prefer_const_constructors
+
 import 'package:flutter/material.dart';
 
 import '../../../handlers/icon_handler.dart';
@@ -17,17 +19,22 @@ class MessageCard extends StatelessWidget {
       children: [
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
-          textDirection: !message.isSender ? TextDirection.ltr : TextDirection.rtl,
+          textDirection:
+              !message.isSender ? TextDirection.ltr : TextDirection.rtl,
           children: [
             CircleAvatar(
               radius: 15,
-              backgroundImage: NetworkImage("https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"),
+              backgroundImage: NetworkImage(
+                  "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"),
             ),
             const SizedBox(width: 8),
             Expanded(
               child: Container(
-                margin: EdgeInsets.only(left: message.isSender ? 42 : 0, right: message.isSender ? 0 : 42),
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                margin: EdgeInsets.only(
+                    left: message.isSender ? 42 : 0,
+                    right: message.isSender ? 0 : 42),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
                     bottomRight: const Radius.circular(15),
@@ -35,11 +42,15 @@ class MessageCard extends StatelessWidget {
                     topLeft: Radius.circular(message.isSender ? 15 : 0),
                     topRight: Radius.circular(!message.isSender ? 15 : 0),
                   ),
-                  color: message.isSender ? Theme.of(context).colorScheme.primary.withOpacity(.7) : Theme.of(context).colorScheme.onPrimaryContainer,
+                  color: message.isSender
+                      ? Theme.of(context).colorScheme.primary.withOpacity(.7)
+                      : Theme.of(context).colorScheme.onPrimaryContainer,
                 ),
                 child: Text(
                   message.message ?? "",
-                  style: AppTextStyles.w500.copyWith(fontSize: 14, color: message.isSender ? Colors.white : Colors.black),
+                  style: AppTextStyles.w500.copyWith(
+                      fontSize: 14,
+                      color: message.isSender ? Colors.white : Colors.black),
                 ),
               ),
             ),
@@ -47,7 +58,8 @@ class MessageCard extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Row(
-          textDirection: !message.isSender ? TextDirection.ltr : TextDirection.rtl,
+          textDirection:
+              !message.isSender ? TextDirection.ltr : TextDirection.rtl,
           children: [
             const SizedBox(width: 42),
             drawSvgIcon("tick", width: 8, height: 8, iconColor: Colors.green),
@@ -55,7 +67,8 @@ class MessageCard extends StatelessWidget {
             const SizedBox(width: 8),
             Text(
               "تمت رؤيتها",
-              style: AppTextStyles.w600.copyWith(fontSize: 12, color: Theme.of(context).colorScheme.primary),
+              style: AppTextStyles.w600.copyWith(
+                  fontSize: 12, color: Theme.of(context).colorScheme.primary),
             ),
             const SizedBox(width: 8),
             SizedBox(
@@ -69,7 +82,8 @@ class MessageCard extends StatelessWidget {
             const SizedBox(width: 8),
             Text(
               message.time ?? "",
-              style: AppTextStyles.w600.copyWith(fontSize: 12, color: Theme.of(context).hintColor),
+              style: AppTextStyles.w600
+                  .copyWith(fontSize: 12, color: Theme.of(context).hintColor),
             ),
           ],
         ),

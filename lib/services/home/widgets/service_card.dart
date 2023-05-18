@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, unnecessary_brace_in_string_interps
+
 import 'package:flutter/material.dart';
 
 import '../../../utilities/theme/text_styles.dart';
@@ -25,7 +27,8 @@ class ServiceCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: Theme.of(context).dividerColor.withOpacity(.05)),
+          border: Border.all(
+              color: Theme.of(context).dividerColor.withOpacity(.05)),
           boxShadow: [
             BoxShadow(
               color: Theme.of(context).dividerColor.withOpacity(.02),
@@ -37,7 +40,8 @@ class ServiceCard extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Image.asset("assets/images/${imagesPaths}.png", width: 32, height: 32),
+            Image.asset("assets/images/${imagesPaths}.png",
+                width: 32, height: 32),
             const SizedBox(width: 16),
             Text(
               labels,

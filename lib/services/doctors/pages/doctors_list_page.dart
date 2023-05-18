@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project_base/utilities/theme/media.dart';
 
 import '../../../utilities/theme/text_styles.dart';
 import '../widgets/doctor_card.dart';
@@ -36,7 +35,7 @@ class DoctorsListPage extends StatelessWidget {
               physics: const BouncingScrollPhysics(),
               child: Column(
                 children: [
-                  SizedBox(height: 36),
+                  const SizedBox(height: 36),
                   ...List.generate(
                     12,
                     (index) => const DoctorCard(),

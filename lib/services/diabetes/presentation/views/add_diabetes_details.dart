@@ -32,7 +32,7 @@ class _AddDiabetesDetailsState extends State<AddDiabetesDetails> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                const TextInputField(
+                TextInputField(
                   labelText: 'تركيز السكر',
                 ),
                 SingleSelectSheetField(

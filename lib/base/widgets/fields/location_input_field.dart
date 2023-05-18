@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project_base/base/widgets/fields/single_select_bottomsheet/single_select_bottomsheet.dart';
 import 'package:flutter_project_base/handlers/icon_handler.dart';
 import '../../../../utilities/theme/text_styles.dart';
 
@@ -49,23 +48,32 @@ class _LocationInputFieldState extends State<LocationInputField> {
             height: 46,
             padding: const EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
-              border: value != null ? _mapBorder(borderColor: Theme.of(context).colorScheme.primary) : _mapBorder(borderColor: Colors.grey),
+              border: value != null
+                  ? _mapBorder(
+                      borderColor: Theme.of(context).colorScheme.primary)
+                  : _mapBorder(borderColor: Colors.grey),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Row(
               children: [
                 Expanded(
                   child: Text(
-                    value != null ? (value!.country ?? "") + (value!.city ?? "") : widget.hintText ?? "Enter Location",
-                    style: AppTextStyles.w300.copyWith(color: value == null ? Theme.of(context).hintColor : null),
+                    value != null
+                        ? (value!.country ?? "") + (value!.city ?? "")
+                        : widget.hintText ?? "Enter Location",
+                    style: AppTextStyles.w300.copyWith(
+                        color:
+                            value == null ? Theme.of(context).hintColor : null),
                   ),
                 ),
-                drawSvgIcon("location", iconColor: Theme.of(context).colorScheme.primary),
+                drawSvgIcon("location",
+                    iconColor: Theme.of(context).colorScheme.primary),
               ],
             ),
           ),
         ),
-        if (widget.hasError) const Text("Error", style: TextStyle(color: Colors.red)),
+        if (widget.hasError)
+          const Text("Error", style: TextStyle(color: Colors.red)),
         if (widget.withBottomPadding) const SizedBox(height: 16),
       ],
     );

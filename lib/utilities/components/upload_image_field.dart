@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +19,16 @@ class UploadImage extends StatefulWidget {
   final String? label;
   final File? selectedImage;
 
-  const UploadImage({Key? key, required this.updatedImage, this.label, this.selectedImage, this.isFilled = false, this.updateFile, this.hasError = false, this.errorText}) : super(key: key);
+  const UploadImage(
+      {Key? key,
+      required this.updatedImage,
+      this.label,
+      this.selectedImage,
+      this.isFilled = false,
+      this.updateFile,
+      this.hasError = false,
+      this.errorText})
+      : super(key: key);
 
   @override
   State<UploadImage> createState() => _UploadImageState();
@@ -49,7 +60,8 @@ class _UploadImageState extends State<UploadImage> {
                   allowedExtensions: ['jpg'],
                   onSelected: (file) async {
                     setState(() => image = file);
-                    var multipartImage = await MultipartFile.fromFile(image!.path);
+                    var multipartImage =
+                        await MultipartFile.fromFile(image!.path);
                     widget.updatedImage!(file);
                     if (widget.updateFile != null) widget.updateFile!(image);
                   },
@@ -63,7 +75,11 @@ class _UploadImageState extends State<UploadImage> {
                     borderRadius: BorderRadius.circular(15.0),
                     border: Border.all(
                       width: 1,
-                      color: widget.isFilled ? Theme.of(context).colorScheme.primary : (widget.hasError ? Theme.of(context).colorScheme.error : Colors.grey),
+                      color: widget.isFilled
+                          ? Theme.of(context).colorScheme.primary
+                          : (widget.hasError
+                              ? Theme.of(context).colorScheme.error
+                              : Colors.grey),
                     )
                     // image: DecorationImage(
                     //     image: Image.asset(
@@ -80,7 +96,8 @@ class _UploadImageState extends State<UploadImage> {
                       child: Container(
                         height: 300,
                         width: 300,
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(8.0)),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.0)),
                         child: image != null
                             ? Image.file(
                                 image!,
@@ -88,7 +105,9 @@ class _UploadImageState extends State<UploadImage> {
                               )
                             : drawSvgIcon(
                                 'gallery',
-                                iconColor: (widget.hasError ? Theme.of(context).colorScheme.error : Theme.of(context).colorScheme.primary),
+                                iconColor: (widget.hasError
+                                    ? Theme.of(context).colorScheme.error
+                                    : Theme.of(context).colorScheme.primary),
                               ),
                       ),
                     ),
@@ -99,7 +118,10 @@ class _UploadImageState extends State<UploadImage> {
                           : widget.label != null
                               ? widget.label!
                               : "Upload Image",
-                      style: const TextStyle(color: Colors.grey, fontSize: 24, fontWeight: FontWeight.w600),
+                      style: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 24,
+                          fontWeight: FontWeight.w600),
                     ),
                     const SizedBox(height: 6),
                     // Padding(
@@ -130,9 +152,13 @@ class _UploadImageState extends State<UploadImage> {
                                           allowedExtensions: ['jpg'],
                                           onSelected: (file) async {
                                             setState(() => image = file);
-                                            var multipartImage = await MultipartFile.fromFile(image!.path);
+                                            var multipartImage =
+                                                await MultipartFile.fromFile(
+                                                    image!.path);
                                             widget.updatedImage!(file);
-                                            if (widget.updateFile != null) widget.updateFile!(image);
+                                            if (widget.updateFile != null) {
+                                              widget.updateFile!(image);
+                                            }
                                           });
                                     },
                                   ),
@@ -145,10 +171,16 @@ class _UploadImageState extends State<UploadImage> {
                                     onTap: () {
                                       setState(() => image = null);
                                       widget.updatedImage!(null);
-                                      if (widget.updateFile != null) widget.updateFile!(null);
+                                      if (widget.updateFile != null) {
+                                        widget.updateFile!(null);
+                                      }
                                     },
-                                    buttonColor: Theme.of(context).colorScheme.error.withOpacity(.1),
-                                    textColor: Theme.of(context).colorScheme.error,
+                                    buttonColor: Theme.of(context)
+                                        .colorScheme
+                                        .error
+                                        .withOpacity(.1),
+                                    textColor:
+                                        Theme.of(context).colorScheme.error,
                                   ),
                                 ),
                               ],
@@ -166,7 +198,8 @@ class _UploadImageState extends State<UploadImage> {
         if (widget.hasError)
           Text(
             widget.errorText ?? "",
-            style: AppTextStyles.w400.copyWith(fontSize: 14, color: Theme.of(context).colorScheme.error),
+            style: AppTextStyles.w400.copyWith(
+                fontSize: 14, color: Theme.of(context).colorScheme.error),
           )
       ],
     );

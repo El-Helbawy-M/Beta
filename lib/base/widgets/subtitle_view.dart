@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 
 class SubtitleView extends StatelessWidget {
@@ -7,7 +9,8 @@ class SubtitleView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
-      child: Text(text ?? "No Title", style: Theme.of(context).textTheme.headline5!),
+      child: Text(text ?? "No Title",
+          style: Theme.of(context).textTheme.headline5!),
     );
   }
 }

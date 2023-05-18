@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_project_base/routers/routers.dart';
+import 'package:flutter_project_base/services/authentication/login/pages/login.dart';
+import 'package:flutter_project_base/services/authentication/register/pages/registration_page.dart';
 import 'package:flutter_project_base/services/chat_room/pages/chat_room_page.dart';
 import 'package:flutter_project_base/services/onboarding/blocs/onboarding_bloc.dart';
 import 'package:flutter_project_base/services/onboarding/pages/on_boarding.dart';
@@ -18,9 +20,12 @@ const curve = Curves.easeInOut;
 var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
 class CustomNavigator {
-  static final GlobalKey<NavigatorState> navigatorState = GlobalKey<NavigatorState>();
-  static final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
-  static final GlobalKey<ScaffoldMessengerState> scaffoldState = GlobalKey<ScaffoldMessengerState>();
+  static final GlobalKey<NavigatorState> navigatorState =
+      GlobalKey<NavigatorState>();
+  static final RouteObserver<PageRoute> routeObserver =
+      RouteObserver<PageRoute>();
+  static final GlobalKey<ScaffoldMessengerState> scaffoldState =
+      GlobalKey<ScaffoldMessengerState>();
 
   static _pageRoute(Widget screen) => PageRouteBuilder(
         pageBuilder: (context, animation, secondaryAnimation) => screen,
@@ -37,9 +42,15 @@ class CustomNavigator {
       case Routes.splash:
         return _pageRoute(const SplashPage());
       case Routes.boarding:
-        return _pageRoute(BlocProvider(create: (context) => OnBoardingCubit(), child: const OnBoardingPage()));
+        return _pageRoute(BlocProvider(
+            create: (context) => OnBoardingCubit(),
+            child: const OnBoardingPage()));
       case Routes.diabetesDetails:
         return _pageRoute(const DiabetesDetails());
+      case Routes.register:
+        return _pageRoute(const RegistrationPage());
+      case Routes.login:
+        return _pageRoute(const LoginPage());
       case Routes.addDiabetesDetails:
         return _pageRoute(const AddDiabetesDetails());
       case Routes.home:
@@ -63,13 +74,18 @@ class CustomNavigator {
     }
   }
 
-  static push(String routeName, {arguments, bool replace = false, bool clean = false}) {
+  static push(String routeName,
+      {arguments, bool replace = false, bool clean = false}) {
     if (clean) {
-      return navigatorState.currentState!.pushNamedAndRemoveUntil(routeName, (_) => false, arguments: arguments);
+      return navigatorState.currentState!.pushNamedAndRemoveUntil(
+          routeName, (_) => false,
+          arguments: arguments);
     } else if (replace) {
-      return navigatorState.currentState!.pushReplacementNamed(routeName, arguments: arguments);
+      return navigatorState.currentState!
+          .pushReplacementNamed(routeName, arguments: arguments);
     } else {
-      return navigatorState.currentState!.pushNamed(routeName, arguments: arguments);
+      return navigatorState.currentState!
+          .pushNamed(routeName, arguments: arguments);
     }
   }
 }

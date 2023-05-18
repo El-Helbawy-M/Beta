@@ -29,12 +29,12 @@ class ChartWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(
-                  child: const DateInputField(
+                const Expanded(
+                  child: DateInputField(
                     hintText: "اختر اليوم",
                   ),
                 ),
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 Expanded(
                   child: SingleSelectSheetField(
                     initialValue: SelectOption("A1C", "A1C"),
@@ -53,7 +53,9 @@ class ChartWidget extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(15),
-                  border: Border.all(width: 1, color: Theme.of(context).dividerColor.withOpacity(.05)),
+                  border: Border.all(
+                      width: 1,
+                      color: Theme.of(context).dividerColor.withOpacity(.05)),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey[300]!.withOpacity(.4),
@@ -69,7 +71,8 @@ class ChartWidget extends StatelessWidget {
                       borderData: FlBorderData(
                         show: true,
                         border: Border.symmetric(
-                          horizontal: BorderSide(width: .5, color: Theme.of(context).dividerColor),
+                          horizontal: BorderSide(
+                              width: .5, color: Theme.of(context).dividerColor),
                         ),
                       ),
                       maxY: max.toDouble(),
@@ -79,7 +82,9 @@ class ChartWidget extends StatelessWidget {
                         drawVerticalLine: false,
                         horizontalInterval: max.toDouble() / 12,
                         getDrawingHorizontalLine: (value) {
-                          return FlLine(color: Theme.of(context).dividerColor, strokeWidth: .5);
+                          return FlLine(
+                              color: Theme.of(context).dividerColor,
+                              strokeWidth: .5);
                         },
                       ),
                       barGroups: List.generate(
@@ -107,7 +112,10 @@ class ChartWidget extends StatelessWidget {
                               space: 4.0,
                               child: Text(
                                 data[value.toInt()].label,
-                                style: AppTextStyles.w600.copyWith(fontSize: 12, fontFamily: "txt", color: Colors.black),
+                                style: AppTextStyles.w600.copyWith(
+                                    fontSize: 12,
+                                    fontFamily: "txt",
+                                    color: Colors.black),
                               ),
                             ),
                           ),
@@ -123,7 +131,10 @@ class ChartWidget extends StatelessWidget {
                               child: Center(
                                 child: Text(
                                   value.toInt().toString(),
-                                  style: AppTextStyles.w600.copyWith(fontSize: 12, fontFamily: "txt", color: Colors.black),
+                                  style: AppTextStyles.w600.copyWith(
+                                      fontSize: 12,
+                                      fontFamily: "txt",
+                                      color: Colors.black),
                                 ),
                               ),
                             ),
