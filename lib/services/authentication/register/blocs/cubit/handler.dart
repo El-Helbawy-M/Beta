@@ -9,29 +9,81 @@ class RegisterHandler extends Cubit<RegisterState> {
   }
 
   _intial() {
-    emit(RegisterCurrentState(currentState: CurrentState.mainScreen));
+    emit(
+      RegisterCurrentState(
+        currentState: CurrentState.mainScreen,
+        typeValue: null,
+        durationValue: null,
+        countValue: null,
+      ),
+    );
   }
 
   mainNext() {
     if (state is RegisterCurrentState) {
-      emit((state as RegisterCurrentState)
-          .copyWith(currentState: CurrentState.infoType));
+      emit((state as RegisterCurrentState).copyWith(
+        currentState: CurrentState.infoType,
+      ));
     }
+  }
+
+  updateTypeValue({required String typeValue}) {
+    emit((state as RegisterCurrentState).copyWith(
+      typeValue: typeValue,
+    ));
   }
 
   typeNext() {
     if (state is RegisterCurrentState) {
-      emit((state as RegisterCurrentState)
-          .copyWith(currentState: CurrentState.infoDuration));
+      emit(
+        (state as RegisterCurrentState).copyWith(
+            currentState: CurrentState.infoDuration,
+            typeValue: (state as RegisterCurrentState).typeValue),
+      );
     }
+  }
+
+  updateDurationValue({required String durationValue}) {
+    emit((state as RegisterCurrentState).copyWith(
+      typeValue: (state as RegisterCurrentState).typeValue,
+      durationValue: durationValue,
+    ));
   }
 
   durationNext() {
     if (state is RegisterCurrentState) {
-      emit((state as RegisterCurrentState)
-          .copyWith(currentState: CurrentState.infoCounts));
+      emit(
+        (state as RegisterCurrentState).copyWith(
+          currentState: CurrentState.infoCounts,
+          typeValue: (state as RegisterCurrentState).typeValue,
+          durationValue: (state as RegisterCurrentState).durationValue,
+        ),
+      );
     }
   }
+
+//TODO: DO THE 2 METHODS FOR THE COUNT VALUE
+  updateCountValue({required String countValue}) {
+    emit((state as RegisterCurrentState).copyWith(
+      typeValue: (state as RegisterCurrentState).typeValue,
+      durationValue: (state as RegisterCurrentState).typeValue,
+      countValue: countValue,
+    ));
+  }
+
+  countNext() {
+    if (state is RegisterCurrentState) {
+      emit(
+        (state as RegisterCurrentState).copyWith(
+          typeValue: (state as RegisterCurrentState).typeValue,
+          durationValue: (state as RegisterCurrentState).durationValue,
+          countValue: (state as RegisterCurrentState).countValue,
+        ),
+      );
+    }
+  }
+
+//TODO: DO THE METHOD FOR THE BACK BUTTON
 
   Decoration getBoxDecoration() {
     return const BoxDecoration(
