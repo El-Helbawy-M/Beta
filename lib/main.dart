@@ -46,7 +46,7 @@ class Launch extends StatelessWidget {
             theme: ColoresThemes()
                 .mapColor(settingsBloc.settingsModel.theme, "Cairo"),
             debugShowCheckedModeBanner: false,
-            initialRoute: Routes.register,
+            initialRoute: Routes.login,
             navigatorKey: CustomNavigator.navigatorState,
             navigatorObservers: [CustomNavigator.routeObserver],
             scaffoldMessengerKey: CustomNavigator.scaffoldState,
