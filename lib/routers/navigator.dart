@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_project_base/routers/routers.dart';
-import 'package:flutter_project_base/services/authentication/register/registration_page.dart';
+import 'package:flutter_project_base/services/authentication/login/pages/login.dart';
+import 'package:flutter_project_base/services/authentication/register/pages/registration_page.dart';
 import 'package:flutter_project_base/services/chat_room/pages/chat_room_page.dart';
 import 'package:flutter_project_base/services/onboarding/blocs/onboarding_bloc.dart';
 import 'package:flutter_project_base/services/onboarding/pages/on_boarding.dart';
@@ -48,6 +49,8 @@ class CustomNavigator {
         return _pageRoute(const DiabetesDetails());
       case Routes.register:
         return _pageRoute(const RegistrationPage());
+      case Routes.login:
+        return _pageRoute(const LoginPage());
       case Routes.addDiabetesDetails:
         return _pageRoute(const AddDiabetesDetails());
       case Routes.home:
