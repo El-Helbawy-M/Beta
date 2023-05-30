@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -58,16 +60,18 @@ class _ImageInputFieldState extends State<ImageInputField> {
               : null,
           borderRadius: BorderRadius.circular(8),
           child: AnimatedContainer(
-            duration: Duration(milliseconds: 500),
+            duration: const Duration(milliseconds: 500),
             height: _image == null ? 175 : 120,
             width: MediaHelper.width,
             padding: EdgeInsets.all(_image == null ? 48 : 8),
             decoration: BoxDecoration(
-              border: Border.all(width: 1, color: Theme.of(context).hintColor.withOpacity(.5)),
+              border: Border.all(
+                  width: 1, color: Theme.of(context).hintColor.withOpacity(.5)),
               borderRadius: BorderRadius.circular(8),
             ),
             child: _image == null
-                ? drawSvgIcon("image", iconColor: Theme.of(context).hintColor.withOpacity(.5))
+                ? drawSvgIcon("image",
+                    iconColor: Theme.of(context).hintColor.withOpacity(.5))
                 : Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -78,10 +82,11 @@ class _ImageInputFieldState extends State<ImageInputField> {
                             height: 48,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
-                              image: DecorationImage(image: FileImage(_image!), fit: BoxFit.cover),
+                              image: DecorationImage(
+                                  image: FileImage(_image!), fit: BoxFit.cover),
                             ),
                           ),
-                          SizedBox(width: 8),
+                          const SizedBox(width: 8),
                           Expanded(
                             child: Text(
                               _image!.path.split("/").last,
@@ -91,7 +96,7 @@ class _ImageInputFieldState extends State<ImageInputField> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       Row(
                         children: [
                           Expanded(
@@ -99,7 +104,8 @@ class _ImageInputFieldState extends State<ImageInputField> {
                               text: "Remove",
                               height: 36,
                               buttonColor: Colors.transparent,
-                              borderColor: Theme.of(context).colorScheme.primary,
+                              borderColor:
+                                  Theme.of(context).colorScheme.primary,
                               textColor: Theme.of(context).colorScheme.primary,
                               onTap: () {
                                 setState(() {
@@ -115,7 +121,8 @@ class _ImageInputFieldState extends State<ImageInputField> {
                               text: "Change",
                               height: 36,
                               onTap: () async {
-                                File? file = await ImagePickerHandler().pickGalleryImage();
+                                File? file = await ImagePickerHandler()
+                                    .pickGalleryImage();
                                 if (file != null) {
                                   setState(() {
                                     _image = file;

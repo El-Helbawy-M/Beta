@@ -1,3 +1,5 @@
+// ignore_for_file: unused_field
+
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_project_base/handlers/icon_handler.dart';
@@ -5,7 +7,12 @@ import 'package:flutter_project_base/utilities/extensions/timer_formatter.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoPlayerView extends StatefulWidget {
-  const VideoPlayerView({super.key, required this.type, this.assetPath, this.filePath, this.networkUrl});
+  const VideoPlayerView(
+      {super.key,
+      required this.type,
+      this.assetPath,
+      this.filePath,
+      this.networkUrl});
   final VideoType type;
   final String? networkUrl, assetPath, filePath;
   @override
@@ -20,21 +27,24 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
     switch (widget.type) {
       case VideoType.network:
         if (_checkPathes(widget.networkUrl)) {
-          _controller = VideoPlayerController.network(widget.networkUrl!)..initialize().then((value) => setState(() {}));
+          _controller = VideoPlayerController.network(widget.networkUrl!)
+            ..initialize().then((value) => setState(() {}));
         } else {
           // show error
         }
         break;
       case VideoType.asset:
         if (_checkPathes(widget.assetPath)) {
-          _controller = VideoPlayerController.asset(widget.assetPath!)..initialize().then((value) => setState(() {}));
+          _controller = VideoPlayerController.asset(widget.assetPath!)
+            ..initialize().then((value) => setState(() {}));
         } else {
           // show error
         }
         break;
       case VideoType.file:
         if (_checkPathes(widget.filePath)) {
-          _controller = VideoPlayerController.file(File(widget.filePath!))..initialize().then((value) => setState(() {}));
+          _controller = VideoPlayerController.file(File(widget.filePath!))
+            ..initialize().then((value) => setState(() {}));
         } else {
           // show error
         }
@@ -67,31 +77,65 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
                   onTap: () => setState(() => showButtons = !showButtons),
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 400),
-                    color: !showButtons ? Colors.transparent : Colors.black.withOpacity(.4),
+                    color: !showButtons
+                        ? Colors.transparent
+                        : Colors.black.withOpacity(.4),
                     child: Visibility(
                       visible: showButtons,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           GestureDetector(
-                            onTap: () async => _controller.value.isPlaying ? await _controller.seekTo(Duration(seconds: _controller.value.position.inSeconds - 10)).then((value) => setState(() {})) : null,
-                            child: drawSvgIcon("video_icons/backward_10", width: _btnheight, height: _btnheight, iconColor: Colors.white),
+                            onTap: () async => _controller.value.isPlaying
+                                ? await _controller
+                                    .seekTo(Duration(
+                                        seconds: _controller
+                                                .value.position.inSeconds -
+                                            10))
+                                    .then((value) => setState(() {}))
+                                : null,
+                            child: drawSvgIcon("video_icons/backward_10",
+                                width: _btnheight,
+                                height: _btnheight,
+                                iconColor: Colors.white),
                           ),
                           AnimatedCrossFade(
                             duration: const Duration(milliseconds: 400),
-                            crossFadeState: _controller.value.isPlaying ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+                            crossFadeState: _controller.value.isPlaying
+                                ? CrossFadeState.showSecond
+                                : CrossFadeState.showFirst,
                             firstChild: GestureDetector(
-                              onTap: () async => await _controller.play().then((value) => setState(() => showButtons = false)),
-                              child: drawSvgIcon("video_icons/play_bold", width: _btnheight, height: _btnheight, iconColor: Colors.white),
+                              onTap: () async => await _controller.play().then(
+                                  (value) =>
+                                      setState(() => showButtons = false)),
+                              child: drawSvgIcon("video_icons/play_bold",
+                                  width: _btnheight,
+                                  height: _btnheight,
+                                  iconColor: Colors.white),
                             ),
                             secondChild: GestureDetector(
-                              onTap: () async => await _controller.pause().then((value) => setState(() => showButtons = true)),
-                              child: drawSvgIcon("video_icons/pause_bold", width: _btnheight, height: _btnheight, iconColor: Colors.white),
+                              onTap: () async => await _controller.pause().then(
+                                  (value) =>
+                                      setState(() => showButtons = true)),
+                              child: drawSvgIcon("video_icons/pause_bold",
+                                  width: _btnheight,
+                                  height: _btnheight,
+                                  iconColor: Colors.white),
                             ),
                           ),
                           GestureDetector(
-                            onTap: () async => _controller.value.isPlaying ? await _controller.seekTo(Duration(seconds: _controller.value.position.inSeconds + 10)).then((value) => setState(() {})) : null,
-                            child: drawSvgIcon("video_icons/forward_10", width: _btnheight, height: _btnheight, iconColor: Colors.white),
+                            onTap: () async => _controller.value.isPlaying
+                                ? await _controller
+                                    .seekTo(Duration(
+                                        seconds: _controller
+                                                .value.position.inSeconds +
+                                            10))
+                                    .then((value) => setState(() {}))
+                                : null,
+                            child: drawSvgIcon("video_icons/forward_10",
+                                width: _btnheight,
+                                height: _btnheight,
+                                iconColor: Colors.white),
                           ),
                         ],
                       ),
@@ -110,7 +154,9 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
                   visible: showButtons,
                   child: VideoProgress(
                     onChanged: (value) async {
-                      _controller.seekTo(Duration(seconds: value.toInt())).then((value) => setState(() {}));
+                      _controller
+                          .seekTo(Duration(seconds: value.toInt()))
+                          .then((value) => setState(() {}));
                     },
                     currentValue: _controller.value.position.inSeconds,
                     duration: _controller.value.duration.inSeconds,
@@ -136,7 +182,11 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
 enum VideoType { asset, network, file }
 
 class VideoProgress extends StatelessWidget {
-  const VideoProgress({super.key, required this.onChanged, required this.currentValue, required this.duration});
+  const VideoProgress(
+      {super.key,
+      required this.onChanged,
+      required this.currentValue,
+      required this.duration});
   final Function(num value) onChanged;
   final num currentValue, duration;
   @override

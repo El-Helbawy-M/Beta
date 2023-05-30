@@ -49,9 +49,7 @@ class _SingleSelectSheetFieldState extends State<SingleSelectSheetField> {
               context: context,
               isScrollControlled: true,
               shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(15),
-                    topRight: Radius.circular(15)),
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
               ),
               builder: (context) => SingleSelectBottomSheet(
                 valueSet: widget.valueSet,
@@ -71,10 +69,7 @@ class _SingleSelectSheetFieldState extends State<SingleSelectSheetField> {
             height: 46,
             padding: const EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
-              border: value != null
-                  ? _mapBorder(
-                      borderColor: Theme.of(context).colorScheme.primary)
-                  : _mapBorder(borderColor: Colors.grey),
+              border: value != null ? _mapBorder(borderColor: Theme.of(context).colorScheme.primary) : _mapBorder(borderColor: Colors.grey),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Row(
@@ -82,25 +77,21 @@ class _SingleSelectSheetFieldState extends State<SingleSelectSheetField> {
                 Expanded(
                   child: Text(
                     value != null ? value!.label : widget.hintText ?? "",
-                    style: AppTextStyles.w300.copyWith(
-                        color:
-                            value == null ? Theme.of(context).hintColor : null),
+                    style: AppTextStyles.w300.copyWith(color: value == null ? Theme.of(context).hintColor : null),
                   ),
                 ),
-                Icon(Icons.arrow_drop_down_circle_outlined,
-                    color: Theme.of(context).colorScheme.primary),
+                Icon(Icons.arrow_drop_down_circle_outlined, color: Theme.of(context).colorScheme.primary),
               ],
             ),
           ),
         ),
-        if (widget.hasError) const SizedBox(height: 4),
+        if (widget.hasError) const SizedBox(height: 8),
         if (widget.hasError)
           Row(
             children: [
               const Icon(Icons.error_outline, color: Colors.red, size: 16),
               const SizedBox(width: 4),
-              Text(widget.errorText ?? "Error",
-                  style: const TextStyle(color: Colors.red)),
+              Text(widget.errorText ?? "Error", style: const TextStyle(color: Colors.red)),
             ],
           ),
         if (widget.withBottomPadding) const SizedBox(height: 16),

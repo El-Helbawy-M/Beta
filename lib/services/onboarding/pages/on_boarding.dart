@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_project_base/config/app_states.dart';
@@ -73,10 +75,11 @@ class OnBoardingPage extends StatelessWidget {
                       onTap: () {
                         if (bloc.pageIndex == 3) {
                           // bloc.completeOnBoarding();
-                          CustomNavigator.push(Routes.home);
+                          CustomNavigator.push(Routes.login);
                         } else {
                           bloc.goToNextPage();
                         }
+                        throw Exception("This is an error");
                       },
                       child: Container(
                         width: 135,

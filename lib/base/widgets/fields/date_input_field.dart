@@ -21,16 +21,23 @@ class DateInputField extends StatefulWidget {
   final String? labelText;
   final String? errorText;
   final bool hasError;
-  final Function(String)? onChange;
+  final Function(DateTime)? onChange;
   final bool withBottomPadding;
-  final String? initialValue;
+  final DateTime? initialValue;
 
   @override
   State<DateInputField> createState() => _DateInputFieldState();
 }
 
 class _DateInputFieldState extends State<DateInputField> {
-  String? value;
+  DateTime? value;
+
+  @override
+  void initState() {
+    super.initState();
+    value = widget.initialValue;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -58,8 +65,8 @@ class _DateInputFieldState extends State<DateInputField> {
               children: [
                 Expanded(
                   child: Text(
-                    value ?? widget.hintText ?? "",
-                    style: AppTextStyles.w400.copyWith(color: value == null ? Theme.of(context).hintColor : null),
+                    value != null ? value!.toYearMonthDayFormatte() : widget.hintText ?? "",
+                    style: AppTextStyles.w400.copyWith(color: value == null ? Colors.grey : null),
                   ),
                 ),
                 drawSvgIcon("calendar", iconColor: value == null ? Theme.of(context).iconTheme.color : Theme.of(context).colorScheme.primary),
@@ -67,7 +74,15 @@ class _DateInputFieldState extends State<DateInputField> {
             ),
           ),
         ),
-        if (widget.hasError) const Text("Error", style: TextStyle(color: Colors.red)),
+        if (widget.hasError) const SizedBox(height: 8),
+        if (widget.hasError)
+          Row(
+            children: [
+              const Icon(Icons.error_outline, color: Colors.red, size: 16),
+              const SizedBox(width: 4),
+              Text(widget.errorText ?? "Error", style: const TextStyle(color: Colors.red)),
+            ],
+          ),
         if (widget.withBottomPadding) const SizedBox(height: 16),
       ],
     );
@@ -83,8 +98,8 @@ class _DateInputFieldState extends State<DateInputField> {
 
 //===============================================================
 
-showBottomSheetDatePicker({required Function(String) onChange}) {
-  String date = DateTime.now().toYearMonthDayFormatte();
+showBottomSheetDatePicker({required Function(DateTime) onChange}) {
+  DateTime date = DateTime.now();
   return showModalBottomSheet(
     context: CustomNavigator.navigatorState.currentContext!,
     shape: const RoundedRectangleBorder(
@@ -122,8 +137,8 @@ showBottomSheetDatePicker({required Function(String) onChange}) {
               mode: CupertinoDatePickerMode.date,
               dateOrder: DatePickerDateOrder.ymd,
               onDateTimeChanged: (value) {
-                date = value.toYearMonthDayFormatte();
-                onChange(value.toYearMonthDayFormatte());
+                date = value;
+                onChange(value);
               },
             ),
           ),

@@ -16,7 +16,6 @@ class HomePage extends StatelessWidget {
     "الأدوية",
     "A1C",
     "الوزن",
-    "الطعام",
   ];
   final List<String> imagesPaths = const [
     "glucose-meter 1",
@@ -24,13 +23,11 @@ class HomePage extends StatelessWidget {
     "drugs 1",
     "blood-drop 1",
     "weight-scale 1",
-    "dinner 1",
   ];
   final List<Function()?> onTaps = [
     () => CustomNavigator.push(Routes.diabtesList),
     () => CustomNavigator.push(Routes.pressuresList),
     () => CustomNavigator.push(Routes.medicinesList),
-    null,
     null,
     null,
   ];
@@ -47,11 +44,11 @@ class HomePage extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     radius: 21,
                     backgroundImage: NetworkImage("https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"),
                   ),
-                  SizedBox(width: 16),
+                  const SizedBox(width: 16),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -60,8 +57,8 @@ class HomePage extends StatelessWidget {
                       Text("محمد", style: AppTextStyles.w700.copyWith(fontSize: 20)),
                     ],
                   ),
-                  Spacer(),
-                  Icon(Icons.menu),
+                  const Spacer(),
+                  const Icon(Icons.menu),
                 ],
               ),
             ),
@@ -72,7 +69,7 @@ class HomePage extends StatelessWidget {
             ),
             Expanded(
               child: SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 child: Column(
                   children: [
                     ChartWidget(
@@ -85,7 +82,7 @@ class HomePage extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 64),
-                    FollowDoctorButton(),
+                    const FollowDoctorButton(),
                     const SizedBox(height: 32),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -95,7 +92,7 @@ class HomePage extends StatelessWidget {
                           Text("تابع حالة", style: AppTextStyles.w600.copyWith(fontSize: 20)),
                           const SizedBox(height: 16),
                           ...List.generate(
-                            6,
+                            5,
                             (index) => ServiceCard(onTaps: onTaps[index], imagesPaths: imagesPaths[index], labels: labels[index]),
                           ),
                         ],

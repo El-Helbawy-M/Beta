@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_constructors_in_immutables
+
 import 'package:flutter/material.dart';
 import 'package:flutter_project_base/handlers/icon_handler.dart';
 import 'package:flutter_project_base/utilities/theme/text_styles.dart';
@@ -64,15 +66,16 @@ class _TextInputFieldState extends State<TextInputField> {
             obscureText: !showText,
             decoration: InputDecoration(
               hintText: widget.hintText,
-              hintStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+              hintStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.grey),
               contentPadding: const EdgeInsets.symmetric(horizontal: 16),
               suffixIcon: widget.suffixIcon ?? _mapSuffixIcon(),
-              enabledBorder: _mapBorder(borderColor: Colors.grey),
+              enabledBorder: _mapBorder(borderColor: widget.initialValue == null ? Colors.grey : Theme.of(context).hintColor.withOpacity(.2)),
               focusedBorder: _mapBorder(borderColor: Theme.of(context).colorScheme.primary),
               errorBorder: _mapBorder(borderColor: Colors.red),
             ),
           ),
         ),
+        if (widget.hasError) const SizedBox(height: 8),
         if (widget.hasError)
           Row(
             children: [

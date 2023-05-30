@@ -81,7 +81,7 @@ class MedicinesListPage extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => CustomNavigator.push(Routes.addPressure),
+        onPressed: () => CustomNavigator.push(Routes.addMedicines),
         backgroundColor: Theme.of(context).colorScheme.primary,
         child: const Icon(Icons.add, color: Colors.white),
       ),

@@ -3,8 +3,8 @@ import 'package:flutter_project_base/handlers/icon_handler.dart';
 import 'package:flutter_project_base/services/home/pages/home_page.dart';
 
 import '../../services/chats/pages/chats_list_page.dart';
-import '../../services/doctor_details/pages/doctor_details_page.dart';
 import '../../services/doctors/pages/doctors_list_page.dart';
+import '../../services/food_list/pages/food_list_page.dart';
 
 class BasePage extends StatefulWidget {
   const BasePage({super.key});
@@ -21,7 +21,9 @@ class _BasePageState extends State<BasePage> {
   }
 
   Color _mapColor(int index, BuildContext context) {
-    if (_index == index) return Theme.of(context).bottomNavigationBarTheme.selectedItemColor!;
+    if (_index == index) {
+      return Theme.of(context).bottomNavigationBarTheme.selectedItemColor!;
+    }
     return Theme.of(context).bottomNavigationBarTheme.unselectedItemColor!;
   }
 
@@ -30,7 +32,7 @@ class _BasePageState extends State<BasePage> {
     const ChatListPage(),
     HomePage(),
     const DoctorsListPage(),
-    Container(),
+    const FoodListPage(),
   ];
 
   @override

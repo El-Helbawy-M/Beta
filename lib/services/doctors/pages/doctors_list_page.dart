@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project_base/utilities/theme/media.dart';
 
 import '../../../utilities/theme/text_styles.dart';
 import '../widgets/doctor_card.dart';

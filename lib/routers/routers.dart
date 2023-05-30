@@ -13,4 +13,7 @@ abstract class Routes {
   static const String pressuresList = "pressures_list";
   static const String addPressure = "add_pressure";
   static const String medicinesList = "medicines_list";
+  static const String addMedicines = "add_medicines";
+  static const String foodList = "food_list";
+  static const String addMeal = "add_meal";
 }

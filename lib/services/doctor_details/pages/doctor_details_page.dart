@@ -101,8 +101,8 @@ class DoctorDetailsPage extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     physics: const BouncingScrollPhysics(),
                     child: Row(
-                      children: [
-                        const SizedBox(width: 24),
+                      children: const [
+                        SizedBox(width: 24),
                         TicketCard(),
                         TicketCard(isTaken: true),
                         TicketCard(isTaken: true),
