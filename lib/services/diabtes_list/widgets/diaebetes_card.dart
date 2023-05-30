@@ -15,8 +15,7 @@ class DiabetesCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(15),
-        border:
-            Border.all(color: Theme.of(context).dividerColor.withOpacity(.05)),
+        border: Border.all(color: Theme.of(context).dividerColor.withOpacity(.05)),
         boxShadow: [
           BoxShadow(
             color: Theme.of(context).dividerColor.withOpacity(.02),
@@ -36,8 +35,9 @@ class DiabetesCard extends StatelessWidget {
                 children: const [
                   Text(
                     '78 مليجرام/ لتر',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
+                  SizedBox(height: 4),
                   Text(
                     '2/2/2023, 12:00 AM',
                     style: TextStyle(
@@ -47,8 +47,7 @@ class DiabetesCard extends StatelessWidget {
                 ],
               ),
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   color: const Color(0xff1B72C0),

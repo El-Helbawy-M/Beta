@@ -1,3 +1,5 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -9,12 +11,17 @@ import 'package:flutter_project_base/routers/navigator.dart';
 import 'package:flutter_project_base/routers/routers.dart';
 import 'package:flutter_project_base/utilities/theme/colors.dart';
 
+import 'firebase_options.dart';
 import 'handlers/localization_handler.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SharedHandler.init();
   NetworkHandler.init();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
   runApp(const MyApp());
 }
 
@@ -42,11 +49,10 @@ class Launch extends StatelessWidget {
     return BlocBuilder<SettingsBloc, AppStates>(
       builder: (context, state) {
         return MaterialApp(
-            title: 'Project Title',
-            theme: ColoresThemes()
-                .mapColor(settingsBloc.settingsModel.theme, "Cairo"),
+            title: 'Beta',
+            theme: ColoresThemes().mapColor(settingsBloc.settingsModel.theme, "Cairo"),
             debugShowCheckedModeBanner: false,
-            initialRoute: Routes.login,
+            initialRoute: Routes.splash,
             navigatorKey: CustomNavigator.navigatorState,
             navigatorObservers: [CustomNavigator.routeObserver],
             scaffoldMessengerKey: CustomNavigator.scaffoldState,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project_base/handlers/icon_handler.dart';
+import 'package:flutter_project_base/routers/navigator.dart';
 import 'package:flutter_project_base/utilities/components/custom_page_body.dart';
 import 'package:flutter_project_base/utilities/theme/text_styles.dart';
 import 'package:readmore/readmore.dart';
@@ -17,11 +18,16 @@ class DoctorDetailsPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: .2,
-        leading: const Row(
-          children: [
-            SizedBox(width: 16),
-            ArrowBack(),
-          ],
+        leading: InkWell(
+          onTap: () => CustomNavigator.pop(),
+          highlightColor: Colors.transparent,
+          splashColor: Colors.transparent,
+          child: Row(
+            children: const [
+              SizedBox(width: 16),
+              ArrowBack(),
+            ],
+          ),
         ),
         titleSpacing: 4,
         title: Text(
@@ -34,16 +40,16 @@ class DoctorDetailsPage extends StatelessWidget {
         child: Column(
           children: [
             const SizedBox(height: 24),
-            Container(
-              width: 150,
-              height: 150,
-              decoration: BoxDecoration(
-                color: const Color(0xffD3E4FF),
-                borderRadius: BorderRadius.circular(20),
-                image: const DecorationImage(
-                    image: NetworkImage(
-                        "https://th.bing.com/th/id/R.00f8e62a60bba40c1cbc109b2a8c559a?rik=MabAto9xvonFDw&pid=ImgRaw&r=0"),
-                    fit: BoxFit.cover),
+            Hero(
+              tag: "doctorId",
+              child: Container(
+                width: 150,
+                height: 150,
+                decoration: BoxDecoration(
+                  color: const Color(0xffD3E4FF),
+                  borderRadius: BorderRadius.circular(20),
+                  image: const DecorationImage(image: NetworkImage("https://th.bing.com/th/id/R.00f8e62a60bba40c1cbc109b2a8c559a?rik=MabAto9xvonFDw&pid=ImgRaw&r=0"), fit: BoxFit.cover),
+                ),
               ),
             ),
             const SizedBox(height: 24),
@@ -64,14 +70,8 @@ class DoctorDetailsPage extends StatelessWidget {
                 trimMode: TrimMode.Line,
                 trimCollapsedText: '\t\tاظهر المزيد',
                 trimExpandedText: '\t\tاختصار',
-                moreStyle: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).colorScheme.primary),
-                lessStyle: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).colorScheme.primary),
+                moreStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary),
+                lessStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary),
               ),
             ),
             Divider(
@@ -91,18 +91,17 @@ class DoctorDetailsPage extends StatelessWidget {
                         const SizedBox(width: 8),
                         Text(
                           " 150 ج.م",
-                          style: AppTextStyles.w500
-                              .copyWith(fontSize: 18, color: Colors.green),
+                          style: AppTextStyles.w500.copyWith(fontSize: 18, color: Colors.green),
                         ),
                       ],
                     ),
                   ),
                   const SizedBox(height: 16),
-                  const SingleChildScrollView(
+                  SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
-                    physics: BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     child: Row(
-                      children: [
+                      children: const [
                         SizedBox(width: 24),
                         TicketCard(),
                         TicketCard(isTaken: true),

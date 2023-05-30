@@ -4,6 +4,7 @@ import 'package:flutter_project_base/services/home/pages/home_page.dart';
 
 import '../../services/chats/pages/chats_list_page.dart';
 import '../../services/doctors/pages/doctors_list_page.dart';
+import '../../services/food_list/pages/food_list_page.dart';
 
 class BasePage extends StatefulWidget {
   const BasePage({super.key});
@@ -29,9 +30,9 @@ class _BasePageState extends State<BasePage> {
   List<Widget> screen = [
     Container(),
     const ChatListPage(),
-    const HomePage(),
+    HomePage(),
     const DoctorsListPage(),
-    Container(),
+    const FoodListPage(),
   ];
 
   @override
@@ -46,41 +47,11 @@ class _BasePageState extends State<BasePage> {
         }),
         currentIndex: _index,
         items: [
-          BottomNavigationBarItem(
-              icon: ButtonContainer(
-                  isSelected: _index == 0,
-                  child: drawSvgIcon(_mapIcon(0, "profile"),
-                      iconColor: _mapColor(0, context))),
-              label: "",
-              backgroundColor: Theme.of(context).colorScheme.primary),
-          BottomNavigationBarItem(
-              icon: ButtonContainer(
-                  isSelected: _index == 1,
-                  child: drawSvgIcon(_mapIcon(1, "chat"),
-                      iconColor: _mapColor(1, context))),
-              label: "",
-              backgroundColor: Theme.of(context).colorScheme.primary),
-          BottomNavigationBarItem(
-              icon: ButtonContainer(
-                  isSelected: _index == 2,
-                  child: drawSvgIcon(_mapIcon(2, "home"),
-                      iconColor: _mapColor(2, context))),
-              label: "",
-              backgroundColor: Theme.of(context).colorScheme.primary),
-          BottomNavigationBarItem(
-              icon: ButtonContainer(
-                  isSelected: _index == 3,
-                  child: drawSvgIcon(_mapIcon(3, "user"),
-                      iconColor: _mapColor(3, context))),
-              label: "",
-              backgroundColor: Theme.of(context).colorScheme.primary),
-          BottomNavigationBarItem(
-              icon: ButtonContainer(
-                  isSelected: _index == 4,
-                  child: drawSvgIcon(_mapIcon(4, "food"),
-                      iconColor: _mapColor(4, context))),
-              label: "",
-              backgroundColor: Theme.of(context).colorScheme.primary),
+          BottomNavigationBarItem(icon: ButtonContainer(isSelected: _index == 0, child: drawSvgIcon(_mapIcon(0, "profile"), iconColor: _mapColor(0, context))), label: "", backgroundColor: Theme.of(context).colorScheme.primary),
+          BottomNavigationBarItem(icon: ButtonContainer(isSelected: _index == 1, child: drawSvgIcon(_mapIcon(1, "chat"), iconColor: _mapColor(1, context))), label: "", backgroundColor: Theme.of(context).colorScheme.primary),
+          BottomNavigationBarItem(icon: ButtonContainer(isSelected: _index == 2, child: drawSvgIcon(_mapIcon(2, "home"), iconColor: _mapColor(2, context))), label: "", backgroundColor: Theme.of(context).colorScheme.primary),
+          BottomNavigationBarItem(icon: ButtonContainer(isSelected: _index == 3, child: drawSvgIcon(_mapIcon(3, "user"), iconColor: _mapColor(3, context))), label: "", backgroundColor: Theme.of(context).colorScheme.primary),
+          BottomNavigationBarItem(icon: ButtonContainer(isSelected: _index == 4, child: drawSvgIcon(_mapIcon(4, "food"), iconColor: _mapColor(4, context))), label: "", backgroundColor: Theme.of(context).colorScheme.primary),
         ],
       ),
       body: SizedBox(
@@ -106,9 +77,7 @@ class ButtonContainer extends StatelessWidget {
       width: 40,
       height: 40,
       padding: const EdgeInsets.all(6),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          color: isSelected ? Colors.white : Colors.transparent),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: isSelected ? Colors.white : Colors.transparent),
       child: child,
     );
   }

@@ -39,11 +39,7 @@ class OnBoardingPage extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 24),
                         child: Text(
                           "اسم الخدمة",
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline3!
-                              .copyWith(
-                                  color: Theme.of(context).colorScheme.primary),
+                          style: Theme.of(context).textTheme.headline3!.copyWith(color: Theme.of(context).colorScheme.primary),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -79,10 +75,11 @@ class OnBoardingPage extends StatelessWidget {
                       onTap: () {
                         if (bloc.pageIndex == 3) {
                           // bloc.completeOnBoarding();
-                          CustomNavigator.push(Routes.home);
+                          CustomNavigator.push(Routes.login);
                         } else {
                           bloc.goToNextPage();
                         }
+                        throw Exception("This is an error");
                       },
                       child: Container(
                         width: 135,

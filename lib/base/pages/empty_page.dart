@@ -17,8 +17,10 @@ class EmptyPage extends StatelessWidget {
             fit: BoxFit.contain,
           ),
           body ??
-              Text("No data found",
-                  style: Theme.of(context).textTheme.headline6),
+              Text(
+                "No data found",
+                style: Theme.of(context).textTheme.headline6,
+              ),
         ],
       ),
     );
