@@ -1,21 +1,59 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_project_base/config/app_events.dart';
 import 'package:flutter_project_base/handlers/icon_handler.dart';
+import 'package:flutter_project_base/services/chats/model/chat_model.dart';
 import 'package:flutter_project_base/utilities/components/arrow_back.dart';
 import 'package:flutter_project_base/utilities/components/custom_page_body.dart';
 import 'package:flutter_project_base/utilities/theme/text_styles.dart';
+import 'package:image_picker/image_picker.dart';
 
-import '../../../config/app_states.dart';
-import '../blocs/chat_room_bloc.dart';
+import '../../../routers/navigator.dart';
+import '../../../routers/routers.dart';
+import '../models/message_model.dart';
 import '../widgets/message_card.dart';
 
-class ChatRoomPage extends StatelessWidget {
-  const ChatRoomPage({super.key});
+class ChatRoomPage extends StatefulWidget {
+  const ChatRoomPage(this.chat, {super.key, required this.userId});
+  final ChatModel chat;
+  final int userId;
+
+  @override
+  State<ChatRoomPage> createState() => _ChatRoomPageState();
+}
+
+class _ChatRoomPageState extends State<ChatRoomPage> {
+  List<MessageModel> messages = <MessageModel>[];
+  final FirebaseStorage _storage = FirebaseStorage.instance;
+
+  bool loading = true;
+  @override
+  void initState() {
+    getChatMessages();
+    super.initState();
+  }
+
+  Future<void> getChatMessages() async {
+    QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore
+        .instance
+        .collection('Chats')
+        .doc(widget.chat.id)
+        .collection('Messages')
+        .orderBy(createdDateKey, descending: true)
+        .get();
+    messages.clear();
+    for (var data in querySnapshot.docs) {
+      messages.add(MessageModel.fromFireStore(data));
+    }
+
+    loading = false;
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
-    var bloc = BlocProvider.of<ChatRoomBloc>(context);
     return CustomPageBody(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -28,9 +66,9 @@ class ChatRoomPage extends StatelessWidget {
             Stack(
               alignment: Alignment.center,
               children: [
-                const CircleAvatar(
+                CircleAvatar(
                   radius: 18,
-                  backgroundImage: NetworkImage("https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"),
+                  backgroundImage: NetworkImage(widget.chat.doctorPhoto),
                 ),
                 Positioned(
                   right: 36,
@@ -41,7 +79,9 @@ class ChatRoomPage extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: Colors.green,
                       shape: BoxShape.circle,
-                      border: Border.all(color: Theme.of(context).scaffoldBackgroundColor, width: 2),
+                      border: Border.all(
+                          color: Theme.of(context).scaffoldBackgroundColor,
+                          width: 2),
                     ),
                   ),
                 ),
@@ -55,23 +95,30 @@ class ChatRoomPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "محمد احمد",
+              widget.chat.doctorName,
               style: AppTextStyles.w600.copyWith(fontSize: 13),
             ),
-            const SizedBox(height: 4),
-            Text(
-              "متصل",
-              style: AppTextStyles.w600.copyWith(fontSize: 11, color: Colors.green),
-            ),
+            // const SizedBox(height: 4),
+            // Text(
+            //   "متصل",
+            //   style: AppTextStyles.w600
+            //       .copyWith(fontSize: 11, color: Colors.green),
+            // ),
           ],
         ),
         actions: [
-          Icon(Icons.video_camera_front, color: Theme.of(context).colorScheme.primary),
+          InkWell(
+            onTap: () => CustomNavigator.push(Routes.videoCall),
+            child: Icon(Icons.video_camera_front,
+                color: Theme.of(context).colorScheme.primary),
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Icon(Icons.call, color: Theme.of(context).colorScheme.primary),
+            child: InkWell(
+                onTap: () => CustomNavigator.push(Routes.videoCall),
+                child: Icon(Icons.call,
+                    color: Theme.of(context).colorScheme.primary)),
           ),
-          Icon(Icons.more_vert_outlined, color: Theme.of(context).colorScheme.primary),
           const SizedBox(width: 16),
         ],
       ),
@@ -83,42 +130,76 @@ class ChatRoomPage extends StatelessWidget {
       body: Column(
         children: [
           Expanded(
-            child: BlocBuilder<ChatRoomBloc, AppStates>(builder: (context, state) {
-              if (state is Loading) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (state is Error) {
-                return Center(child: Text(state.toString()));
-              } else {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    child: Column(
-                      children: [
-                        const SizedBox(height: 16),
-                        ...List.generate(
-                          bloc.messages.length,
-                          (index) => MessageCard(
-                            message: bloc.messages[index],
-                          ),
-                        ),
-                      ],
+            child: loading
+                ? Center(
+                    child: CircularProgressIndicator(
+                      color: Theme.of(context).colorScheme.primary,
                     ),
+                  )
+                : ListView.separated(
+                    reverse: true,
+                    itemBuilder: (_, int index) => MessageCard(
+                      message: messages[index],
+                      userId: widget.userId,
+                    ),
+                    separatorBuilder: (_, __) => const SizedBox(height: 8),
+                    itemCount: messages.length,
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
                   ),
-                );
-              }
-            }),
           ),
           Divider(
             height: 0,
             color: Theme.of(context).dividerColor,
           ),
           ChatTextField(
-            onSend: (value) => bloc.add(Send(arrgument: value)),
+            onSend: sendMessage,
+            onImageTapped: () async {
+              XFile? file =
+                  await ImagePicker().pickImage(source: ImageSource.gallery);
+
+              if (file == null) {
+                //Create a reference to the location you want to upload to in firebase
+                Reference reference = _storage.ref().child("images/");
+
+                //Upload the file to firebase
+                reference.putFile(File(file!.path));
+
+                // Waits till the file is uploaded then stores the download url
+                String location = await reference.getDownloadURL();
+
+                FirebaseFirestore.instance
+                    .collection('Chats')
+                    .doc(widget.chat.id)
+                    .collection('Messages')
+                    .add({
+                  'text': location,
+                  'photo': '',
+                  'type': MessageType.photo.name,
+                  'senderId': widget.userId,
+                  'createdDate': DateTime.now().toString(),
+                });
+              }
+            },
           ),
         ],
       ),
     );
+  }
+
+  void sendMessage(String value) async {
+    FirebaseFirestore.instance
+        .collection('Chats')
+        .doc(widget.chat.id)
+        .collection('Messages')
+        .add({
+      'text': value,
+      'photo': '',
+      'type': MessageType.text.name,
+      'senderId': widget.userId,
+      'createdDate': DateTime.now().toString(),
+    });
+
+    await getChatMessages();
   }
 }
 
@@ -126,8 +207,10 @@ class ChatTextField extends StatefulWidget {
   const ChatTextField({
     super.key,
     this.onSend,
+    this.onImageTapped,
   });
   final Function(String)? onSend;
+  final Function()? onImageTapped;
   @override
   State<ChatTextField> createState() => _ChatTextFieldState();
 }
@@ -155,7 +238,8 @@ class _ChatTextFieldState extends State<ChatTextField> {
                   filled: true,
                   fillColor: Theme.of(context).colorScheme.onPrimaryContainer,
                   hintText: "اكتب رسالة ...",
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide.none,
@@ -165,7 +249,13 @@ class _ChatTextFieldState extends State<ChatTextField> {
             ),
           ),
           const SizedBox(width: 8),
-          drawSvgIcon("image", width: 24, height: 24, iconColor: Theme.of(context).colorScheme.primary),
+          InkWell(
+            onTap: widget.onImageTapped,
+            child: drawSvgIcon("image",
+                width: 24,
+                height: 24,
+                iconColor: Theme.of(context).colorScheme.primary),
+          ),
           if (controller.text.isNotEmpty) const SizedBox(width: 8),
           if (controller.text.isNotEmpty)
             RotatedBox(

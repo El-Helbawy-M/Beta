@@ -20,16 +20,24 @@ class TimeInputField extends StatefulWidget {
   final String? labelText;
   final String? errorText;
   final bool hasError;
-  final Function(String)? onChange;
+  final Function(DateTime)? onChange;
   final bool withBottomPadding;
-  final String? initialValue;
+  final DateTime? initialValue;
 
   @override
   State<TimeInputField> createState() => _TimeInputFieldState();
 }
 
 class _TimeInputFieldState extends State<TimeInputField> {
-  String? value;
+  DateTime? value;
+
+  @override
+  void initState() {
+    if (widget.initialValue == null) return;
+    value = widget.initialValue;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -50,23 +58,34 @@ class _TimeInputFieldState extends State<TimeInputField> {
             height: 46,
             padding: const EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
-              border: _mapBorder(borderColor: Colors.grey),
+              border: _mapBorder(
+                  borderColor: value != null
+                      ? Theme.of(context).colorScheme.primary
+                      : Colors.grey),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Row(
               children: [
                 Expanded(
                   child: Text(
-                    value ?? widget.hintText ?? "",
-                    style: AppTextStyles.w400.copyWith(color: value == null ? Theme.of(context).hintColor : null),
+                    value == null
+                        ? widget.hintText ?? ""
+                        : "${value!.hour}:${value!.minute}",
+                    style: AppTextStyles.w400.copyWith(
+                        color:
+                            value == null ? Theme.of(context).hintColor : null),
                   ),
                 ),
-                drawSvgIcon("calendar", iconColor: Theme.of(context).iconTheme.color),
+                drawSvgIcon("calendar",
+                    iconColor: value != null
+                        ? Theme.of(context).colorScheme.primary
+                        : Theme.of(context).iconTheme.color),
               ],
             ),
           ),
         ),
-        if (widget.hasError) const Text("Error", style: TextStyle(color: Colors.red)),
+        if (widget.hasError)
+          const Text("Error", style: TextStyle(color: Colors.red)),
         if (widget.withBottomPadding) const SizedBox(height: 16),
       ],
     );
@@ -82,9 +101,8 @@ class _TimeInputFieldState extends State<TimeInputField> {
 
 //===============================================================
 
-showDatePicker({required Function(String) onChange}) {
+showDatePicker({required Function(DateTime) onChange}) {
   DateTime now = DateTime.now();
-  String time = "${now.hour}:${now.minute}";
   return showModalBottomSheet(
     context: CustomNavigator.navigatorState.currentContext!,
     shape: const RoundedRectangleBorder(
@@ -103,10 +121,12 @@ showDatePicker({required Function(String) onChange}) {
               height: 24,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all(width: 1, color: Theme.of(context).colorScheme.primary),
+                border: Border.all(
+                    width: 1, color: Theme.of(context).colorScheme.primary),
               ),
               child: Center(
-                child: Icon(Icons.close, color: Theme.of(context).colorScheme.primary, size: 16),
+                child: Icon(Icons.close,
+                    color: Theme.of(context).colorScheme.primary, size: 16),
               ),
             ),
           ),
@@ -123,8 +143,7 @@ showDatePicker({required Function(String) onChange}) {
               mode: CupertinoDatePickerMode.time,
               dateOrder: DatePickerDateOrder.ymd,
               onDateTimeChanged: (value) {
-                time = "${value.hour}:${value.minute}";
-                onChange("${value.hour}:${value.minute}");
+                onChange(value);
               },
             ),
           ),
@@ -135,7 +154,7 @@ showDatePicker({required Function(String) onChange}) {
             text: "Pick",
             height: 56,
             onTap: () {
-              onChange(time);
+              onChange(now);
               Navigator.pop(context);
             },
           ),

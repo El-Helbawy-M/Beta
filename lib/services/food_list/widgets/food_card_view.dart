@@ -22,12 +22,13 @@ class _FoodCardState extends State<FoodCard> {
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      height: (isColapsed ? 0 : widget.infos.length * 40) + 80,
+      height: (isColapsed ? 0 : widget.infos.length * 40) + 90,
       margin: const EdgeInsets.only(bottom: 16),
       duration: const Duration(milliseconds: 500),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(width: 1, color: Theme.of(context).colorScheme.primaryContainer),
+        border: Border.all(
+            width: 1, color: Theme.of(context).colorScheme.primaryContainer),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,9 +42,12 @@ class _FoodCardState extends State<FoodCard> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(widget.name, style: Theme.of(context).textTheme.headline5),
+                    Text(widget.name,
+                        style: Theme.of(context).textTheme.headline5),
                     const SizedBox(height: 8),
-                    Text(widget.calories.toString() + "  سعر حراري", style: Theme.of(context).textTheme.subtitle1!.copyWith(color: Theme.of(context).colorScheme.primary)),
+                    Text(widget.calories.toString() + "  سعر حراري",
+                        style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                            color: Theme.of(context).colorScheme.primary)),
                   ],
                 ),
                 GestureDetector(
@@ -74,7 +78,9 @@ class _FoodCardState extends State<FoodCard> {
           AnimatedCrossFade(
             firstChild: Column(children: widget.infos),
             secondChild: const SizedBox(),
-            crossFadeState: isColapsed ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+            crossFadeState: isColapsed
+                ? CrossFadeState.showSecond
+                : CrossFadeState.showFirst,
             sizeCurve: Curves.linear,
             duration: const Duration(milliseconds: 500),
           ),

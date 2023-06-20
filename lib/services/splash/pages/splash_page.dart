@@ -20,7 +20,8 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
   late final Animation<double> opacityAnimation;
 
   _setAnimation() {
-    controller = AnimationController(vsync: this, duration: const Duration(seconds: 1));
+    controller =
+        AnimationController(vsync: this, duration: const Duration(seconds: 1));
     opacityAnimation = Tween<double>(end: 1, begin: 0).animate(controller);
     controller.forward();
     controller.addListener(() => setState(() {}));
@@ -31,10 +32,15 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
     Timer(
       const Duration(seconds: 2),
       () {
-        if (SharedHandler.instance!.getData(key: SharedKeys().isLogin, valueType: ValueType.bool)) {
+        final Map? userData = SharedHandler.instance?.getData(
+          key: SharedKeys().user,
+          valueType: ValueType.map,
+        );
+
+        if ((userData ?? {}).isNotEmpty) {
           CustomNavigator.push(Routes.home);
         } else {
-          CustomNavigator.push(Routes.boarding);
+          CustomNavigator.push(Routes.login);
         }
       },
     );

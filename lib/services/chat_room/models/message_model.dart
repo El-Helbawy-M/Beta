@@ -1,20 +1,29 @@
-import 'package:flutter_project_base/base/models/mapper.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class MessageModel extends SingleMapper {
-  String? message;
-  bool isSender = true;
-  int state = 0;
-  String? time;
-  String? senderImageUrl;
+const String textKey = 'text';
+const String typeKey = 'type';
+const String photoKey = 'photo';
+const String senderIdKey = 'senderId';
+const String createdDateKey = 'createdDate';
 
-  MessageModel({this.message, this.isSender = true, this.state = 0, this.time, this.senderImageUrl});
-  MessageModel.fromJson(Map<String, dynamic> json) {
-    message = json["message"];
-    time = json["time"];
-    senderImageUrl = json["sender_image_url"];
-    isSender = json["is_sender"];
-    state = json["state"];
-  }
-  @override
-  Mapper fromJson(Map<String, dynamic> json) => MessageModel.fromJson(json);
+class MessageModel {
+  String text, type, photo, createdDate;
+  int senderId;
+
+  MessageModel(
+      {required this.text,
+      required this.type,
+      required this.photo,
+      required this.senderId,
+      required this.createdDate});
+
+  factory MessageModel.fromFireStore(DocumentSnapshot document) => MessageModel(
+        text: document.get(textKey),
+        type: document.get(typeKey),
+        photo: document.get(photoKey),
+        senderId: document.get(senderIdKey),
+        createdDate: document.get(createdDateKey),
+      );
 }
+
+enum MessageType { text, photo }

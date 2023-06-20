@@ -8,14 +8,17 @@ class ArrowBack extends StatelessWidget {
   final Color? color;
   @override
   Widget build(BuildContext context) {
-    return currentLang() == "en"
-        ? drawSvgIcon(
-            reverse ? "arrow_right" : "arrow_left",
-            iconColor: color ?? Colors.black,
-          )
-        : drawSvgIcon(
-            reverse ? "arrow_left" : "arrow_right",
-            iconColor: color ?? Colors.black,
-          );
+    return InkWell(
+      onTap: () => Navigator.of(context).pop(),
+      child: currentLang() == "en"
+          ? drawSvgIcon(
+              reverse ? "arrow_right" : "arrow_left",
+              iconColor: color ?? Colors.black,
+            )
+          : drawSvgIcon(
+              reverse ? "arrow_left" : "arrow_right",
+              iconColor: color ?? Colors.black,
+            ),
+    );
   }
 }

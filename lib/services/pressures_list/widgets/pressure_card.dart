@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project_base/routers/navigator.dart';
-import 'package:flutter_project_base/routers/routers.dart';
 import 'package:flutter_project_base/base/widgets/pressure_info_view.dart';
 import 'package:flutter_project_base/utilities/theme/text_styles.dart';
+import 'package:intl/intl.dart';
 
+import '../models/blood_pressure_item_model.dart';
 import 'card_value_view.dart';
 
 class PressureCard extends StatelessWidget {
-  const PressureCard({super.key});
+  const PressureCard(this.item, {super.key});
+  final BloodPressureItemModel item;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,8 @@ class PressureCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Theme.of(context).dividerColor.withOpacity(.05)),
+        border:
+            Border.all(color: Theme.of(context).dividerColor.withOpacity(.05)),
         boxShadow: [
           BoxShadow(
             color: Theme.of(context).dividerColor.withOpacity(.02),
@@ -30,18 +32,18 @@ class PressureCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            children: const [
+            children: [
               Expanded(
                 child: CardValueView(
                   title: "الضغط الإنقباضي",
-                  value: "200",
+                  value: item.systolicPressure,
                 ),
               ),
-              SizedBox(width: 16),
+              const SizedBox(width: 16),
               Expanded(
                 child: CardValueView(
                   title: "الضغط الإنبساطي",
-                  value: "100",
+                  value: item.diastolicPressure,
                 ),
               ),
             ],
@@ -56,7 +58,7 @@ class PressureCard extends StatelessWidget {
                 color: Theme.of(context).colorScheme.primary,
               ),
               child: Text(
-                "اليمين",
+                item.arm == '1' ? 'الشمال' : 'اليمين',
                 style: AppTextStyles.w300.copyWith(color: Colors.white),
               ),
             ),
@@ -65,7 +67,7 @@ class PressureCard extends StatelessWidget {
           InfoView(
             title: "النبض",
             value: Text(
-              "39",
+              item.pulse,
               style: AppTextStyles.w600.copyWith(fontSize: 16),
             ),
           ),
@@ -73,7 +75,8 @@ class PressureCard extends StatelessWidget {
           InfoView(
             title: "الوقت & التاريخ",
             value: Text(
-              "2-2-2021  12:00",
+              //2-2-2021  12:00,
+              DateFormat('dd-MM-yyyy hh:mm').format(item.date),
               style: AppTextStyles.w600.copyWith(fontSize: 16),
             ),
           ),
@@ -81,7 +84,7 @@ class PressureCard extends StatelessWidget {
           InfoView(
             title: "ملحوظة",
             value: Text(
-              "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+              item.note,
               style: AppTextStyles.w600.copyWith(fontSize: 16),
             ),
           ),

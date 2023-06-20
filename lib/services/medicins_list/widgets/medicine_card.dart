@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project_base/handlers/icon_handler.dart';
 import 'package:flutter_project_base/base/widgets/pressure_info_view.dart';
+import 'package:flutter_project_base/handlers/icon_handler.dart';
 import 'package:flutter_project_base/utilities/theme/text_styles.dart';
 
 class MedicineCard extends StatelessWidget {
-  const MedicineCard({super.key});
+  const MedicineCard(this.text, {super.key});
+  final String text;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,8 @@ class MedicineCard extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: Theme.of(context).dividerColor.withOpacity(.05)),
+            border: Border.all(
+                color: Theme.of(context).dividerColor.withOpacity(.05)),
             boxShadow: [
               BoxShadow(
                 color: Theme.of(context).dividerColor.withOpacity(.02),
@@ -30,13 +32,14 @@ class MedicineCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "الدواء الأول",
+                text,
                 style: AppTextStyles.w600.copyWith(fontSize: 20),
               ),
               const SizedBox(height: 16),
               Row(
                 children: [
-                  drawSvgIcon("clock", iconColor: Theme.of(context).colorScheme.primary),
+                  drawSvgIcon("clock",
+                      iconColor: Theme.of(context).colorScheme.primary),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
@@ -71,7 +74,8 @@ class MedicineCard extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              drawSvgIcon("tick", iconColor: Colors.white, width: 16, height: 16),
+              drawSvgIcon("tick",
+                  iconColor: Colors.white, width: 16, height: 16),
             ],
           ),
         ),

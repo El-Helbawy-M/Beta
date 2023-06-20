@@ -1,6 +1,7 @@
 // ignore_for_file: unused_import, prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart' as intl;
 
 import '../../../handlers/icon_handler.dart';
 import '../../../utilities/theme/media.dart';
@@ -11,46 +12,48 @@ class MessageCard extends StatelessWidget {
   const MessageCard({
     super.key,
     required this.message,
+    required this.userId,
   });
   final MessageModel message;
+  final int userId;
+
+  bool get isSender => message.senderId == userId;
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
-          textDirection:
-              !message.isSender ? TextDirection.ltr : TextDirection.rtl,
+          textDirection: !isSender ? TextDirection.ltr : TextDirection.rtl,
           children: [
             CircleAvatar(
               radius: 15,
-              backgroundImage: NetworkImage(
-                  "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"),
+              backgroundImage: NetworkImage(message.photo),
             ),
             const SizedBox(width: 8),
             Expanded(
               child: Container(
                 margin: EdgeInsets.only(
-                    left: message.isSender ? 42 : 0,
-                    right: message.isSender ? 0 : 42),
+                    left: isSender ? 42 : 0, right: isSender ? 0 : 42),
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
                     bottomRight: const Radius.circular(15),
                     bottomLeft: const Radius.circular(15),
-                    topLeft: Radius.circular(message.isSender ? 15 : 0),
-                    topRight: Radius.circular(!message.isSender ? 15 : 0),
+                    topLeft: Radius.circular(isSender ? 15 : 0),
+                    topRight: Radius.circular(!isSender ? 15 : 0),
                   ),
-                  color: message.isSender
+                  color: isSender
                       ? Theme.of(context).colorScheme.primary.withOpacity(.7)
                       : Theme.of(context).colorScheme.onPrimaryContainer,
                 ),
                 child: Text(
-                  message.message ?? "",
+                  message.text,
                   style: AppTextStyles.w500.copyWith(
                       fontSize: 14,
-                      color: message.isSender ? Colors.white : Colors.black),
+                      color: isSender ? Colors.white : Colors.black),
                 ),
               ),
             ),
@@ -58,19 +61,8 @@ class MessageCard extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Row(
-          textDirection:
-              !message.isSender ? TextDirection.ltr : TextDirection.rtl,
+          textDirection: !isSender ? TextDirection.ltr : TextDirection.rtl,
           children: [
-            const SizedBox(width: 42),
-            drawSvgIcon("tick", width: 8, height: 8, iconColor: Colors.green),
-            drawSvgIcon("tick", width: 8, height: 8, iconColor: Colors.green),
-            const SizedBox(width: 8),
-            Text(
-              "تمت رؤيتها",
-              style: AppTextStyles.w600.copyWith(
-                  fontSize: 12, color: Theme.of(context).colorScheme.primary),
-            ),
-            const SizedBox(width: 8),
             SizedBox(
               height: 12.5,
               child: VerticalDivider(
@@ -81,7 +73,8 @@ class MessageCard extends StatelessWidget {
             ),
             const SizedBox(width: 8),
             Text(
-              message.time ?? "",
+              intl.DateFormat('dd/MM/yyyy hh:mm a')
+                  .format(DateTime.parse(message.createdDate)),
               style: AppTextStyles.w600
                   .copyWith(fontSize: 12, color: Theme.of(context).hintColor),
             ),

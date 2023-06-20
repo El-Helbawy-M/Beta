@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project_base/handlers/icon_handler.dart';
-import 'package:flutter_project_base/services/pressures_list/widgets/pressure_card.dart';
 import 'package:flutter_project_base/utilities/extensions/date_formatter.dart';
 
 import '../../../base/widgets/fields/date_input_field.dart';
@@ -50,7 +49,8 @@ class MedicinesListPage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Row(
                   children: [
-                    drawSvgIcon("calendar", iconColor: Theme.of(context).colorScheme.primary),
+                    drawSvgIcon("calendar",
+                        iconColor: Theme.of(context).colorScheme.primary),
                     const SizedBox(width: 16),
                     Expanded(
                       child: Text(
@@ -71,7 +71,14 @@ class MedicinesListPage extends StatelessWidget {
                   child: Column(
                     children: [
                       const SizedBox(height: 16),
-                      ...List.generate(12, (index) => const MedicineCard()),
+                      ...List.generate(
+                          4,
+                          (index) => MedicineCard([
+                                'الدواء الاول',
+                                'الدواء الثاني',
+                                'الدواء الثالث',
+                                'الدواء الرابع',
+                              ][index])),
                     ],
                   ),
                 ),
@@ -81,7 +88,13 @@ class MedicinesListPage extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => CustomNavigator.push(Routes.addMedicines),
+        onPressed: () async{
+          final result = await  Navigator.of(context).pushNamed(Routes.addMedicines);
+
+          if(result == null) return;
+
+          // getItems();
+        },
         backgroundColor: Theme.of(context).colorScheme.primary,
         child: const Icon(Icons.add, color: Colors.white),
       ),

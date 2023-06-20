@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_project_base/routers/navigator.dart';
 import 'package:flutter_project_base/routers/routers.dart';
+import 'package:flutter_project_base/services/chats/model/chat_model.dart';
 
 import '../../../utilities/theme/text_styles.dart';
 
 class ChatPersonCard extends StatelessWidget {
-  const ChatPersonCard({
+  final ChatModel chat;
+  const ChatPersonCard(
+    this.chat, {
     super.key,
   });
 
@@ -13,7 +15,10 @@ class ChatPersonCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        CustomNavigator.push(Routes.chatRoom);
+        Navigator.pushNamed(context, Routes.chatRoom, arguments: [
+          chat,
+          chat.patentId,
+        ]);
       },
       child: Column(
         children: [
@@ -23,10 +28,9 @@ class ChatPersonCard extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const CircleAvatar(
+                CircleAvatar(
                   radius: 24,
-                  backgroundImage: NetworkImage(
-                      "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"),
+                  backgroundImage: NetworkImage(chat.doctorPhoto),
                 ),
                 const SizedBox(width: 16),
                 Expanded(
@@ -34,10 +38,10 @@ class ChatPersonCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("محمد احمد",
+                      Text(chat.doctorName,
                           style: AppTextStyles.w500.copyWith(fontSize: 16)),
                       const SizedBox(height: 4),
-                      Text("كيف حالك\nهل انت بخير ؟ ...",
+                      Text(chat.lastMessage,
                           style: AppTextStyles.w500.copyWith(
                               fontSize: 14,
                               color: Theme.of(context).hintColor)),
@@ -45,7 +49,7 @@ class ChatPersonCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "الخميس - 12:30",
+                  chat.lastMessageDate,
                   style: AppTextStyles.w500.copyWith(
                       fontSize: 12,
                       color: Theme.of(context).colorScheme.primary),

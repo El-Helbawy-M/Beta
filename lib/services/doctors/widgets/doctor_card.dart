@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project_base/routers/navigator.dart';
 import 'package:flutter_project_base/routers/routers.dart';
+import 'package:flutter_project_base/services/doctors/model/doctor_model.dart';
+
 import '../../../utilities/theme/text_styles.dart';
 import 'info_chip.dart';
 
 class DoctorCard extends StatelessWidget {
-  const DoctorCard({
-    super.key,
-  });
+  const DoctorCard(this.doctorModel, {super.key});
+  final DoctorModel doctorModel;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,8 @@ class DoctorCard extends StatelessWidget {
       child: Column(
         children: [
           GestureDetector(
-            onTap: () => CustomNavigator.push(Routes.doctorDetails),
+            onTap: () => CustomNavigator.push(Routes.doctorDetails,
+                arguments: doctorModel.id),
             child: Stack(
               alignment: Alignment.bottomCenter,
               clipBehavior: Clip.none,
@@ -26,7 +28,8 @@ class DoctorCard extends StatelessWidget {
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
-                    border: Border.all(width: 1, color: Theme.of(context).dividerColor),
+                    border: Border.all(
+                        width: 1, color: Theme.of(context).dividerColor),
                   ),
                   child: Row(children: [
                     const SizedBox(width: 100),
@@ -35,16 +38,18 @@ class DoctorCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "احمد",
+                            doctorModel.name ?? '',
                             style: AppTextStyles.w500.copyWith(fontSize: 18),
                           ),
                           const SizedBox(height: 4),
                           Expanded(
                             child: Text(
-                              "هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة\nهناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة",
+                              doctorModel.bio ?? '',
                               overflow: TextOverflow.ellipsis,
                               maxLines: 3,
-                              style: AppTextStyles.w500.copyWith(fontSize: 12, color: Theme.of(context).hintColor),
+                              style: AppTextStyles.w500.copyWith(
+                                  fontSize: 12,
+                                  color: Theme.of(context).hintColor),
                             ),
                           ),
                           const SizedBox(height: 16),
@@ -57,12 +62,14 @@ class DoctorCard extends StatelessWidget {
                                     Icon(
                                       Icons.star,
                                       size: 16,
-                                      color: Theme.of(context).colorScheme.primary,
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
                                     ),
                                     const SizedBox(width: 4),
                                     Text(
                                       "4.5",
-                                      style: AppTextStyles.w500.copyWith(fontSize: 12),
+                                      style: AppTextStyles.w500
+                                          .copyWith(fontSize: 12),
                                     ),
                                   ],
                                 ),
@@ -70,8 +77,9 @@ class DoctorCard extends StatelessWidget {
                               const SizedBox(width: 8),
                               InfoChip(
                                 child: Text(
-                                  "طبيب عيون",
-                                  style: AppTextStyles.w500.copyWith(fontSize: 12),
+                                  doctorModel.department ?? '',
+                                  style:
+                                      AppTextStyles.w500.copyWith(fontSize: 12),
                                 ),
                               ),
                             ],
@@ -87,7 +95,7 @@ class DoctorCard extends StatelessWidget {
                   child: Hero(
                     tag: "doctorId",
                     child: Image.network(
-                      "https://th.bing.com/th/id/R.40cbdaf81075c195fa1e6a815be1aba0?rik=v1fvLsWdR5hHhw&pid=ImgRaw&r=0",
+                      doctorModel.profilePic ?? '',
                       width: 100,
                       height: 170,
                       fit: BoxFit.cover,

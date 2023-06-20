@@ -1,12 +1,17 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project_base/base/models/select_option.dart';
+import 'package:flutter_project_base/base/utils.dart';
 import 'package:flutter_project_base/base/widgets/fields/date_input_field.dart';
 import 'package:flutter_project_base/base/widgets/fields/single_select_bottomsheet/single_select_input_field.dart';
 import 'package:flutter_project_base/utilities/components/custom_page_body.dart';
+import 'package:intl/intl.dart';
 
 import '../../../base/widgets/fields/text_description_input_field.dart';
 import '../../../base/widgets/fields/text_input_field.dart';
 import '../../../base/widgets/fields/time_input_field.dart';
+import '../../../config/api_names.dart';
+import '../../../network/network_handler.dart';
 import '../../../routers/navigator.dart';
 import '../../../utilities/components/arrow_back.dart';
 import '../../../utilities/components/custom_btn.dart';
@@ -20,7 +25,15 @@ class AddDiabetesPage extends StatefulWidget {
 }
 
 class _AddDiabetesPageState extends State<AddDiabetesPage> {
-  bool isSelected = false;
+  TextEditingController sugarConcentration = TextEditingController(),
+      note = TextEditingController();
+
+  DateTime dateTime = DateTime.now();
+
+  String? measureDescription;
+
+  bool loading = false;
+
   @override
   Widget build(BuildContext context) {
     return CustomPageBody(
@@ -53,61 +66,98 @@ class _AddDiabetesPageState extends State<AddDiabetesPage> {
                 TextInputField(
                   labelText: 'تركيز السكر',
                   hintText: "ادخل القيمة",
+                  controller: sugarConcentration,
                   keyboardType: TextInputType.number,
                   suffixIcon: Padding(
                     padding: const EdgeInsets.only(top: 16, left: 16),
                     child: Text(
                       "ملليمول/ليتر",
-                      style: AppTextStyles.w400.copyWith(color: Theme.of(context).hintColor.withOpacity(.6)),
+                      style: AppTextStyles.w400.copyWith(
+                          color: Theme.of(context).hintColor.withOpacity(.6)),
                     ),
                   ),
                 ),
                 SingleSelectSheetField(
-                    labelText: 'وقت القياس',
-                    hintText: 'اختر الوقت',
-                    //  initialValue: SelectOption('Time', 'قبل الغداء'),
-                    valueSet: [
-                      SelectOption(
-                        'Time1',
-                        'قبل الفطور',
-                      ),
-                      SelectOption(
-                        'Time2',
-                        'بعد الفطور',
-                      ),
-                      SelectOption(
-                        'Time3',
-                        'قبل الغداء',
-                      ),
-                      SelectOption(
-                        'Time4',
-                        'بعد الغداء',
-                      ),
-                    ]),
-                const DateInputField(
+                  labelText: 'وقت القياس',
+                  hintText: 'اختر الوقت',
+                  onChange: (option) {
+                    measureDescription = option.label;
+                  },
+                  valueSet: [
+                    SelectOption(
+                      'Time1',
+                      'قبل الفطور',
+                    ),
+                    SelectOption(
+                      'Time2',
+                      'بعد الفطور',
+                    ),
+                    SelectOption(
+                      'Time3',
+                      'قبل الغداء',
+                    ),
+                    SelectOption(
+                      'Time4',
+                      'بعد الغداء',
+                    ),
+                  ],
+                ),
+                DateInputField(
                   labelText: 'تاريخ القياس',
                   hintText: "اختر التاريخ",
+                  initialValue: dateTime,
+                  onChange: (dateTime) {
+                    this.dateTime = this.dateTime.copyWith(
+                        year: dateTime.year,
+                        month: dateTime.month,
+                        day: dateTime.day);
+                  },
                 ),
-                const TimeInputField(
+                TimeInputField(
                   labelText: 'وقت القياس',
                   hintText: "اختر الوقت",
+                  initialValue: dateTime,
+                  onChange: (dateTime) {
+                    this.dateTime = this.dateTime.copyWith(
+                          hour: dateTime.hour,
+                          minute: dateTime.minute,
+                          second: dateTime.second,
+                        );
+                  },
                 ),
-                const TextDescriptionInputField(
+                TextDescriptionInputField(
                   labelText: 'ملاحظات',
                   hintText: "اكتب ملاحظاتك",
+                  controller: note,
                 ),
                 CustomBtn(
                   buttonColor: Colors.grey,
                   text: 'اعادة الضبط',
-                  onTap: () {},
+                  onTap: () {
+                    sugarConcentration.clear();
+                    note.clear();
+                    measureDescription = null;
+                  },
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
+                const SizedBox(height: 10),
                 CustomBtn(
                   buttonColor: const Color(0xff1B72C0),
                   text: 'حفظ',
-                  onTap: () {},
+                  loading: loading,
+                  onTap: () {
+                    if (sugarConcentration.text.isEmpty ||
+                        note.text.isEmpty ||
+                        measureDescription == null) {
+                      showSnackBar(
+                        context,
+                        'جميع الحقول مطلوبة',
+                        type: SnackBarType.warning,
+                      );
+                      return;
+                    }
+
+                    addBloodSugar();
+                  },
                 ),
               ],
             ),
@@ -115,5 +165,49 @@ class _AddDiabetesPageState extends State<AddDiabetesPage> {
         ),
       ),
     );
+  }
+
+  void addBloodSugar() async {
+    try {
+      loading = true;
+      setState(() {});
+      String timeFormatPattern = 'yyyy-MM-dd hh:mm:ss';
+      final FormData formData = FormData.fromMap({
+        'sugar_concentration': sugarConcentration.text,
+        'measure_description': measureDescription,
+        'date': DateFormat(timeFormatPattern).format(dateTime),
+        'note': note.text,
+      });
+      final Response? response = await NetworkHandler.instance?.post(
+        url: ApiNames.addBloodSugar,
+        body: formData,
+        withToken: true,
+      );
+
+      if (response == null) return;
+      if (!mounted) return;
+
+      showSnackBar(
+        context,
+        'تم الإضافة بنجاح',
+        type: SnackBarType.success,
+      );
+      Navigator.pop(context,true);
+    } on DioError catch (e) {
+      showSnackBar(
+        context,
+        'حدث خطأ، يرجي إعادة المحاولة, و كود الخطأ هو ${e.response!.statusCode}',
+        type: SnackBarType.warning,
+      );
+    }
+    loading = false;
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    sugarConcentration.dispose();
+    note.dispose();
+    super.dispose();
   }
 }

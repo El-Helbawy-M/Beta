@@ -12,6 +12,7 @@ class CustomBtn extends StatelessWidget {
       this.text,
       this.buttonColor,
       this.textColor,
+      this.loading = false,
       this.onTap,
       this.icon});
 
@@ -24,33 +25,42 @@ class CustomBtn extends StatelessWidget {
   final Color? borderColor;
   final Widget? icon;
   final Function()? onTap;
+  final bool loading;
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
+      onTap: loading ? null : onTap,
       borderRadius: BorderRadius.circular(radius ?? 8),
       child: Container(
         width: width ?? MediaHelper.width,
         height: height ?? 56,
         decoration: BoxDecoration(
-          color: buttonColor ??
-              Theme.of(context).colorScheme.primary.withOpacity(.8),
+          color: loading
+              ? Colors.grey[300]
+              : buttonColor ??
+                  Theme.of(context).colorScheme.primary.withOpacity(.8),
           borderRadius: BorderRadius.circular(radius ?? 8),
           border:
               Border.all(width: 1, color: borderColor ?? Colors.transparent),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              text ?? "Clicke here",
-              style: AppTextStyles.w700
-                  .copyWith(fontSize: 14, color: textColor ?? Colors.white),
-            ),
-            if (icon != null) const SizedBox(width: 8),
-            if (icon != null) icon!,
-          ],
-        ),
+        child: loading
+            ? Center(
+                child: CircularProgressIndicator(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    text ?? "Click here",
+                    style: AppTextStyles.w700.copyWith(
+                        fontSize: 14, color: textColor ?? Colors.white),
+                  ),
+                  if (icon != null) const SizedBox(width: 8),
+                  if (icon != null) icon!,
+                ],
+              ),
       ),
     );
   }

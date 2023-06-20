@@ -66,8 +66,12 @@ dependencies:
   # Firebase services
   firebase_core: ^2.13.0
   firebase_crashlytics: ^3.3.1
+  cloud_firestore: ^4.8.0
+  firebase_storage: ^11.2.2
   
-  
+  # Video and Voice Call
+  agora_rtc_engine: ^6.2.0
+
 
 dev_dependencies:
   flutter_test:
