@@ -115,7 +115,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: InkWell(
-                onTap: () => CustomNavigator.push(Routes.videoCall),
+                onTap: () => CustomNavigator.push(Routes.voiceCall),
                 child: Icon(Icons.call,
                     color: Theme.of(context).colorScheme.primary)),
           ),

@@ -29,7 +29,7 @@ class HomePage extends StatelessWidget {
     () => CustomNavigator.push(Routes.pressuresList),
     () => CustomNavigator.push(Routes.medicinesList),
     null,
-    null,
+    () => CustomNavigator.push(Routes.weightList),
   ];
   @override
   Widget build(BuildContext context) {
@@ -46,15 +46,18 @@ class HomePage extends StatelessWidget {
                 children: [
                   const CircleAvatar(
                     radius: 21,
-                    backgroundImage: NetworkImage("https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"),
+                    backgroundImage: NetworkImage(
+                        "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"),
                   ),
                   const SizedBox(width: 16),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("مرحباً بك 🖐", style: AppTextStyles.w500.copyWith(fontSize: 14)),
-                      Text("محمد", style: AppTextStyles.w700.copyWith(fontSize: 20)),
+                      Text("مرحباً بك 🖐",
+                          style: AppTextStyles.w500.copyWith(fontSize: 14)),
+                      Text("محمد",
+                          style: AppTextStyles.w700.copyWith(fontSize: 20)),
                     ],
                   ),
                   const Spacer(),
@@ -89,11 +92,15 @@ class HomePage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("تابع حالة", style: AppTextStyles.w600.copyWith(fontSize: 20)),
+                          Text("تابع حالة",
+                              style: AppTextStyles.w600.copyWith(fontSize: 20)),
                           const SizedBox(height: 16),
                           ...List.generate(
                             5,
-                            (index) => ServiceCard(onTaps: onTaps[index], imagesPaths: imagesPaths[index], labels: labels[index]),
+                            (index) => ServiceCard(
+                                onTaps: onTaps[index],
+                                imagesPaths: imagesPaths[index],
+                                labels: labels[index]),
                           ),
                         ],
                       ),

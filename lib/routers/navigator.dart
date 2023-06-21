@@ -4,12 +4,14 @@ import 'package:flutter_project_base/routers/routers.dart';
 import 'package:flutter_project_base/services/add_meals/blocs/add_meal_bloc.dart';
 import 'package:flutter_project_base/services/add_medicin/blocs/add_medicin_bloc.dart';
 import 'package:flutter_project_base/services/add_pressure/pages/add_pressure_page.dart';
+import 'package:flutter_project_base/services/add_weight/pages/add_weight_page.dart';
 import 'package:flutter_project_base/services/chat_room/pages/chat_room_page.dart';
 import 'package:flutter_project_base/services/medicins_list/pages/medicine_list_page.dart';
 import 'package:flutter_project_base/services/onboarding/blocs/onboarding_bloc.dart';
 import 'package:flutter_project_base/services/onboarding/pages/on_boarding.dart';
 import 'package:flutter_project_base/services/pressures_list/pages/pressures_list_page.dart';
 import 'package:flutter_project_base/services/video_call/pages/audio_call_page.dart';
+import 'package:flutter_project_base/services/weights_list/pages/weight_details.dart';
 
 import '../base/pages/base_page.dart';
 import '../services/add_diabetes/pages/add_diabetes_page.dart';
@@ -89,6 +91,10 @@ class CustomNavigator {
         return _pageRoute(const VideoCallPage());
       case Routes.voiceCall:
         return _pageRoute(const AudioCallPage());
+      case Routes.addWeight:
+        return _pageRoute(const AddWeightPage());
+      case Routes.weightList:
+        return _pageRoute(const WeightListPage());
       case Routes.chatRoom:
         final List args = settings.arguments as List;
         return _pageRoute(

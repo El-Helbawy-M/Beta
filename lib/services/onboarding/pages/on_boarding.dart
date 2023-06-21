@@ -8,6 +8,7 @@ import 'package:flutter_project_base/routers/routers.dart';
 import 'package:flutter_project_base/services/onboarding/blocs/onboarding_bloc.dart';
 import 'package:flutter_project_base/utilities/components/arrow_back.dart';
 import 'package:flutter_project_base/utilities/components/custom_page_body.dart';
+import 'package:flutter_svg/svg.dart';
 
 class OnBoardingPage extends StatelessWidget {
   const OnBoardingPage({super.key});
@@ -38,7 +39,7 @@ class OnBoardingPage extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 24),
                         child: Text(
-                          "اسم الخدمة",
+                          "بيتا",
                           style: Theme.of(context).textTheme.headline3!.copyWith(color: Theme.of(context).colorScheme.primary),
                           textAlign: TextAlign.center,
                         ),
@@ -77,9 +78,9 @@ class OnBoardingPage extends StatelessWidget {
                           // bloc.completeOnBoarding();
                           CustomNavigator.push(Routes.login);
                         } else {
+                          print('sldkfjslkdjfsd');
                           bloc.goToNextPage();
                         }
-                        throw Exception("This is an error");
                       },
                       child: Container(
                         width: 135,
@@ -88,13 +89,17 @@ class OnBoardingPage extends StatelessWidget {
                           color: Theme.of(context).colorScheme.primary,
                           shape: BoxShape.circle,
                         ),
-                        child: const Center(
+                        child:  Center(
                           child: SizedBox(
                             width: 56,
                             height: 56,
-                            child: ArrowBack(
-                              color: Colors.white,
-                              reverse: true,
+                            child: SizedBox(
+                              width:  24,
+                              height:  24,
+                              child: SvgPicture.asset(
+                                "assets/icons/svg/arrow_left.svg",
+                                color: Colors.white ,
+                              ),
                             ),
                           ),
                         ),

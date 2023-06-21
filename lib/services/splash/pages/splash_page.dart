@@ -40,7 +40,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
         if ((userData ?? {}).isNotEmpty) {
           CustomNavigator.push(Routes.home);
         } else {
-          CustomNavigator.push(Routes.login);
+          CustomNavigator.push(Routes.boarding);
         }
       },
     );

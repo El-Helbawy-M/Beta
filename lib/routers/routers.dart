@@ -18,4 +18,6 @@ abstract class Routes {
   static const String videoCall = "video_call";
   static const String voiceCall = "voice_call";
   static const String addMeal = "add_meal";
+  static const String addWeight = "add_weight";
+  static const String weightList = "weight_list";
 }

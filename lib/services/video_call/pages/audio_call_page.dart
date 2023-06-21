@@ -54,7 +54,7 @@ class _State extends State<AudioCallPage> {
 
   Future<void> _initEngine() async {
     _engine = createAgoraRtcEngine();
-    await _engine.initialize(RtcEngineContext(
+    await _engine.initialize(const RtcEngineContext(
       appId: appId,
     ));
 
@@ -178,146 +178,148 @@ class _State extends State<AudioCallPage> {
     ];
     final items = channelProfileType
         .map((e) => DropdownMenuItem(
+              value: e,
               child: Text(
                 e.toString().split('.')[1],
               ),
-              value: e,
             ))
         .toList();
 
-    return Stack(
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            TextField(
-              controller: _controller,
-              decoration: const InputDecoration(hintText: 'Channel ID'),
-            ),
-            const Text('Channel Profile: '),
-            DropdownButton<ChannelProfileType>(
-                items: items,
-                value: _channelProfileType,
-                onChanged: isJoined
-                    ? null
-                    : (v) async {
-                        setState(() {
-                          _channelProfileType = v!;
-                        });
-                      }),
-            Row(
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: ElevatedButton(
-                    onPressed: isJoined ? _leaveChannel : _joinChannel,
-                    child: Text('${isJoined ? 'Leave' : 'Join'} channel'),
-                  ),
-                )
-              ],
-            ),
-          ],
-        ),
-        Align(
-            alignment: Alignment.bottomRight,
-            child: Padding(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.end,
+    return Scaffold(
+      body: Stack(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              TextField(
+                controller: _controller,
+                decoration: const InputDecoration(hintText: 'Channel ID'),
+              ),
+              const Text('Channel Profile: '),
+              DropdownButton<ChannelProfileType>(
+                  items: items,
+                  value: _channelProfileType,
+                  onChanged: isJoined
+                      ? null
+                      : (v) async {
+                          setState(() {
+                            _channelProfileType = v!;
+                          });
+                        }),
+              Row(
                 children: [
-                  ElevatedButton(
-                    onPressed: _switchMicrophone,
-                    child: Text('Microphone ${openMicrophone ? 'on' : 'off'}'),
-                  ),
-                  ElevatedButton(
-                    onPressed: isJoined ? _switchSpeakerphone : null,
-                    child:
-                        Text(enableSpeakerphone ? 'Speakerphone' : 'Earpiece'),
-                  ),
-                  if (!kIsWeb)
-                    ElevatedButton(
-                      onPressed: isJoined ? _switchEffect : null,
-                      child: Text('${playEffect ? 'Stop' : 'Play'} effect'),
+                  Expanded(
+                    flex: 1,
+                    child: ElevatedButton(
+                      onPressed: isJoined ? _leaveChannel : _joinChannel,
+                      child: Text('${isJoined ? 'Leave' : 'Join'} channel'),
                     ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      const Text('RecordingVolume:'),
-                      Slider(
-                        value: _recordingVolume,
-                        min: 0,
-                        max: 400,
-                        divisions: 5,
-                        label: 'RecordingVolume',
-                        onChanged: isJoined
-                            ? (double value) async {
-                                setState(() {
-                                  _recordingVolume = value;
-                                });
-                                await _engine
-                                    .adjustRecordingSignalVolume(value.toInt());
-                              }
-                            : null,
-                      )
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      const Text('PlaybackVolume:'),
-                      Slider(
-                        value: _playbackVolume,
-                        min: 0,
-                        max: 400,
-                        divisions: 5,
-                        label: 'PlaybackVolume',
-                        onChanged: isJoined
-                            ? (double value) async {
-                                setState(() {
-                                  _playbackVolume = value;
-                                });
-                                await _engine
-                                    .adjustPlaybackSignalVolume(value.toInt());
-                              }
-                            : null,
-                      )
-                    ],
-                  ),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Row(mainAxisSize: MainAxisSize.min, children: [
-                        const Text('InEar Monitoring Volume:'),
-                        Switch(
-                          value: _enableInEarMonitoring,
-                          onChanged: isJoined ? _toggleInEarMonitoring : null,
-                          activeTrackColor: Colors.grey[350],
-                          activeColor: Colors.white,
-                        )
-                      ]),
-                      if (_enableInEarMonitoring)
-                        SizedBox(
-                            width: 300,
-                            child: Slider(
-                              value: _inEarMonitoringVolume,
-                              min: 0,
-                              max: 100,
-                              divisions: 5,
-                              label:
-                                  'InEar Monitoring Volume $_inEarMonitoringVolume',
-                              onChanged: isJoined
-                                  ? _onChangeInEarMonitoringVolume
-                                  : null,
-                            ))
-                    ],
-                  ),
+                  )
                 ],
               ),
-              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 0),
-            ))
-      ],
+            ],
+          ),
+          Align(
+              alignment: Alignment.bottomRight,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    ElevatedButton(
+                      onPressed: _switchMicrophone,
+                      child: Text('Microphone ${openMicrophone ? 'on' : 'off'}'),
+                    ),
+                    ElevatedButton(
+                      onPressed: isJoined ? _switchSpeakerphone : null,
+                      child:
+                          Text(enableSpeakerphone ? 'Speakerphone' : 'Earpiece'),
+                    ),
+                    if (!kIsWeb)
+                      ElevatedButton(
+                        onPressed: isJoined ? _switchEffect : null,
+                        child: Text('${playEffect ? 'Stop' : 'Play'} effect'),
+                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        const Text('RecordingVolume:'),
+                        Slider(
+                          value: _recordingVolume,
+                          min: 0,
+                          max: 400,
+                          divisions: 5,
+                          label: 'RecordingVolume',
+                          onChanged: isJoined
+                              ? (double value) async {
+                                  setState(() {
+                                    _recordingVolume = value;
+                                  });
+                                  await _engine
+                                      .adjustRecordingSignalVolume(value.toInt());
+                                }
+                              : null,
+                        )
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        const Text('PlaybackVolume:'),
+                        Slider(
+                          value: _playbackVolume,
+                          min: 0,
+                          max: 400,
+                          divisions: 5,
+                          label: 'PlaybackVolume',
+                          onChanged: isJoined
+                              ? (double value) async {
+                                  setState(() {
+                                    _playbackVolume = value;
+                                  });
+                                  await _engine
+                                      .adjustPlaybackSignalVolume(value.toInt());
+                                }
+                              : null,
+                        )
+                      ],
+                    ),
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Row(mainAxisSize: MainAxisSize.min, children: [
+                          const Text('InEar Monitoring Volume:'),
+                          Switch(
+                            value: _enableInEarMonitoring,
+                            onChanged: isJoined ? _toggleInEarMonitoring : null,
+                            activeTrackColor: Colors.grey[350],
+                            activeColor: Colors.white,
+                          )
+                        ]),
+                        if (_enableInEarMonitoring)
+                          SizedBox(
+                              width: 300,
+                              child: Slider(
+                                value: _inEarMonitoringVolume,
+                                min: 0,
+                                max: 100,
+                                divisions: 5,
+                                label:
+                                    'InEar Monitoring Volume $_inEarMonitoringVolume',
+                                onChanged: isJoined
+                                    ? _onChangeInEarMonitoringVolume
+                                    : null,
+                              ))
+                      ],
+                    ),
+                  ],
+                ),
+              ))
+        ],
+      ),
     );
   }
 }
