@@ -1,10 +1,10 @@
+import 'dart:math';
+import 'dart:developer' as dev;
+
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../chats/model/chat_model.dart';
-import '../componants/basic_video_configration_widget.dart';
-import '../componants/example_actions_widget.dart';
 import '../componants/log_sink.dart';
 
 class VideoCallPage extends StatefulWidget {
@@ -17,19 +17,22 @@ class VideoCallPage extends StatefulWidget {
 
 const String appId = '1ed862ccc609403c8eec5d2f34e8565a';
 const String channelId = 'BETACall';
-const int uID = 0;
+final int uID = Random().nextInt(1000);
 const String token =
-    '007eJxTYHhy9db1y8vPpGclGh9tjFwuwlq4MmyV4MTg/SJRNWweLw4rMBimpliYGSUnJ5sZWJoYGCdbpKYmm6YYpRmbpFqYmpkmcu3rSWkIZGQ4khbJyMgAgSA+B4OTa4ijc2JODgMDABz8IOE=';
+    '007eJxTYDBrWR6q5qm09PWW3O+/fI878RTbXzWIfVKwnOmtyqXPDvwKDIapKRZmRsnJyWYGliYGxskWqanJpilGacYmqRamZqaJGiunpDQEMjI48p5kZGSAQBCfg8HJNcTROTEnh4EBALsGH+I=';
 
 class _VideoCallPageState extends State<VideoCallPage> {
   late final RtcEngine _engine;
 
-  bool isJoined = false, switchCamera = true, switchRender = true;
+  bool isJoined = false,
+      switchCamera = true,
+      switchRender = true,
+      enableAudio = true;
   Set<int> remoteUid = {};
   late TextEditingController _controller;
-  bool _isUseFlutterTexture = false;
-  bool _isUseAndroidSurfaceView = false;
-  ChannelProfileType _channelProfileType =
+  final bool _isUseFlutterTexture = false;
+  final bool _isUseAndroidSurfaceView = false;
+  final ChannelProfileType _channelProfileType =
       ChannelProfileType.channelProfileLiveBroadcasting;
 
   @override
@@ -37,6 +40,7 @@ class _VideoCallPageState extends State<VideoCallPage> {
     super.initState();
     _controller = TextEditingController(text: channelId);
 
+    _joinChannel();
     _initEngine();
   }
 
@@ -53,23 +57,21 @@ class _VideoCallPageState extends State<VideoCallPage> {
 
   Future<void> _initEngine() async {
     _engine = createAgoraRtcEngine();
-    await _engine.initialize(const RtcEngineContext(
-      appId: appId,
-    ));
+    await _engine.initialize(const RtcEngineContext(appId: appId));
 
     _engine.registerEventHandler(RtcEngineEventHandler(
       onError: (ErrorCodeType err, String msg) {
-        logSink.log('[onError] err: $err, msg: $msg');
+        dev.log('[onError] err: $err, msg: $msg');
       },
       onJoinChannelSuccess: (RtcConnection connection, int elapsed) {
-        logSink.log(
+        dev.log(
             '[onJoinChannelSuccess] connection: ${connection.toJson()} elapsed: $elapsed');
         setState(() {
           isJoined = true;
         });
       },
       onUserJoined: (RtcConnection connection, int rUid, int elapsed) {
-        logSink.log(
+        dev.log(
             '[onUserJoined] connection: ${connection.toJson()} remoteUid: $rUid elapsed: $elapsed');
         setState(() {
           remoteUid.add(rUid);
@@ -77,14 +79,14 @@ class _VideoCallPageState extends State<VideoCallPage> {
       },
       onUserOffline:
           (RtcConnection connection, int rUid, UserOfflineReasonType reason) {
-        logSink.log(
+        dev.log(
             '[onUserOffline] connection: ${connection.toJson()}  rUid: $rUid reason: $reason');
         setState(() {
           remoteUid.removeWhere((element) => element == rUid);
         });
       },
       onLeaveChannel: (RtcConnection connection, RtcStats stats) {
-        logSink.log(
+        dev.log(
             '[onLeaveChannel] connection: ${connection.toJson()} stats: ${stats.toJson()}');
         setState(() {
           isJoined = false;
@@ -132,46 +134,42 @@ class _VideoCallPageState extends State<VideoCallPage> {
         backgroundColor: Theme.of(context).colorScheme.secondary,
       ),
       body: Stack(
-        alignment:Alignment.bottomCenter,
+        alignment: Alignment.bottomCenter,
         children: [
-          // AgoraVideoView(
-          //   controller: VideoViewController(
-          //     rtcEngine: _engine,
-          //     canvas: const VideoCanvas(uid: 0),
-          //     useFlutterTexture: _isUseFlutterTexture,
-          //     useAndroidSurfaceView: _isUseAndroidSurfaceView,
-          //   ),
-          //   onAgoraVideoViewCreated: (viewId) {
-          //     _engine.startPreview();
-          //   },
-          // ),
-          Container(
-            color: Colors.black,
+          AgoraVideoView(
+            controller: VideoViewController(
+              rtcEngine: _engine,
+              canvas: const VideoCanvas(uid: 0),
+              useFlutterTexture: _isUseFlutterTexture,
+              useAndroidSurfaceView: _isUseAndroidSurfaceView,
+            ),
+            onAgoraVideoViewCreated: (viewId) {
+              _engine.startPreview();
+            },
           ),
-          // Align(
-          //   alignment: Alignment.topLeft,
-          //   child: SingleChildScrollView(
-          //     scrollDirection: Axis.horizontal,
-          //     child: Row(
-          //       children: List.of(remoteUid.map(
-          //             (e) => SizedBox(
-          //           width: 120,
-          //           height: 120,
-          //           child: AgoraVideoView(
-          //             controller: VideoViewController.remote(
-          //               rtcEngine: _engine,
-          //               canvas: VideoCanvas(uid: e),
-          //               connection:
-          //               RtcConnection(channelId: _controller.text),
-          //               useFlutterTexture: _isUseFlutterTexture,
-          //               useAndroidSurfaceView: _isUseAndroidSurfaceView,
-          //             ),
-          //           ),
-          //         ),
-          //       )),
-          //     ),
-          //   ),
-          // ),
+          Align(
+            alignment: Alignment.topLeft,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: List.of(remoteUid.map(
+                  (e) => SizedBox(
+                    width: 120,
+                    height: 120,
+                    child: AgoraVideoView(
+                      controller: VideoViewController.remote(
+                        rtcEngine: _engine,
+                        canvas: VideoCanvas(uid: e),
+                        connection: RtcConnection(channelId: _controller.text),
+                        useFlutterTexture: _isUseFlutterTexture,
+                        useAndroidSurfaceView: _isUseAndroidSurfaceView,
+                      ),
+                    ),
+                  ),
+                )),
+              ),
+            ),
+          ),
           Positioned(
             bottom: 80,
             left: 30,
@@ -180,7 +178,15 @@ class _VideoCallPageState extends State<VideoCallPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 InkWell(
-                  onTap: () {},
+                  onTap: () async {
+                    if (enableAudio) {
+                      await _engine.disableAudio();
+                    } else {
+                      await _engine.enableAudio();
+                    }
+                    enableAudio = !enableAudio;
+                    setState(() {});
+                  },
                   child: CircleAvatar(
                     radius: 30,
                     backgroundColor: Colors.white,
@@ -191,7 +197,9 @@ class _VideoCallPageState extends State<VideoCallPage> {
                   ),
                 ),
                 InkWell(
-                  onTap: () {
+                  onTap: () async {
+                    await _leaveChannel();
+                    if (!mounted) return;
                     Navigator.pop(context);
                   },
                   child: const CircleAvatar(
@@ -204,7 +212,7 @@ class _VideoCallPageState extends State<VideoCallPage> {
                   ),
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: _switchCamera,
                   child: CircleAvatar(
                     radius: 30,
                     backgroundColor: Colors.white,

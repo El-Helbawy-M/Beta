@@ -71,7 +71,7 @@ class _AddDiabetesPageState extends State<AddDiabetesPage> {
                   suffixIcon: Padding(
                     padding: const EdgeInsets.only(top: 16, left: 16),
                     child: Text(
-                      "ملليمول/ليتر",
+                      "ملى متر/لتر",
                       style: AppTextStyles.w400.copyWith(
                           color: Theme.of(context).hintColor.withOpacity(.6)),
                     ),

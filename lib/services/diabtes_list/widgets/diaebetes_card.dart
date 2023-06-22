@@ -35,7 +35,7 @@ class DiabetesCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '${item.sugarConcentration} مليجرام/ لتر',
+                    '${item.sugarConcentration} ملى مول/ لتر',
                     style: const TextStyle(
                         fontWeight: FontWeight.bold, fontSize: 18),
                   ),

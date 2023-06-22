@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:math' as math;
 
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:flutter/foundation.dart';
@@ -19,7 +20,7 @@ class AudioCallPage extends StatefulWidget {
 
 const String appId = '1ed862ccc609403c8eec5d2f34e8565a';
 const String channelId = 'BETACall';
-const int uID = 0;
+final int uID = math.Random().nextInt(1000);
 const String token =
     '007eJxTYHhy9db1y8vPpGclGh9tjFwuwlq4MmyV4MTg/SJRNWweLw4rMBimpliYGSUnJ5sZWJoYGCdbpKYmm6YYpRmbpFqYmpkmcu3rSWkIZGQ4khbJyMgAgSA+B4OTa4ijc2JODgMDABz8IOE=';
 
@@ -240,7 +241,7 @@ class _State extends State<AudioCallPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 InkWell(
-                  onTap: () {},
+                  onTap: _switchMicrophone,
                   child: CircleAvatar(
                     radius: 30,
                     backgroundColor: Colors.white,
@@ -251,7 +252,9 @@ class _State extends State<AudioCallPage> {
                   ),
                 ),
                 InkWell(
-                  onTap: () {
+                  onTap: () async {
+                    await _leaveChannel();
+                    if (!mounted) return;
                     Navigator.pop(context);
                   },
                   child: const CircleAvatar(
@@ -264,7 +267,7 @@ class _State extends State<AudioCallPage> {
                   ),
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: _switchSpeakerphone,
                   child: CircleAvatar(
                     radius: 30,
                     backgroundColor: Colors.white,

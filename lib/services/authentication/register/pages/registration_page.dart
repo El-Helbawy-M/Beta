@@ -89,7 +89,7 @@ class MainRegisterPage extends StatelessWidget {
               children: [
                 Flexible(
                   child: TextInputField(
-                    hintText: "الإسم",
+                    hintText: "اليوم",
                   ),
                 ),
                 const SizedBox(
@@ -97,7 +97,7 @@ class MainRegisterPage extends StatelessWidget {
                 ),
                 Flexible(
                   child: TextInputField(
-                    hintText: "رقم الهاتف",
+                    hintText: "الشهر",
                   ),
                 ),
                 const SizedBox(
@@ -105,7 +105,7 @@ class MainRegisterPage extends StatelessWidget {
                 ),
                 Flexible(
                   child: TextInputField(
-                    hintText: "رقم الهاتف",
+                    hintText: "السنه",
                   ),
                 ),
               ],
