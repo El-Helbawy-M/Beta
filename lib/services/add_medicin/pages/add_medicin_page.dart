@@ -51,11 +51,14 @@ class AddMedicinPage extends StatelessWidget {
               ),
               Expanded(
                 child: SingleChildScrollView(
-                  child: bloc.pageIndex == 1 ? const DurationStepView() : MedicinsStepView(),
+                  child: bloc.pageIndex == 1
+                      ? const DurationStepView()
+                      : MedicinsStepView(),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
                 child: Row(
                   children: [
                     if (bloc.pageIndex != 1)

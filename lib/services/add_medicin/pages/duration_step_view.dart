@@ -34,7 +34,8 @@ class DurationStepView extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 16, left: 16),
                   child: Text(
                     "مرة/يوم",
-                    style: AppTextStyles.w400.copyWith(color: Theme.of(context).hintColor.withOpacity(.6)),
+                    style: AppTextStyles.w400.copyWith(
+                        color: Theme.of(context).hintColor.withOpacity(.6)),
                   ),
                 ),
                 onChange: (value) => bloc.turns = num.parse(value),
@@ -51,7 +52,8 @@ class DurationStepView extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 16),
                   child: Text(
                     "يوم",
-                    style: AppTextStyles.w400.copyWith(color: Theme.of(context).hintColor.withOpacity(.6)),
+                    style: AppTextStyles.w400.copyWith(
+                        color: Theme.of(context).hintColor.withOpacity(.6)),
                   ),
                 ),
               ),

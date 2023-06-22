@@ -12,9 +12,14 @@ class CheckBoxView extends StatelessWidget {
       width: 16,
       height: 16,
       decoration: BoxDecoration(
-        color: isChecked ? Theme.of(context).colorScheme.primary : Colors.transparent,
+        color: isChecked
+            ? Theme.of(context).colorScheme.primary
+            : Colors.transparent,
         borderRadius: const BorderRadius.all(Radius.circular(4)),
-        border: Border.all(color: isChecked ? Colors.transparent : Theme.of(context).colorScheme.secondary),
+        border: Border.all(
+            color: isChecked
+                ? Colors.transparent
+                : Theme.of(context).colorScheme.secondary),
       ),
     );
   }

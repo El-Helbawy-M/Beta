@@ -22,7 +22,8 @@ class TextDescriptionInputField extends StatefulWidget {
   final Function(String)? onChange;
   final bool withBottomPadding;
   @override
-  State<TextDescriptionInputField> createState() => _TextDescriptionInputFieldState();
+  State<TextDescriptionInputField> createState() =>
+      _TextDescriptionInputFieldState();
 }
 
 class _TextDescriptionInputFieldState extends State<TextDescriptionInputField> {
@@ -43,17 +44,21 @@ class _TextDescriptionInputFieldState extends State<TextDescriptionInputField> {
             minLines: null,
             textAlignVertical: TextAlignVertical.top,
             controller: widget.controller,
-            initialValue: widget.controller != null ? null : widget.initialValue,
+            initialValue:
+                widget.controller != null ? null : widget.initialValue,
             onChanged: widget.onChange,
             keyboardType: TextInputType.multiline,
             style: AppTextStyles.w300,
             obscureText: !showText,
             decoration: InputDecoration(
               hintText: widget.hintText,
-              hintStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              hintStyle:
+                  const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               enabledBorder: _mapBorder(borderColor: Colors.grey),
-              focusedBorder: _mapBorder(borderColor: Theme.of(context).colorScheme.primary),
+              focusedBorder: _mapBorder(
+                  borderColor: Theme.of(context).colorScheme.primary),
               errorBorder: _mapBorder(borderColor: Colors.red),
             ),
           ),
@@ -64,7 +69,8 @@ class _TextDescriptionInputFieldState extends State<TextDescriptionInputField> {
             children: [
               const Icon(Icons.error_outline, color: Colors.red, size: 16),
               const SizedBox(width: 4),
-              Text(widget.errorText ?? "Error", style: const TextStyle(color: Colors.red)),
+              Text(widget.errorText ?? "Error",
+                  style: const TextStyle(color: Colors.red)),
             ],
           ),
         if (widget.withBottomPadding) const SizedBox(height: 16),

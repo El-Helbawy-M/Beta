@@ -60,11 +60,23 @@ class _AddMealPageState extends State<AddMealPage> {
                   child: AnimatedContainer(
                     duration: Duration(milliseconds: 400),
                     height: 56,
-                    decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 2, color: _index == 0 ? Theme.of(context).colorScheme.primary : Theme.of(context).hintColor.withOpacity(.2)))),
+                    decoration: BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(
+                                width: 2,
+                                color: _index == 0
+                                    ? Theme.of(context).colorScheme.primary
+                                    : Theme.of(context)
+                                        .hintColor
+                                        .withOpacity(.2)))),
                     child: Center(
                       child: Text(
                         "محتوي تفصيلي",
-                        style: AppTextStyles.w500.copyWith(fontSize: 14, color: _index == 0 ? Theme.of(context).colorScheme.primary : Theme.of(context).hintColor.withOpacity(.2)),
+                        style: AppTextStyles.w500.copyWith(
+                            fontSize: 14,
+                            color: _index == 0
+                                ? Theme.of(context).colorScheme.primary
+                                : Theme.of(context).hintColor.withOpacity(.2)),
                       ),
                     ),
                   ),
@@ -80,11 +92,23 @@ class _AddMealPageState extends State<AddMealPage> {
                   child: AnimatedContainer(
                     duration: Duration(milliseconds: 400),
                     height: 56,
-                    decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 2, color: _index == 2 ? Theme.of(context).colorScheme.primary : Theme.of(context).hintColor.withOpacity(.2)))),
+                    decoration: BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(
+                                width: 2,
+                                color: _index == 2
+                                    ? Theme.of(context).colorScheme.primary
+                                    : Theme.of(context)
+                                        .hintColor
+                                        .withOpacity(.2)))),
                     child: Center(
                       child: Text(
                         "صورة للوجبة",
-                        style: AppTextStyles.w500.copyWith(fontSize: 14, color: _index == 2 ? Theme.of(context).colorScheme.primary : Theme.of(context).hintColor.withOpacity(.2)),
+                        style: AppTextStyles.w500.copyWith(
+                            fontSize: 14,
+                            color: _index == 2
+                                ? Theme.of(context).colorScheme.primary
+                                : Theme.of(context).hintColor.withOpacity(.2)),
                       ),
                     ),
                   ),

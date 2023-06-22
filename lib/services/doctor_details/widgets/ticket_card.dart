@@ -18,7 +18,8 @@ class TicketCard extends StatelessWidget {
             width: 80,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(width: .5, color: Theme.of(context).dividerColor),
+              border:
+                  Border.all(width: .5, color: Theme.of(context).dividerColor),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -26,13 +27,15 @@ class TicketCard extends StatelessWidget {
                 Container(
                   height: 24,
                   decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
+                    borderRadius:
+                        const BorderRadius.vertical(top: Radius.circular(10)),
                     color: Theme.of(context).colorScheme.primary,
                   ),
                   child: Center(
                     child: Text(
                       "الاربعاء 3/1",
-                      style: AppTextStyles.w500.copyWith(fontSize: 14, color: Colors.white),
+                      style: AppTextStyles.w500
+                          .copyWith(fontSize: 14, color: Colors.white),
                     ),
                   ),
                 ),
@@ -54,13 +57,15 @@ class TicketCard extends StatelessWidget {
                 Container(
                   height: 24,
                   decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.vertical(bottom: Radius.circular(10)),
+                    borderRadius: const BorderRadius.vertical(
+                        bottom: Radius.circular(10)),
                     color: isTaken ? Colors.red : Colors.green,
                   ),
                   child: Center(
                     child: Text(
                       isTaken ? "محجوز" : "احجز",
-                      style: AppTextStyles.w500.copyWith(fontSize: 14, color: Colors.white),
+                      style: AppTextStyles.w500
+                          .copyWith(fontSize: 14, color: Colors.white),
                     ),
                   ),
                 ),

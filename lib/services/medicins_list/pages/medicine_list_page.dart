@@ -88,10 +88,11 @@ class MedicinesListPage extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async{
-          final result = await  Navigator.of(context).pushNamed(Routes.addMedicines);
+        onPressed: () async {
+          final result =
+              await Navigator.of(context).pushNamed(Routes.addMedicines);
 
-          if(result == null) return;
+          if (result == null) return;
 
           // getItems();
         },

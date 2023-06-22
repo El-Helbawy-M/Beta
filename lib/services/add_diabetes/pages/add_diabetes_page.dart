@@ -192,7 +192,7 @@ class _AddDiabetesPageState extends State<AddDiabetesPage> {
         'تم الإضافة بنجاح',
         type: SnackBarType.success,
       );
-      Navigator.pop(context,true);
+      Navigator.pop(context, true);
     } on DioError catch (e) {
       showSnackBar(
         context,

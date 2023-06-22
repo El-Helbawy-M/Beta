@@ -58,18 +58,27 @@ class _DateInputFieldState extends State<DateInputField> {
             height: 46,
             padding: const EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
-              border: _mapBorder(borderColor: value != null ? Theme.of(context).colorScheme.primary : Colors.grey),
+              border: _mapBorder(
+                  borderColor: value != null
+                      ? Theme.of(context).colorScheme.primary
+                      : Colors.grey),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Row(
               children: [
                 Expanded(
                   child: Text(
-                    value != null ? value!.toYearMonthDayFormatte() : widget.hintText ?? "",
-                    style: AppTextStyles.w400.copyWith(color: value == null ? Colors.grey : null),
+                    value != null
+                        ? value!.toYearMonthDayFormatte()
+                        : widget.hintText ?? "",
+                    style: AppTextStyles.w400
+                        .copyWith(color: value == null ? Colors.grey : null),
                   ),
                 ),
-                drawSvgIcon("calendar", iconColor: value == null ? Theme.of(context).iconTheme.color : Theme.of(context).colorScheme.primary),
+                drawSvgIcon("calendar",
+                    iconColor: value == null
+                        ? Theme.of(context).iconTheme.color
+                        : Theme.of(context).colorScheme.primary),
               ],
             ),
           ),
@@ -80,7 +89,8 @@ class _DateInputFieldState extends State<DateInputField> {
             children: [
               const Icon(Icons.error_outline, color: Colors.red, size: 16),
               const SizedBox(width: 4),
-              Text(widget.errorText ?? "Error", style: const TextStyle(color: Colors.red)),
+              Text(widget.errorText ?? "Error",
+                  style: const TextStyle(color: Colors.red)),
             ],
           ),
         if (widget.withBottomPadding) const SizedBox(height: 16),
@@ -118,10 +128,12 @@ showBottomSheetDatePicker({required Function(DateTime) onChange}) {
               height: 24,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all(width: 1, color: Theme.of(context).colorScheme.primary),
+                border: Border.all(
+                    width: 1, color: Theme.of(context).colorScheme.primary),
               ),
               child: Center(
-                child: Icon(Icons.close, color: Theme.of(context).colorScheme.primary, size: 16),
+                child: Icon(Icons.close,
+                    color: Theme.of(context).colorScheme.primary, size: 16),
               ),
             ),
           ),

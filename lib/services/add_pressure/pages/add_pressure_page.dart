@@ -213,7 +213,7 @@ class _AddPressurePageState extends State<AddPressurePage> {
         'تم الإضافة بنجاح',
         type: SnackBarType.success,
       );
-      Navigator.pop(context,true);
+      Navigator.pop(context, true);
     } on DioError catch (e) {
       String? msg = e.response?.data.toString();
 

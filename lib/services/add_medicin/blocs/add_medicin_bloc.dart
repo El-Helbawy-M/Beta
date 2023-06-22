@@ -35,7 +35,10 @@ class AddMedicinBloc extends Bloc<AppEvents, AppStates> {
     daysValidation = days.isNotEmpty;
     startDateValidation = startDate != null;
     turnsValidation = turns != null && turns != 0;
-    return durationValidation && daysValidation && turnsValidation && startDateValidation;
+    return durationValidation &&
+        daysValidation &&
+        turnsValidation &&
+        startDateValidation;
   }
 
   bool _checkMedicinDetailsStep() {
@@ -43,7 +46,8 @@ class AddMedicinBloc extends Bloc<AppEvents, AppStates> {
 
     if (!isTablets) {
       if (name == "انسولين") insulnumypeValidation = insulenType != null;
-      return nameValidation && (name == "انسولين" ? insulnumypeValidation : true);
+      return nameValidation &&
+          (name == "انسولين" ? insulnumypeValidation : true);
     }
     return nameValidation;
   }

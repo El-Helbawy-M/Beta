@@ -5,7 +5,11 @@ import '../../../utilities/components/arrow_back.dart';
 import '../../../utilities/theme/media.dart';
 
 class IndicatorHeader extends StatelessWidget {
-  const IndicatorHeader({super.key, required this.title, this.progress = 1, required this.totalSteps});
+  const IndicatorHeader(
+      {super.key,
+      required this.title,
+      this.progress = 1,
+      required this.totalSteps});
   final int totalSteps;
   final int progress;
   final String title;

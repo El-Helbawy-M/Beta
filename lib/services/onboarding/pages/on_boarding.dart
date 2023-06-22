@@ -40,7 +40,11 @@ class OnBoardingPage extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 24),
                         child: Text(
                           "بيتا",
-                          style: Theme.of(context).textTheme.headline3!.copyWith(color: Theme.of(context).colorScheme.primary),
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline3!
+                              .copyWith(
+                                  color: Theme.of(context).colorScheme.primary),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -89,16 +93,16 @@ class OnBoardingPage extends StatelessWidget {
                           color: Theme.of(context).colorScheme.primary,
                           shape: BoxShape.circle,
                         ),
-                        child:  Center(
+                        child: Center(
                           child: SizedBox(
                             width: 56,
                             height: 56,
                             child: SizedBox(
-                              width:  24,
-                              height:  24,
+                              width: 24,
+                              height: 24,
                               child: SvgPicture.asset(
                                 "assets/icons/svg/arrow_left.svg",
-                                color: Colors.white ,
+                                color: Colors.white,
                               ),
                             ),
                           ),

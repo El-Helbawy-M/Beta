@@ -43,11 +43,14 @@ class AddMealDetailsView extends StatelessWidget {
                   onTap: () => bloc.addElement(),
                   child: Row(
                     children: [
-                      drawSvgIcon("add_circled", iconColor: Theme.of(context).colorScheme.primary),
+                      drawSvgIcon("add_circled",
+                          iconColor: Theme.of(context).colorScheme.primary),
                       const SizedBox(width: 8),
                       Text(
                         "اضافة عنصر اخر",
-                        style: AppTextStyles.w400.copyWith(fontSize: 12, color: Theme.of(context).colorScheme.primary),
+                        style: AppTextStyles.w400.copyWith(
+                            fontSize: 12,
+                            color: Theme.of(context).colorScheme.primary),
                       ),
                     ],
                   ),

@@ -19,6 +19,7 @@ import '../services/add_meals/pages/add_meal_page.dart';
 import '../services/add_medicin/pages/add_medicin_page.dart';
 import '../services/authentication/login/pages/login.dart';
 import '../services/authentication/register/pages/registration_page.dart';
+import '../services/chats/model/chat_model.dart';
 import '../services/diabtes_list/pages/diabetes_details.dart';
 import '../services/doctor_details/pages/doctor_details_page.dart';
 import '../services/food_list/pages/food_list_page.dart';
@@ -88,9 +89,11 @@ class CustomNavigator {
       case Routes.foodList:
         return _pageRoute(const FoodListPage());
       case Routes.videoCall:
-        return _pageRoute(const VideoCallPage());
+        final ChatModel chatModel = settings.arguments as ChatModel;
+        return _pageRoute(VideoCallPage(chatModel));
       case Routes.voiceCall:
-        return _pageRoute(const AudioCallPage());
+        final ChatModel chatModel = settings.arguments as ChatModel;
+        return _pageRoute(AudioCallPage(chatModel));
       case Routes.addWeight:
         return _pageRoute(const AddWeightPage());
       case Routes.weightList:

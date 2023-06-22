@@ -39,13 +39,20 @@ class _MedicinsStepViewState extends State<MedicinsStepView> {
                     height: 60,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: Theme.of(context).colorScheme.primary, width: 1),
-                      color: bloc.isTablets ? Theme.of(context).colorScheme.primary : Colors.transparent,
+                      border: Border.all(
+                          color: Theme.of(context).colorScheme.primary,
+                          width: 1),
+                      color: bloc.isTablets
+                          ? Theme.of(context).colorScheme.primary
+                          : Colors.transparent,
                     ),
                     child: Center(
                       child: Text(
                         "اقراص",
-                        style: TextStyle(color: !bloc.isTablets ? Theme.of(context).colorScheme.primary : Colors.white),
+                        style: TextStyle(
+                            color: !bloc.isTablets
+                                ? Theme.of(context).colorScheme.primary
+                                : Colors.white),
                       ),
                     ),
                   ),
@@ -63,11 +70,19 @@ class _MedicinsStepViewState extends State<MedicinsStepView> {
                     height: 60,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: Theme.of(context).colorScheme.primary, width: 1),
-                      color: bloc.isTablets ? Colors.transparent : Theme.of(context).colorScheme.primary,
+                      border: Border.all(
+                          color: Theme.of(context).colorScheme.primary,
+                          width: 1),
+                      color: bloc.isTablets
+                          ? Colors.transparent
+                          : Theme.of(context).colorScheme.primary,
                     ),
                     child: Center(
-                      child: Text("حقن", style: TextStyle(color: bloc.isTablets ? Theme.of(context).colorScheme.primary : Colors.white)),
+                      child: Text("حقن",
+                          style: TextStyle(
+                              color: bloc.isTablets
+                                  ? Theme.of(context).colorScheme.primary
+                                  : Colors.white)),
                     ),
                   ),
                 ),

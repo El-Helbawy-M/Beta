@@ -17,10 +17,15 @@ class AppLocale {
   }
 
   Future loadLang() async {
-    String langFile = await rootBundle.loadString('assets/lang/${locale.languageCode}.json');
-    log_check(label: "App language", currentValue: locale.languageCode, expectedValue: langFile);
+    String langFile =
+        await rootBundle.loadString('assets/lang/${locale.languageCode}.json');
+    log_check(
+        label: "App language",
+        currentValue: locale.languageCode,
+        expectedValue: langFile);
     Map<String, dynamic> loadedValues = jsonDecode(langFile);
-    _loadedLocalizedValues = loadedValues.map((key, value) => MapEntry(key, value.toString()));
+    _loadedLocalizedValues =
+        loadedValues.map((key, value) => MapEntry(key, value.toString()));
   }
 
   String getTranslated(String key) {
@@ -49,7 +54,12 @@ class _AppLocalDelegate extends LocalizationsDelegate<AppLocale> {
 }
 
 String getLang(String key) {
-  return AppLocale.of(CustomNavigator.navigatorState.currentContext!).getTranslated(key);
+  return AppLocale.of(CustomNavigator.navigatorState.currentContext!)
+      .getTranslated(key);
 }
 
-String currentLang() => CustomNavigator.navigatorState.currentContext != null ? AppLocale.of(CustomNavigator.navigatorState.currentContext!).locale.languageCode : "en";
+String currentLang() => CustomNavigator.navigatorState.currentContext != null
+    ? AppLocale.of(CustomNavigator.navigatorState.currentContext!)
+        .locale
+        .languageCode
+    : "en";

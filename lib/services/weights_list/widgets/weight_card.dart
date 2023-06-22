@@ -30,18 +30,15 @@ class WeightCard extends StatelessWidget {
         children: [
           Text(
             '${item.weight} كجم',
-            style: const TextStyle(
-                fontWeight: FontWeight.bold, fontSize: 15),
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
           ),
-          if(item.date != null) ...[
+          if (item.date != null) ...[
             Text(
               DateFormat('dd MMM yyyy, hh:mm a').format(item.date!),
               textAlign: TextAlign.start,
-              style: const TextStyle(color: Colors.grey,fontSize: 10),
+              style: const TextStyle(color: Colors.grey, fontSize: 10),
             ),
-
           ]
-
         ],
       ),
     );

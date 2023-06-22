@@ -50,7 +50,8 @@ class Launch extends StatelessWidget {
       builder: (context, state) {
         return MaterialApp(
             title: 'Beta',
-            theme: ColoresThemes().mapColor(settingsBloc.settingsModel.theme, "Cairo"),
+            theme: ColoresThemes()
+                .mapColor(settingsBloc.settingsModel.theme, "Cairo"),
             debugShowCheckedModeBanner: false,
             initialRoute: Routes.splash,
             navigatorKey: CustomNavigator.navigatorState,

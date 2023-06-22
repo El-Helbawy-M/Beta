@@ -28,9 +28,16 @@ class FoodInfo extends StatelessWidget {
           children: [
             Text(
               label,
-              style: Theme.of(context).textTheme.bodyText1!.copyWith(color: labelColor),
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1!
+                  .copyWith(color: labelColor),
             ),
-            Text(value, style: Theme.of(context).textTheme.bodyText2!.copyWith(color: valueColor)),
+            Text(value,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText2!
+                    .copyWith(color: valueColor)),
           ],
         ),
       ),

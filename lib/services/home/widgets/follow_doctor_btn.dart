@@ -23,7 +23,8 @@ class FollowDoctorButton extends StatelessWidget {
           ),
           child: Text(
             "تابع مع أحد الأطباء",
-            style: AppTextStyles.w700.copyWith(fontSize: 22, color: Colors.white),
+            style:
+                AppTextStyles.w700.copyWith(fontSize: 22, color: Colors.white),
           ),
         ),
         Positioned(

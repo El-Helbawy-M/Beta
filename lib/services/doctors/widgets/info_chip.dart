@@ -11,7 +11,9 @@ class InfoChip extends StatelessWidget {
     return Container(
       height: 34,
       padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: const Color(0xffF7F8F8)),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: const Color(0xffF7F8F8)),
       child: child,
     );
   }

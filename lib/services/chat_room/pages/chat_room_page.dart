@@ -108,14 +108,16 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
         ),
         actions: [
           InkWell(
-            onTap: () => CustomNavigator.push(Routes.videoCall),
+            onTap: () =>
+                CustomNavigator.push(Routes.videoCall, arguments: widget.chat),
             child: Icon(Icons.video_camera_front,
                 color: Theme.of(context).colorScheme.primary),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: InkWell(
-                onTap: () => CustomNavigator.push(Routes.voiceCall),
+                onTap: () => CustomNavigator.push(Routes.voiceCall,
+                    arguments: widget.chat),
                 child: Icon(Icons.call,
                     color: Theme.of(context).colorScheme.primary)),
           ),

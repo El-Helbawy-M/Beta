@@ -36,7 +36,7 @@ class _ChatListPageState extends State<ChatListPage> {
   }
 
   Future<void> getUserId() async {
-    userId = SharedHandler.instance
+    userId = await SharedHandler.instance
         ?.getData(key: SharedKeys().user, valueType: ValueType.map)['id'];
   }
 

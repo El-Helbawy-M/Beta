@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_project_base/base/base_state.dart';
 import 'package:flutter_project_base/base/utils.dart';
 import 'package:flutter_project_base/services/profile/blocs/cubit/update_profile_cubit.dart';
-import 'package:flutter_project_base/services/profile/models/appointment_model.dart';
+import 'package:flutter_project_base/services/profile/models/user_model.dart';
 
 import '../../../base/widgets/fields/text_input_field.dart';
 import '../../../utilities/components/custom_btn.dart';

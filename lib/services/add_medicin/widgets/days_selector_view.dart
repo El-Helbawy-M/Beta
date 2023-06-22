@@ -44,13 +44,17 @@ class DaysSelectorView extends StatelessWidget {
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
-                    color: Theme.of(context).primaryColor.withOpacity(selectedDays.contains(dayName) ? 1 : .2),
+                    color: Theme.of(context)
+                        .primaryColor
+                        .withOpacity(selectedDays.contains(dayName) ? 1 : .2),
                   ),
                   child: Center(
                     child: Text(
                       dayName,
                       style: AppTextStyles.w400.copyWith(
-                        color: selectedDays.contains(dayName) ? Colors.white : Theme.of(context).hintColor.withOpacity(.6),
+                        color: selectedDays.contains(dayName)
+                            ? Colors.white
+                            : Theme.of(context).hintColor.withOpacity(.6),
                       ),
                     ),
                   ),

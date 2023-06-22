@@ -28,7 +28,8 @@ class CardValueView extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             value,
-            style: AppTextStyles.w600.copyWith(fontSize: 18, color: Theme.of(context).colorScheme.primary),
+            style: AppTextStyles.w600.copyWith(
+                fontSize: 18, color: Theme.of(context).colorScheme.primary),
           ),
         ],
       ),

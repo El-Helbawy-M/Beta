@@ -17,18 +17,21 @@ class SingleSelectBottomSheet extends StatefulWidget {
   final SelectOption? selecetValue;
 
   @override
-  State<SingleSelectBottomSheet> createState() => _SingleSelectBottomSheetState();
+  State<SingleSelectBottomSheet> createState() =>
+      _SingleSelectBottomSheetState();
 }
 
 class _SingleSelectBottomSheetState extends State<SingleSelectBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      padding:
+          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: Container(
         height: 340,
         decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(15), topRight: Radius.circular(15)),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -46,12 +49,17 @@ class _SingleSelectBottomSheetState extends State<SingleSelectBottomSheet> {
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Row(
                 children: [
-                  GestureDetector(onTap: () => CustomNavigator.pop(), child: drawSvgIcon("close_circle", iconColor: Theme.of(context).colorScheme.primary)),
+                  GestureDetector(
+                      onTap: () => CustomNavigator.pop(),
+                      child: drawSvgIcon("close_circle",
+                          iconColor: Theme.of(context).colorScheme.primary)),
                   Expanded(
                     child: Center(
                       child: Text(
                         "Select Category",
-                        style: AppTextStyles.w600.copyWith(fontSize: 18, color: Theme.of(context).colorScheme.primary),
+                        style: AppTextStyles.w600.copyWith(
+                            fontSize: 18,
+                            color: Theme.of(context).colorScheme.primary),
                       ),
                     ),
                   ),
@@ -73,11 +81,15 @@ class _SingleSelectBottomSheetState extends State<SingleSelectBottomSheet> {
                     dense: true,
                     contentPadding: const EdgeInsets.symmetric(horizontal: 24),
                     leading: CheckBoxView(
-                      isChecked: widget.selecetValue == null ? widget.valueSet[index].isSelected : widget.selecetValue!.value == widget.valueSet[index].value,
+                      isChecked: widget.selecetValue == null
+                          ? widget.valueSet[index].isSelected
+                          : widget.selecetValue!.value ==
+                              widget.valueSet[index].value,
                     ),
                     title: Text(
                       widget.valueSet[index].label,
-                      style: AppTextStyles.w600.copyWith(fontSize: 18, color: Colors.black),
+                      style: AppTextStyles.w600
+                          .copyWith(fontSize: 18, color: Colors.black),
                     ),
                   ),
                 ),

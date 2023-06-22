@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_project_base/base/failure.dart';
-import 'package:flutter_project_base/services/profile/models/appointment_model.dart';
+import 'package:flutter_project_base/services/profile/models/user_model.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../base/base_state.dart';

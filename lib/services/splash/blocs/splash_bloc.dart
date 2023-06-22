@@ -1,4 +1,3 @@
-
 // import '../../../routers/navigator.dart';
 
 // class SplashBloc extends Cubit<AppStates> {

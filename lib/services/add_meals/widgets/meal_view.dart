@@ -7,7 +7,11 @@ import 'package:flutter_project_base/handlers/icon_handler.dart';
 import '../blocs/add_meal_bloc.dart';
 
 class MealView extends StatelessWidget {
-  const MealView({super.key, this.onRemove, required this.index, required this.showRemove});
+  const MealView(
+      {super.key,
+      this.onRemove,
+      required this.index,
+      required this.showRemove});
   final bool showRemove;
   final Function()? onRemove;
   final int index;
@@ -32,7 +36,8 @@ class MealView extends StatelessWidget {
 
                   FocusScope.of(context).unfocus();
                 },
-                child: drawSvgIcon("remove", iconColor: Theme.of(context).colorScheme.primary),
+                child: drawSvgIcon("remove",
+                    iconColor: Theme.of(context).colorScheme.primary),
               ),
             ),
           const SizedBox(height: 8),
@@ -50,7 +55,8 @@ class MealView extends StatelessWidget {
                   labelText: "كالوريز",
                   hintText: "ادخل كالوريز",
                   keyboardType: TextInputType.number,
-                  onChange: (value) => bloc.elements[index].calories = num.parse(value),
+                  onChange: (value) =>
+                      bloc.elements[index].calories = num.parse(value),
                   initialValue: bloc.elements[index].calories?.toString(),
                 ),
               ),
@@ -60,7 +66,8 @@ class MealView extends StatelessWidget {
                   labelText: "دهون",
                   hintText: "ادخل دهون",
                   keyboardType: TextInputType.number,
-                  onChange: (value) => bloc.elements[index].fat = num.parse(value),
+                  onChange: (value) =>
+                      bloc.elements[index].fat = num.parse(value),
                   initialValue: bloc.elements[index].fat?.toString(),
                 ),
               ),
@@ -74,7 +81,8 @@ class MealView extends StatelessWidget {
                   labelText: "كاربوهيادرات",
                   hintText: "ادخل كاربوهيادرات",
                   keyboardType: TextInputType.number,
-                  onChange: (value) => bloc.elements[index].carbohydrates = num.parse(value),
+                  onChange: (value) =>
+                      bloc.elements[index].carbohydrates = num.parse(value),
                   initialValue: bloc.elements[index].carbohydrates?.toString(),
                 ),
               ),
@@ -84,7 +92,8 @@ class MealView extends StatelessWidget {
                   labelText: "بروتين",
                   hintText: "ادخل بروتين",
                   keyboardType: TextInputType.number,
-                  onChange: (value) => bloc.elements[index].protein = num.parse(value),
+                  onChange: (value) =>
+                      bloc.elements[index].protein = num.parse(value),
                   initialValue: bloc.elements[index].protein?.toString(),
                 ),
               ),
