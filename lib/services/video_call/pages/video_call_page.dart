@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../chats/model/chat_model.dart';
 
@@ -40,6 +41,7 @@ class _VideoCallPageState extends State<VideoCallPage> {
     super.initState();
     _controller = TextEditingController(text: channelId);
 
+    askForCameraPermission();
     _initEngine();
   }
 
@@ -125,6 +127,17 @@ class _VideoCallPageState extends State<VideoCallPage> {
     });
   }
 
+  void askForCameraPermission() async {
+    final status = await Permission.camera.status;
+    if (!status.isGranted) {
+      final permissionStatus = await Permission.camera.request();
+      if (permissionStatus.isDenied) {
+        if (!mounted) return;
+        Navigator.pop(context);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -136,6 +149,21 @@ class _VideoCallPageState extends State<VideoCallPage> {
           width: 60,
         ),
         backgroundColor: Theme.of(context).colorScheme.secondary,
+        actions: [
+          if (!isJoined)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              child: Row(
+                children: const [
+                  Text(
+                    'Starting Call',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  CircularProgressIndicator()
+                ],
+              ),
+            )
+        ],
       ),
       body: !init
           ? const Center(child: CircularProgressIndicator())
