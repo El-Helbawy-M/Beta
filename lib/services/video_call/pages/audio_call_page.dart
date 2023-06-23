@@ -8,9 +8,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../../chats/model/chat_model.dart';
 
-/// JoinChannelAudio Example
 class AudioCallPage extends StatefulWidget {
-  /// Construct the [AudioCallPage]
   const AudioCallPage(this.chat, {Key? key}) : super(key: key);
   final ChatModel chat;
 
@@ -22,7 +20,7 @@ const String appId = '1ed862ccc609403c8eec5d2f34e8565a';
 const String channelId = 'BETACall';
 final int uID = math.Random().nextInt(1000);
 const String token =
-    '007eJxTYHhy9db1y8vPpGclGh9tjFwuwlq4MmyV4MTg/SJRNWweLw4rMBimpliYGSUnJ5sZWJoYGCdbpKYmm6YYpRmbpFqYmpkmcu3rSWkIZGQ4khbJyMgAgSA+B4OTa4ijc2JODgMDABz8IOE=';
+    '007eJxTYOD4a+Q23yZF2fTAvYVH9j88pbNX0sGR48jEuypMi349cT2lwGCYmmJhZpScnGxmYGliYJxskZqabJpilGZskmphamaa6Gk6NaUhkJHhjnAWEyMDBIL4HAxOriGOzok5OQwMANLRIEU=';
 
 class _State extends State<AudioCallPage> {
   late final RtcEngine _engine;
@@ -30,12 +28,8 @@ class _State extends State<AudioCallPage> {
       openMicrophone = true,
       enableSpeakerphone = true,
       playEffect = false;
-  bool _enableInEarMonitoring = false;
-  double _recordingVolume = 100,
-      _playbackVolume = 100,
-      _inEarMonitoringVolume = 100;
   late TextEditingController _controller;
-  ChannelProfileType _channelProfileType =
+  final ChannelProfileType _channelProfileType =
       ChannelProfileType.channelProfileLiveBroadcasting;
 
   @override
@@ -58,9 +52,7 @@ class _State extends State<AudioCallPage> {
 
   Future<void> _initEngine() async {
     _engine = createAgoraRtcEngine();
-    await _engine.initialize(const RtcEngineContext(
-      appId: appId,
-    ));
+    await _engine.initialize(const RtcEngineContext(appId: appId));
 
     _engine.registerEventHandler(RtcEngineEventHandler(
       onError: (ErrorCodeType err, String msg) {
@@ -86,6 +78,8 @@ class _State extends State<AudioCallPage> {
       profile: AudioProfileType.audioProfileDefault,
       scenario: AudioScenarioType.audioScenarioGameStreaming,
     );
+
+    _joinChannel();
   }
 
   _joinChannel() async {
@@ -110,10 +104,6 @@ class _State extends State<AudioCallPage> {
       openMicrophone = true;
       enableSpeakerphone = true;
       playEffect = false;
-      _enableInEarMonitoring = false;
-      _recordingVolume = 100;
-      _playbackVolume = 100;
-      _inEarMonitoringVolume = 100;
     });
   }
 
@@ -132,63 +122,8 @@ class _State extends State<AudioCallPage> {
     });
   }
 
-  _switchEffect() async {
-    if (playEffect) {
-      await _engine.stopEffect(1);
-      setState(() {
-        playEffect = false;
-      });
-    } else {
-      final path =
-          (await _engine.getAssetAbsolutePath("assets/Sound_Horizon.mp3"))!;
-      await _engine.playEffect(
-          soundId: 1,
-          filePath: path,
-          loopCount: 0,
-          pitch: 1,
-          pan: 1,
-          gain: 100,
-          publish: true);
-      // .then((value) {
-      setState(() {
-        playEffect = true;
-      });
-    }
-  }
-
-  _onChangeInEarMonitoringVolume(double value) async {
-    _inEarMonitoringVolume = value;
-    await _engine.setInEarMonitoringVolume(_inEarMonitoringVolume.toInt());
-    setState(() {});
-  }
-
-  _toggleInEarMonitoring(value) async {
-    try {
-      await _engine.enableInEarMonitoring(
-          enabled: value,
-          includeAudioFilters: EarMonitoringFilterType.earMonitoringFilterNone);
-      _enableInEarMonitoring = value;
-      setState(() {});
-    } catch (e) {
-      // Do nothing
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    final channelProfileType = [
-      ChannelProfileType.channelProfileLiveBroadcasting,
-      ChannelProfileType.channelProfileCommunication,
-    ];
-    final items = channelProfileType
-        .map((e) => DropdownMenuItem(
-              value: e,
-              child: Text(
-                e.toString().split('.')[1],
-              ),
-            ))
-        .toList();
-
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.secondary,
       appBar: AppBar(
@@ -197,6 +132,21 @@ class _State extends State<AudioCallPage> {
           "assets/images/splash.png",
           width: 60,
         ),
+        actions: [
+          if (!isJoined)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              child: Row(
+                children: const [
+                  Text(
+                    'Starting Call',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  CircularProgressIndicator()
+                ],
+              ),
+            )
+        ],
         backgroundColor: Theme.of(context).colorScheme.secondary,
       ),
       body: Column(
@@ -241,7 +191,7 @@ class _State extends State<AudioCallPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 InkWell(
-                  onTap: _switchMicrophone,
+                  onTap: isJoined ? _switchMicrophone : null,
                   child: CircleAvatar(
                     radius: 30,
                     backgroundColor: Colors.white,
@@ -252,22 +202,24 @@ class _State extends State<AudioCallPage> {
                   ),
                 ),
                 InkWell(
-                  onTap: () async {
-                    await _leaveChannel();
-                    if (!mounted) return;
-                    Navigator.pop(context);
-                  },
-                  child: const CircleAvatar(
+                  onTap: isJoined
+                      ? () async {
+                          await _leaveChannel();
+                          if (!mounted) return;
+                          Navigator.pop(context);
+                        }
+                      : null,
+                  child: CircleAvatar(
                     radius: 30,
-                    backgroundColor: Colors.red,
-                    child: Icon(
+                    backgroundColor: isJoined ? Colors.red : Colors.grey,
+                    child: const Icon(
                       Icons.call,
                       color: Colors.white,
                     ),
                   ),
                 ),
                 InkWell(
-                  onTap: _switchSpeakerphone,
+                  onTap: isJoined ? _switchSpeakerphone : null,
                   child: CircleAvatar(
                     radius: 30,
                     backgroundColor: Colors.white,
@@ -285,138 +237,3 @@ class _State extends State<AudioCallPage> {
     );
   }
 }
-
-//Stack(
-//         children: [
-//           Column(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             mainAxisAlignment: MainAxisAlignment.start,
-//             children: [
-//               TextField(
-//                 controller: _controller,
-//                 decoration: const InputDecoration(hintText: 'Channel ID'),
-//               ),
-//               const Text('Channel Profile: '),
-//               DropdownButton<ChannelProfileType>(
-//                   items: items,
-//                   value: _channelProfileType,
-//                   onChanged: isJoined
-//                       ? null
-//                       : (v) async {
-//                           setState(() {
-//                             _channelProfileType = v!;
-//                           });
-//                         }),
-//               Row(
-//                 children: [
-//                   Expanded(
-//                     flex: 1,
-//                     child: ElevatedButton(
-//                       onPressed: isJoined ? _leaveChannel : _joinChannel,
-//                       child: Text('${isJoined ? 'Leave' : 'Join'} channel'),
-//                     ),
-//                   )
-//                 ],
-//               ),
-//             ],
-//           ),
-//           Align(
-//               alignment: Alignment.bottomRight,
-//               child: Padding(
-//                 padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 0),
-//                 child: Column(
-//                   mainAxisSize: MainAxisSize.min,
-//                   crossAxisAlignment: CrossAxisAlignment.end,
-//                   children: [
-//                     ElevatedButton(
-//                       onPressed: _switchMicrophone,
-//                       child: Text('Microphone ${openMicrophone ? 'on' : 'off'}'),
-//                     ),
-//                     ElevatedButton(
-//                       onPressed: isJoined ? _switchSpeakerphone : null,
-//                       child:
-//                           Text(enableSpeakerphone ? 'Speakerphone' : 'Earpiece'),
-//                     ),
-//                     if (!kIsWeb)
-//                       ElevatedButton(
-//                         onPressed: isJoined ? _switchEffect : null,
-//                         child: Text('${playEffect ? 'Stop' : 'Play'} effect'),
-//                       ),
-//                     Row(
-//                       mainAxisAlignment: MainAxisAlignment.end,
-//                       children: [
-//                         const Text('RecordingVolume:'),
-//                         Slider(
-//                           value: _recordingVolume,
-//                           min: 0,
-//                           max: 400,
-//                           divisions: 5,
-//                           label: 'RecordingVolume',
-//                           onChanged: isJoined
-//                               ? (double value) async {
-//                                   setState(() {
-//                                     _recordingVolume = value;
-//                                   });
-//                                   await _engine
-//                                       .adjustRecordingSignalVolume(value.toInt());
-//                                 }
-//                               : null,
-//                         )
-//                       ],
-//                     ),
-//                     Row(
-//                       mainAxisAlignment: MainAxisAlignment.end,
-//                       children: [
-//                         const Text('PlaybackVolume:'),
-//                         Slider(
-//                           value: _playbackVolume,
-//                           min: 0,
-//                           max: 400,
-//                           divisions: 5,
-//                           label: 'PlaybackVolume',
-//                           onChanged: isJoined
-//                               ? (double value) async {
-//                                   setState(() {
-//                                     _playbackVolume = value;
-//                                   });
-//                                   await _engine
-//                                       .adjustPlaybackSignalVolume(value.toInt());
-//                                 }
-//                               : null,
-//                         )
-//                       ],
-//                     ),
-//                     Column(
-//                       mainAxisSize: MainAxisSize.min,
-//                       crossAxisAlignment: CrossAxisAlignment.end,
-//                       children: [
-//                         Row(mainAxisSize: MainAxisSize.min, children: [
-//                           const Text('InEar Monitoring Volume:'),
-//                           Switch(
-//                             value: _enableInEarMonitoring,
-//                             onChanged: isJoined ? _toggleInEarMonitoring : null,
-//                             activeTrackColor: Colors.grey[350],
-//                             activeColor: Colors.white,
-//                           )
-//                         ]),
-//                         if (_enableInEarMonitoring)
-//                           SizedBox(
-//                               width: 300,
-//                               child: Slider(
-//                                 value: _inEarMonitoringVolume,
-//                                 min: 0,
-//                                 max: 100,
-//                                 divisions: 5,
-//                                 label:
-//                                     'InEar Monitoring Volume $_inEarMonitoringVolume',
-//                                 onChanged: isJoined
-//                                     ? _onChangeInEarMonitoringVolume
-//                                     : null,
-//                               ))
-//                       ],
-//                     ),
-//                   ],
-//                 ),
-//               ))
-//         ],
-//       )

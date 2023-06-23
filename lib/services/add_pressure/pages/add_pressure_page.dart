@@ -72,7 +72,7 @@ class _AddPressurePageState extends State<AddPressurePage> {
                   suffixIcon: Padding(
                     padding: const EdgeInsets.only(top: 16, left: 16),
                     child: Text(
-                      "ملليمول/ليتر",
+                      "ملم/ زئبق",
                       style: AppTextStyles.w400.copyWith(
                           color: Theme.of(context).hintColor.withOpacity(.6)),
                     ),
@@ -86,7 +86,7 @@ class _AddPressurePageState extends State<AddPressurePage> {
                   suffixIcon: Padding(
                     padding: const EdgeInsets.only(top: 16, left: 16),
                     child: Text(
-                      "ملليمول/ليتر",
+                      "ملم/ زئبق",
                       style: AppTextStyles.w400.copyWith(
                           color: Theme.of(context).hintColor.withOpacity(.6)),
                     ),

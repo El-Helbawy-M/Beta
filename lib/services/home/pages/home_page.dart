@@ -3,13 +3,21 @@ import 'package:flutter_project_base/routers/navigator.dart';
 import 'package:flutter_project_base/routers/routers.dart';
 import 'package:flutter_project_base/services/home/models/char_data_model.dart';
 import 'package:flutter_project_base/utilities/theme/text_styles.dart';
+import 'package:permission_handler/permission_handler.dart';
+
 import '../../../utilities/components/custom_page_body.dart';
 import '../widgets/chart_view.dart';
 import '../widgets/follow_doctor_btn.dart';
 import '../widgets/service_card.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   final List<String> labels = const [
     "سكر الدم",
     "ضغط الدم",
@@ -17,6 +25,7 @@ class HomePage extends StatelessWidget {
     "A1C",
     "الوزن",
   ];
+
   final List<String> imagesPaths = const [
     "glucose-meter 1",
     "blood-pressure-gauge 1",
@@ -24,6 +33,7 @@ class HomePage extends StatelessWidget {
     "blood-drop 1",
     "weight-scale 1",
   ];
+
   final List<Function()?> onTaps = [
     () => CustomNavigator.push(Routes.diabtesList),
     () => CustomNavigator.push(Routes.pressuresList),
@@ -31,6 +41,20 @@ class HomePage extends StatelessWidget {
     null,
     () => CustomNavigator.push(Routes.weightList),
   ];
+
+  @override
+  void initState() {
+    askForCameraPermission();
+    super.initState();
+  }
+
+  void askForCameraPermission() async {
+    var status = await Permission.camera.status;
+    if (!status.isGranted) {
+      await Permission.camera.request();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomPageBody(
