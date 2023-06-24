@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project_base/services/doctor_details/widgets/choose_session_type_sheet.dart';
+import 'package:flutter_project_base/services/doctors/model/doctor_model.dart';
+import 'package:intl/intl.dart';
 
 import '../../../utilities/theme/text_styles.dart';
 
 class TicketCard extends StatelessWidget {
-  const TicketCard({
+  const TicketCard(
+    this.appointmentModel,
+    this.doctorDetails, {
     super.key,
-    this.isTaken = false,
   });
-  final bool isTaken;
+  final AppointmentModel appointmentModel;
+  final DoctorModel? doctorDetails;
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -15,7 +21,7 @@ class TicketCard extends StatelessWidget {
         InkWell(
           onTap: () {},
           child: Container(
-            width: 80,
+            width: 100,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               border:
@@ -33,7 +39,7 @@ class TicketCard extends StatelessWidget {
                   ),
                   child: Center(
                     child: Text(
-                      "الاربعاء 3/1",
+                      "${DateFormat('E').format(appointmentModel.day!)} ${DateFormat('dd/MM').format(appointmentModel.day!)}",
                       style: AppTextStyles.w500
                           .copyWith(fontSize: 14, color: Colors.white),
                     ),
@@ -41,7 +47,7 @@ class TicketCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  "10:00",
+                  (appointmentModel.intervals ?? []).first.split(' - ')[0],
                   style: AppTextStyles.w500.copyWith(fontSize: 18),
                 ),
                 Text(
@@ -50,22 +56,35 @@ class TicketCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  "10:00",
+                  (appointmentModel.intervals ?? []).first.split(' - ')[1],
                   style: AppTextStyles.w500.copyWith(fontSize: 18),
                 ),
                 const SizedBox(height: 10),
-                Container(
-                  height: 24,
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.vertical(
-                        bottom: Radius.circular(10)),
-                    color: isTaken ? Colors.red : Colors.green,
-                  ),
-                  child: Center(
-                    child: Text(
-                      isTaken ? "محجوز" : "احجز",
-                      style: AppTextStyles.w500
-                          .copyWith(fontSize: 14, color: Colors.white),
+                InkWell(
+                  onTap: () {
+                    showBottomSheet(
+                        context: context,
+                        constraints: const BoxConstraints(maxHeight: 280),
+                        builder: (_) => ChooseSessionTypeSheet(doctorDetails),
+                        shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(12),
+                          topRight: Radius.circular(12),
+                        )));
+                  },
+                  child: Container(
+                    height: 24,
+                    decoration: const BoxDecoration(
+                      borderRadius:
+                          BorderRadius.vertical(bottom: Radius.circular(10)),
+                      color: Colors.green,
+                    ),
+                    child: Center(
+                      child: Text(
+                        "احجز",
+                        style: AppTextStyles.w500
+                            .copyWith(fontSize: 14, color: Colors.white),
+                      ),
                     ),
                   ),
                 ),

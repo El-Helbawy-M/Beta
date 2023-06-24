@@ -37,6 +37,18 @@ class _BasePageState extends State<BasePage> {
   ];
 
   @override
+  void initState() {
+    print('ChangeBottomNavigationInit');
+    ChangeBottomNavigationController.instance.addListener(() {
+      print('ChangeBottomNavigationController');
+      _index = ChangeBottomNavigationController.instance.pageIndex;
+      setState(() {});
+    });
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
@@ -113,5 +125,19 @@ class ButtonContainer extends StatelessWidget {
           color: isSelected ? Colors.white : Colors.transparent),
       child: child,
     );
+  }
+}
+
+class ChangeBottomNavigationController extends ChangeNotifier {
+  ChangeBottomNavigationController._();
+
+  static ChangeBottomNavigationController instance =
+      ChangeBottomNavigationController._();
+
+  int pageIndex = 0;
+
+  void changeBottomNavigation(int index) {
+    pageIndex = index;
+    notifyListeners();
   }
 }

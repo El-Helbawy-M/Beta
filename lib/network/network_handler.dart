@@ -110,6 +110,8 @@ class NetworkHandler {
     }
 
     try {
+      print(url);
+      print(body!.fields);
       res = await _dio.post(url!, data: body, queryParameters: query);
       log_request(
           request: url,

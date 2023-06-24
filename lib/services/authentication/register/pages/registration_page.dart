@@ -1,11 +1,19 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_project_base/base/widgets/fields/text_input_field.dart';
 import 'package:flutter_project_base/routers/routers.dart';
 import 'package:flutter_project_base/services/authentication/register/blocs/cubit/handler.dart';
+import 'package:flutter_project_base/services/profile/pages/profile_page.dart';
 import 'package:flutter_project_base/utilities/components/custom_btn.dart';
 import 'package:flutter_project_base/utilities/components/custom_page_body.dart';
 import 'package:flutter_project_base/utilities/theme/text_styles.dart';
+import 'package:intl/intl.dart';
+
+import '../../../../base/utils.dart';
+import '../../../../config/api_names.dart';
+import '../../../../handlers/shared_handler.dart';
+import '../../../../network/network_handler.dart';
 
 class RegistrationPage extends StatelessWidget {
   const RegistrationPage({super.key});
@@ -62,8 +70,23 @@ class RegistrationPage extends StatelessWidget {
   }
 }
 
-class MainRegisterPage extends StatelessWidget {
+class MainRegisterPage extends StatefulWidget {
   const MainRegisterPage({super.key});
+
+  @override
+  State<MainRegisterPage> createState() => _MainRegisterPageState();
+}
+
+class _MainRegisterPageState extends State<MainRegisterPage> {
+  TextEditingController name = TextEditingController(),
+      phone = TextEditingController(),
+      password = TextEditingController(),
+      passwordConfirmation = TextEditingController(),
+      day = TextEditingController(),
+      month = TextEditingController(),
+      year = TextEditingController();
+
+  bool loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -81,15 +104,18 @@ class MainRegisterPage extends StatelessWidget {
             ),
             TextInputField(
               hintText: "الإسم",
+              controller: name,
             ),
             TextInputField(
               hintText: "رقم الهاتف",
+              controller: phone,
             ),
             Row(
               children: [
                 Flexible(
                   child: TextInputField(
                     hintText: "اليوم",
+                    controller: day,
                   ),
                 ),
                 const SizedBox(
@@ -98,6 +124,7 @@ class MainRegisterPage extends StatelessWidget {
                 Flexible(
                   child: TextInputField(
                     hintText: "الشهر",
+                    controller: month,
                   ),
                 ),
                 const SizedBox(
@@ -106,22 +133,36 @@ class MainRegisterPage extends StatelessWidget {
                 Flexible(
                   child: TextInputField(
                     hintText: "السنه",
+                    controller: year,
                   ),
                 ),
               ],
             ),
             TextInputField(
               hintText: "كلمة المرور",
+              controller: password,
             ),
             TextInputField(
               hintText: "تأكيد كلمة المرور",
+              controller: passwordConfirmation,
             ),
             CustomBtn(
               buttonColor: Theme.of(context).colorScheme.primary,
               text: "التالي",
+              loading: loading,
               height: 40,
               onTap: () {
-                context.read<RegisterHandler>().mainNext();
+                if (name.text.isEmpty ||
+                    password.text.isEmpty ||
+                    passwordConfirmation.text.isEmpty ||
+                    day.text.isEmpty ||
+                    month.text.isEmpty ||
+                    year.text.isEmpty ||
+                    phone.text.isEmpty) {
+                  return;
+                }
+
+                registerData();
               },
             ),
           ],
@@ -129,11 +170,59 @@ class MainRegisterPage extends StatelessWidget {
       ),
     );
   }
+
+  void registerData() async {
+    try {
+      loading = true;
+      setState(() {});
+      String timeFormatPattern = 'yyyy-MM-dd';
+      final dateTime = DateTime(
+        year.text.toInt(),
+        month.text.toInt(),
+        day.text.toInt(),
+      );
+      final FormData formData = FormData.fromMap({
+        'name': name.text,
+        'phone': phone.text,
+        'birthday': DateFormat(timeFormatPattern).format(dateTime),
+        'password': password.text,
+        'confirmed_password': passwordConfirmation.text,
+      });
+      final Response? response = await NetworkHandler.instance?.post(
+        url: ApiNames.register,
+        body: formData,
+        withToken: false,
+      );
+
+      if (response == null) return;
+      if (!mounted) return;
+      context.read<RegisterHandler>().mainNext();
+      SharedHandler.instance?.setData(
+        SharedKeys().user,
+        value: response.data['data'],
+      );
+    } on DioError catch (e) {
+      showSnackBar(
+        context,
+        'حدث خطأ، يرجي إعادة المحاولة, و كود الخطأ هو ${e.response!.statusCode}',
+        type: SnackBarType.warning,
+      );
+    }
+    loading = false;
+    setState(() {});
+  }
 }
 
-class RegisterInfoTypePage extends StatelessWidget {
+class RegisterInfoTypePage extends StatefulWidget {
   final RegisterCurrentState registerCurrentState;
   const RegisterInfoTypePage({super.key, required this.registerCurrentState});
+
+  @override
+  State<RegisterInfoTypePage> createState() => _RegisterInfoTypePageState();
+}
+
+class _RegisterInfoTypePageState extends State<RegisterInfoTypePage> {
+  bool loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +239,7 @@ class RegisterInfoTypePage extends StatelessWidget {
           const SizedBox(height: 32),
           SelectionWidget(
             value: "النوع الاول",
-            isSelected: registerCurrentState.typeValue == "النوع الاول",
+            isSelected: widget.registerCurrentState.typeValue == "النوع الاول",
             onTap: () {
               context
                   .read<RegisterHandler>()
@@ -160,7 +249,7 @@ class RegisterInfoTypePage extends StatelessWidget {
           const SizedBox(height: 16),
           SelectionWidget(
             value: "النوع التاني",
-            isSelected: registerCurrentState.typeValue == "النوع التاني",
+            isSelected: widget.registerCurrentState.typeValue == "النوع التاني",
             onTap: () {
               context
                   .read<RegisterHandler>()
@@ -170,7 +259,8 @@ class RegisterInfoTypePage extends StatelessWidget {
           const SizedBox(height: 16),
           SelectionWidget(
             value: "ما قبل السُكري",
-            isSelected: registerCurrentState.typeValue == "ما قبل السُكري",
+            isSelected:
+                widget.registerCurrentState.typeValue == "ما قبل السُكري",
             onTap: () {
               context
                   .read<RegisterHandler>()
@@ -180,7 +270,7 @@ class RegisterInfoTypePage extends StatelessWidget {
           const SizedBox(height: 16),
           SelectionWidget(
             value: "أُخري",
-            isSelected: registerCurrentState.typeValue == "أُخري",
+            isSelected: widget.registerCurrentState.typeValue == "أُخري",
             onTap: () {
               context
                   .read<RegisterHandler>()
@@ -188,7 +278,7 @@ class RegisterInfoTypePage extends StatelessWidget {
             },
           ),
           const SizedBox(height: 16),
-          if (registerCurrentState.typeValue != null)
+          if (widget.registerCurrentState.typeValue != null)
             Column(
               children: [
                 const SizedBox(
@@ -197,9 +287,10 @@ class RegisterInfoTypePage extends StatelessWidget {
                 CustomBtn(
                   buttonColor: Theme.of(context).colorScheme.primary,
                   text: "التالي",
+                  loading: loading,
                   height: 40,
                   onTap: () {
-                    context.read<RegisterHandler>().typeNext();
+                    addSugarType(widget.registerCurrentState.typeValue!);
                   },
                 ),
               ],
@@ -208,11 +299,46 @@ class RegisterInfoTypePage extends StatelessWidget {
       ),
     );
   }
+
+  void addSugarType(String sugarType) async {
+    try {
+      loading = true;
+      setState(() {});
+
+      final FormData formData = FormData.fromMap({
+        'sugar_type': sugarType,
+      });
+      final Response? response = await NetworkHandler.instance?.post(
+        url: ApiNames.addSugarType,
+        body: formData,
+        withToken: true,
+      );
+
+      if (response == null) return;
+      if (!mounted) return;
+      context.read<RegisterHandler>().typeNext();
+    } on DioError catch (e) {
+      showSnackBar(
+        context,
+        'حدث خطأ، يرجي إعادة المحاولة, و كود الخطأ هو ${e.response!.statusCode}',
+        type: SnackBarType.warning,
+      );
+    }
+    loading = false;
+    setState(() {});
+  }
 }
 
-class RegisterDurationPage extends StatelessWidget {
+class RegisterDurationPage extends StatefulWidget {
   final RegisterCurrentState registerCurrentState;
   const RegisterDurationPage({super.key, required this.registerCurrentState});
+
+  @override
+  State<RegisterDurationPage> createState() => _RegisterDurationPageState();
+}
+
+class _RegisterDurationPageState extends State<RegisterDurationPage> {
+  bool loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -229,7 +355,8 @@ class RegisterDurationPage extends StatelessWidget {
           const SizedBox(height: 48),
           SelectionWidget(
             value: "أقل من 6 أشهر",
-            isSelected: registerCurrentState.durationValue == "أقل من 6 أشهر",
+            isSelected:
+                widget.registerCurrentState.durationValue == "أقل من 6 أشهر",
             onTap: () {
               context
                   .read<RegisterHandler>()
@@ -239,7 +366,8 @@ class RegisterDurationPage extends StatelessWidget {
           const SizedBox(height: 16),
           SelectionWidget(
             value: "أقل من سنه",
-            isSelected: registerCurrentState.durationValue == "أقل من سنه",
+            isSelected:
+                widget.registerCurrentState.durationValue == "أقل من سنه",
             onTap: () {
               context
                   .read<RegisterHandler>()
@@ -249,8 +377,8 @@ class RegisterDurationPage extends StatelessWidget {
           const SizedBox(height: 16),
           SelectionWidget(
             value: "من 1 سنه الي 5 سنين",
-            isSelected:
-                registerCurrentState.durationValue == "من 1 سنه الي 5 سنين",
+            isSelected: widget.registerCurrentState.durationValue ==
+                "من 1 سنه الي 5 سنين",
             onTap: () {
               context
                   .read<RegisterHandler>()
@@ -260,7 +388,8 @@ class RegisterDurationPage extends StatelessWidget {
           const SizedBox(height: 16),
           SelectionWidget(
             value: "أكثر من 5 سنين",
-            isSelected: registerCurrentState.durationValue == "أكثر من 5 سنين",
+            isSelected:
+                widget.registerCurrentState.durationValue == "أكثر من 5 سنين",
             onTap: () {
               context
                   .read<RegisterHandler>()
@@ -268,7 +397,7 @@ class RegisterDurationPage extends StatelessWidget {
             },
           ),
           const SizedBox(height: 20),
-          if (registerCurrentState.durationValue != null)
+          if (widget.registerCurrentState.durationValue != null)
             Column(
               children: [
                 const SizedBox(
@@ -278,8 +407,10 @@ class RegisterDurationPage extends StatelessWidget {
                   buttonColor: Theme.of(context).colorScheme.primary,
                   text: "التالي",
                   height: 40,
+                  loading: loading,
                   onTap: () {
-                    context.read<RegisterHandler>().durationNext();
+                    addInjuryDuration(
+                        widget.registerCurrentState.durationValue!);
                   },
                 ),
               ],
@@ -288,11 +419,46 @@ class RegisterDurationPage extends StatelessWidget {
       ),
     );
   }
+
+  void addInjuryDuration(String injuryDuration) async {
+    try {
+      loading = true;
+      setState(() {});
+
+      final FormData formData = FormData.fromMap({
+        'injury_duration': injuryDuration,
+      });
+      final Response? response = await NetworkHandler.instance?.post(
+        url: ApiNames.addInjuryDuration,
+        body: formData,
+        withToken: true,
+      );
+
+      if (response == null) return;
+      if (!mounted) return;
+      context.read<RegisterHandler>().durationNext();
+    } on DioError catch (e) {
+      showSnackBar(
+        context,
+        'حدث خطأ، يرجي إعادة المحاولة, و كود الخطأ هو ${e.response!.statusCode}',
+        type: SnackBarType.warning,
+      );
+    }
+    loading = false;
+    setState(() {});
+  }
 }
 
-class RegisterCountsPage extends StatelessWidget {
+class RegisterCountsPage extends StatefulWidget {
   final RegisterCurrentState registerCurrentState;
   const RegisterCountsPage({super.key, required this.registerCurrentState});
+
+  @override
+  State<RegisterCountsPage> createState() => _RegisterCountsPageState();
+}
+
+class _RegisterCountsPageState extends State<RegisterCountsPage> {
+  bool loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -309,7 +475,8 @@ class RegisterCountsPage extends StatelessWidget {
           const SizedBox(height: 48),
           SelectionWidget(
             value: "مرة في اليوم",
-            isSelected: registerCurrentState.countValue == "مرة في اليوم",
+            isSelected:
+                widget.registerCurrentState.countValue == "مرة في اليوم",
             onTap: () {
               context
                   .read<RegisterHandler>()
@@ -319,7 +486,8 @@ class RegisterCountsPage extends StatelessWidget {
           const SizedBox(height: 16),
           SelectionWidget(
             value: "مرتين في اليوم",
-            isSelected: registerCurrentState.countValue == "مرتين في اليوم",
+            isSelected:
+                widget.registerCurrentState.countValue == "مرتين في اليوم",
             onTap: () {
               context
                   .read<RegisterHandler>()
@@ -329,8 +497,8 @@ class RegisterCountsPage extends StatelessWidget {
           const SizedBox(height: 16),
           SelectionWidget(
             value: "اكثر من مرتين في اليوم",
-            isSelected:
-                registerCurrentState.countValue == "اكثر من مرتين في اليوم",
+            isSelected: widget.registerCurrentState.countValue ==
+                "اكثر من مرتين في اليوم",
             onTap: () {
               context
                   .read<RegisterHandler>()
@@ -339,7 +507,7 @@ class RegisterCountsPage extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           SizedBox(height: MediaQuery.of(context).size.height * 0.15),
-          if (registerCurrentState.countValue != null)
+          if (widget.registerCurrentState.countValue != null)
             Column(
               children: [
                 const SizedBox(
@@ -349,9 +517,11 @@ class RegisterCountsPage extends StatelessWidget {
                   buttonColor: Theme.of(context).colorScheme.primary,
                   text: "التالي",
                   height: 40,
+                  loading: loading,
                   onTap: () {
-                    context.read<RegisterHandler>().countNext();
-                    Navigator.of(context).pushNamed(Routes.home);
+                    addSugarMeasurement(
+                      widget.registerCurrentState.countValue!,
+                    );
                   },
                 ),
               ],
@@ -360,6 +530,35 @@ class RegisterCountsPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void addSugarMeasurement(String sugarMeasurement) async {
+    try {
+      loading = true;
+      setState(() {});
+
+      final FormData formData = FormData.fromMap({
+        'sugar_measurement': sugarMeasurement,
+      });
+      final Response? response = await NetworkHandler.instance?.post(
+        url: ApiNames.addSugarMeasurement,
+        body: formData,
+        withToken: true,
+      );
+
+      if (response == null) return;
+      if (!mounted) return;
+      context.read<RegisterHandler>().countNext();
+      Navigator.of(context).pushNamed(Routes.home);
+    } on DioError catch (e) {
+      showSnackBar(
+        context,
+        'حدث خطأ، يرجي إعادة المحاولة, و كود الخطأ هو ${e.response!.statusCode}',
+        type: SnackBarType.warning,
+      );
+    }
+    loading = false;
+    setState(() {});
   }
 }
 

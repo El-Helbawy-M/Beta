@@ -3,6 +3,10 @@ const String domainUrl =
 
 class ApiNames {
   static String login = "login";
+  static String register = "register";
+  static String addSugarType = "register/sugar-type";
+  static String addSugarMeasurement = "register/sugar-measurement";
+  static String addInjuryDuration = "register/injury-duration";
   static String addBloodSugar = "home/blood-sugar/measure";
   static String addWeight = "home/weight/measure";
   static String addBloodPressure = "home/blood-pressure/measure";

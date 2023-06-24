@@ -30,7 +30,6 @@ class _VideoCallPageState extends State<VideoCallPage> {
       init = false,
       enableAudio = true;
   Set<int> remoteUid = {};
-  late TextEditingController _controller;
   final bool _isUseFlutterTexture = false;
   final bool _isUseAndroidSurfaceView = false;
   final ChannelProfileType _channelProfileType =
@@ -39,7 +38,6 @@ class _VideoCallPageState extends State<VideoCallPage> {
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController(text: channelId);
 
     askForCameraPermission();
     _initEngine();

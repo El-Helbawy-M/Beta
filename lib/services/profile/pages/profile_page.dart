@@ -24,7 +24,9 @@ class _ProfilePageState extends State<ProfilePage> {
       day = TextEditingController(),
       month = TextEditingController(),
       year = TextEditingController(),
-      sugarType = TextEditingController();
+      sugarType = TextEditingController(),
+      injuryDuration = TextEditingController(),
+      sugarMeasurement = TextEditingController();
 
   final GetProfileCubit getProfileCubit = GetProfileCubit();
   final UpdateProfileCubit updateProfileCubit = UpdateProfileCubit();
@@ -62,6 +64,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 name.text = state.item!.name;
                 phone.text = state.item!.phone;
                 sugarType.text = state.item!.sugarType ?? '';
+                injuryDuration.text = state.item!.injuryDuration ?? '';
+                sugarMeasurement.text = state.item!.sugarMeasurement ?? '';
                 day.text = state.item!.birthday.day.toString();
                 month.text = state.item!.birthday.month.toString();
                 year.text = state.item!.birthday.year.toString();
@@ -140,6 +144,18 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                 ],
                               ),
+                              TextInputField(
+                                hintText: "ما نوع مرض السكري الذي تعاني منه ؟",
+                                controller: sugarType,
+                              ),
+                              TextInputField(
+                                hintText: "معدل قياسك للسكر",
+                                controller: sugarMeasurement,
+                              ),
+                              TextInputField(
+                                hintText: "ما مدة إصابتك بالسُكري ؟",
+                                controller: injuryDuration,
+                              ),
                               BlocBuilder<UpdateProfileCubit,
                                       BaseState<UserModel>>(
                                   bloc: updateProfileCubit,
@@ -157,10 +173,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                             day.text.toInt(),
                                           );
                                           updateProfileCubit.updateProfile(
-                                              name: name.text,
-                                              phone: phone.text,
-                                              birthday: newBirthday,
-                                              sugerType: 'hdjsgd');
+                                            name: name.text,
+                                            phone: phone.text,
+                                            birthday: newBirthday,
+                                            sugerType: sugarType.text,
+                                            sugarMeasurement:
+                                                sugarMeasurement.text,
+                                            injuryDuration: injuryDuration.text,
+                                          );
                                         },
                                       )),
                             ],

@@ -8,6 +8,7 @@ import 'package:readmore/readmore.dart';
 
 import '../../../base/utils.dart';
 import '../../../config/api_names.dart';
+import '../../../handlers/shared_handler.dart';
 import '../../../network/network_handler.dart';
 import '../../../utilities/components/arrow_back.dart';
 import '../../doctors/model/doctor_model.dart';
@@ -24,14 +25,23 @@ class DoctorDetailsPage extends StatefulWidget {
 
 class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
   DoctorModel? doctorDetails;
+  int? userId;
 
+  TextEditingController comment = TextEditingController();
   @override
   void initState() {
     getItems();
     super.initState();
   }
 
+  Future<void> getUserID() async {
+    userId = (await SharedHandler.instance?.getData(
+        key: SharedKeys().user,
+        valueType: ValueType.map) as Map<String, dynamic>)['id'];
+  }
+
   void getItems() async {
+    await getUserID();
     try {
       final Response? response = await NetworkHandler.instance?.get(
         url: '${ApiNames.doctorList}${widget.id}',
@@ -108,7 +118,7 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                   ),
                   const SizedBox(height: 24),
                   Text(
-                    "د.احمد عوض",
+                    doctorDetails?.name ?? '',
                     style: AppTextStyles.w700.copyWith(fontSize: 26),
                   ),
                   Divider(
@@ -162,19 +172,55 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                           scrollDirection: Axis.horizontal,
                           physics: const BouncingScrollPhysics(),
                           child: Row(
-                            children: const [
-                              SizedBox(width: 24),
-                              TicketCard(),
-                              TicketCard(isTaken: true),
-                              TicketCard(isTaken: true),
-                              TicketCard(),
-                              TicketCard(),
-                            ],
-                          ),
+                              children: (doctorDetails?.appointments ?? [])
+                                  .map((e) => TicketCard(e, doctorDetails))
+                                  .toList()),
                         ),
                       ],
                     ),
                   ),
+                  const Divider(),
+                  const Text(
+                    'التعليقات',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 22),
+                    child: TextFormField(
+                      maxLines: 4,
+                      controller: comment,
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: TextButton(
+                      onPressed: () async {
+                        if (comment.text.isEmpty) return;
+                        DoctorCommentsController.instance.addComment(
+                          userId: userId!.toString(),
+                          comment: comment.text,
+                        );
+                        setState(() {});
+                      },
+                      child: const Text('أضف تعليق'),
+                    ),
+                  ),
+                  ListView.separated(
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.symmetric(horizontal: 22),
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (_, int index) => Container(
+                      color: Colors.grey[300],
+                      padding: const EdgeInsets.all(8),
+                      child: Text(DoctorCommentsController
+                              .instance.comments[userId]?[index] ??
+                          ''),
+                    ),
+                    separatorBuilder: (_, __) => const Divider(),
+                    itemCount: DoctorCommentsController
+                            .instance.comments[userId]?.length ??
+                        0,
+                  )
                   // Divider(
                   //   height: 32,
                   //   color: Theme.of(context).dividerColor,
@@ -219,5 +265,18 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
               ),
             ),
     );
+  }
+}
+
+class DoctorCommentsController {
+  DoctorCommentsController._();
+
+  static DoctorCommentsController instance = DoctorCommentsController._();
+
+  Map<String, List<String>> comments = {};
+
+  void addComment({required String userId, required String comment}) {
+    List<String>? list = comments[userId] ?? [];
+    comments[userId] = [comment, ...list];
   }
 }

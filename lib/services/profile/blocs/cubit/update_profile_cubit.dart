@@ -16,6 +16,8 @@ class UpdateProfileCubit extends Cubit<BaseState<UserModel>> {
     required String phone,
     required DateTime birthday,
     required String sugerType,
+    required String sugarMeasurement,
+    required String injuryDuration,
   }) async {
     try {
       emit(const BaseState(status: BaseStatus.inProgress));
@@ -25,6 +27,8 @@ class UpdateProfileCubit extends Cubit<BaseState<UserModel>> {
         'phone': phone,
         'birthday': DateFormat(timeFormatPattern).format(birthday),
         'sugar_type': sugerType,
+        'sugar_measurement': sugarMeasurement,
+        'injury_duration': injuryDuration,
       });
 
       final Response? response = await NetworkHandler.instance?.post(

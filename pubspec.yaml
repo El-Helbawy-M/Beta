@@ -71,6 +71,7 @@ dependencies:
   
   # Video and Voice Call
   agora_rtc_engine: ^6.2.0
+  webview_flutter: ^4.2.2
 
 
 dev_dependencies:

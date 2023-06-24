@@ -2,14 +2,18 @@ class UserModel {
   String name;
   String phone;
   DateTime birthday;
-  dynamic sugarType;
+  String? sugarType;
+  String? injuryDuration;
+  String? sugarMeasurement;
   int id;
 
   UserModel({
     required this.name,
     required this.phone,
     required this.birthday,
-    this.sugarType,
+    required this.sugarType,
+    required this.injuryDuration,
+    required this.sugarMeasurement,
     required this.id,
   });
 
@@ -18,6 +22,8 @@ class UserModel {
         phone: json["phone"],
         birthday: DateTime.parse(json["birthday"]),
         sugarType: json["sugar_type"],
+        sugarMeasurement: json["sugar_measurement"],
+        injuryDuration: json["injury_duration"],
         id: json["id"],
       );
 
