@@ -195,7 +195,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   SharedHandler.instance?.clear(
                                     keys: [SharedKeys().user],
                                   );
-                                  Navigator.pushNamed(context, Routes.login);
+                                  Navigator.pushReplacementNamed(context, Routes.login);
                                 },
                               )
                             ],

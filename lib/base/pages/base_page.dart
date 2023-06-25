@@ -190,7 +190,7 @@ class _SugarTimerState extends State<SugarTimer> {
     return Container(
       height: 100,
       width: 100,
-      padding: EdgeInsets.all(12),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: Colors.white,
