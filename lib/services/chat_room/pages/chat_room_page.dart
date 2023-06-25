@@ -213,6 +213,15 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                   'senderId': widget.userId,
                   'createdDate': DateTime.now().toString(),
                 });
+
+                FirebaseFirestore.instance
+                    .collection('Chats')
+                    .doc(widget.chat.id)
+                    .update({
+                  lastMessageSenderIdKey: widget.userId,
+                  lastMessageKey: 'image',
+                  lastMessageDateKey: DateTime.now().toString(),
+                });
               }
             },
           ),
@@ -234,6 +243,11 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
       'createdDate': DateTime.now().toString(),
     });
 
+    FirebaseFirestore.instance.collection('Chats').doc(widget.chat.id).update({
+      lastMessageSenderIdKey: widget.userId,
+      lastMessageKey: value,
+      lastMessageDateKey: DateTime.now().toString(),
+    });
     // await getChatMessages();
   }
 }

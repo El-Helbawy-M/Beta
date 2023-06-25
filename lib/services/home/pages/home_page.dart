@@ -47,6 +47,7 @@ class _HomePageState extends State<HomePage> {
   ];
 
   String? userName;
+  String filterType = 'day';
   String chartType = ChartsDataController.bloodSugarType;
 
   @override
@@ -69,6 +70,11 @@ class _HomePageState extends State<HomePage> {
     if (!status.isGranted) {
       await Permission.camera.request();
     }
+  }
+
+  String get format {
+    if (filterType == 'day') return 'hh:mm a';
+    return 'dd-MM-yyyy';
   }
 
   @override
@@ -119,9 +125,24 @@ class _HomePageState extends State<HomePage> {
                     ChartWidget(
                         data: ChartsDataController.instance
                             .items(chartType)
-                            .map((e) =>
-                                CharDataModel(label: e.key, value: e.value))
-                            .toList(),
+                            .map((e) {
+                          if (filterType == 'day') {
+                            if (DateTime.parse(e.key).day ==
+                                DateTime.now().day) {
+                              return CharDataModel(
+                                  label: DateFormat(format)
+                                      .format(DateTime.parse(e.key)),
+                                  value: e.value);
+                            } else {
+                              return null;
+                            }
+                          } else {
+                            return CharDataModel(
+                                label: DateFormat(format)
+                                    .format(DateTime.parse(e.key)),
+                                value: e.value);
+                          }
+                        }).toList(),
                         max: ChartsDataController.instance
                                 .items(chartType)
                                 .isEmpty
@@ -137,9 +158,12 @@ class _HomePageState extends State<HomePage> {
                           // ChartsDataController.instance.
                         },
                         onChangeChartFilter: (filter) {
+                          filterType = filter.value;
                           if (filter.value == 'day') {
                           } else if (filter.value == 'week') {
                           } else {}
+
+                          setState(() {});
                         }),
                     const SizedBox(height: 64),
                     const FollowDoctorButton(),
@@ -181,16 +205,21 @@ class ChartsDataController extends ChangeNotifier {
   static String bloodPressureType = 'bloodPressure';
   static String weightType = 'weight';
 
+  //DateFormat('dd-MM-yyyy').format(DateTime(202, 6, 12)), 90)
   List<MapEntry<String, int>> bloodSugar = <MapEntry<String, int>>[
-    MapEntry(DateFormat('dd-MM-yyyy').format(DateTime(202, 6, 12)), 90),
-    MapEntry(DateFormat('dd-MM-yyyy').format(DateTime(2023, 6, 24)), 666),
-    MapEntry(DateFormat('dd-MM-yyyy').format(DateTime(2023, 6, 20)), 333),
+    MapEntry(DateTime(202, 6, 12).toString(), 90),
+    MapEntry(DateTime(2023, 6, 24).toString(), 666),
+    MapEntry(DateTime(2023, 6, 20).toString(), 333),
+    MapEntry(DateTime(2023, 6, 25).toString(), 33),
+    MapEntry(DateTime(2023, 6, 25, 6).toString(), 40),
+    MapEntry(DateTime(2023, 6, 25, 22).toString(), 80),
+    MapEntry(DateTime(2023, 6, 25, 4).toString(), 120),
   ];
   List<MapEntry<String, int>> bloodPressure = <MapEntry<String, int>>[
-    MapEntry(DateFormat('dd-MM-yyyy').format(DateTime(2023, 6, 12)), 80),
+    MapEntry(DateTime(2023, 6, 12).toString(), 80),
   ];
   List<MapEntry<String, int>> weight = <MapEntry<String, int>>[
-    MapEntry(DateFormat('dd-MM-yyyy').format(DateTime(2023, 3, 21)), 70),
+    MapEntry(DateTime(2023, 3, 21).toString(), 70),
   ];
 
   void setNewItemTo(String itemType, MapEntry<String, int> data) {

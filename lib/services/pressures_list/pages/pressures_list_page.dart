@@ -34,15 +34,13 @@ class _PressuresListPageState extends State<PressuresListPage> {
       loading = true;
       setState(() {});
 
-      print('herr');
-
       final Response? response = await NetworkHandler.instance?.get(
         url: ApiNames.bloodPressureList,
         withToken: true,
       );
-
       if (response == null) return;
       if (!mounted) return;
+      items.clear();
 
       for (var item in response.data['data']) {
         items.add(BloodPressureItemModel.fromJson(item));

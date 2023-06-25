@@ -16,7 +16,7 @@ class ChartWidget extends StatelessWidget {
     required this.onSelectItem,
     required this.onChangeChartFilter,
   }) : super(key: key);
-  final List<CharDataModel> data;
+  final List<CharDataModel?> data;
   final int max;
   final void Function(SelectOption) onSelectItem;
   final void Function(SelectOption) onChangeChartFilter;
@@ -118,18 +118,22 @@ class ChartWidget extends StatelessWidget {
                           data.length,
                           (index) => BarChartGroupData(
                             x: index,
-                            barRods: [
-                              BarChartRodData(
-                                toY: data[index].value.toDouble(),
-                                width: 3,
-                                color: data[index].value > 80
-                                    ? Colors.red
-                                    : data[index].value < 40
-                                        ? Colors.orange
-                                        : Theme.of(context).colorScheme.primary,
-                                borderRadius: BorderRadius.circular(15),
-                              )
-                            ],
+                            barRods: data[index] == null
+                                ? []
+                                : [
+                                    BarChartRodData(
+                                      toY: data[index]!.value.toDouble(),
+                                      width: 3,
+                                      color: data[index]!.value > 80
+                                          ? Colors.red
+                                          : data[index]!.value < 40
+                                              ? Colors.orange
+                                              : Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                      borderRadius: BorderRadius.circular(15),
+                                    )
+                                  ],
                           ),
                         ),
                         titlesData: FlTitlesData(
@@ -138,17 +142,20 @@ class ChartWidget extends StatelessWidget {
                             sideTitles: SideTitles(
                               showTitles: true,
                               interval: 1,
-                              getTitlesWidget: (value, meta) => SideTitleWidget(
-                                axisSide: meta.axisSide,
-                                space: 4.0,
-                                child: Text(
-                                  data[value.toInt()].label,
-                                  style: AppTextStyles.w600.copyWith(
-                                      fontSize: 12,
-                                      fontFamily: "txt",
-                                      color: Colors.black),
-                                ),
-                              ),
+                              getTitlesWidget: (value, meta) =>
+                                  data[value.toInt()] == null
+                                      ? const SizedBox()
+                                      : SideTitleWidget(
+                                          axisSide: meta.axisSide,
+                                          space: 4.0,
+                                          child: Text(
+                                            data[value.toInt()]!.label,
+                                            style: AppTextStyles.w600.copyWith(
+                                                fontSize: 12,
+                                                fontFamily: "txt",
+                                                color: Colors.black),
+                                          ),
+                                        ),
                             ),
                           ),
                           leftTitles: AxisTitles(
