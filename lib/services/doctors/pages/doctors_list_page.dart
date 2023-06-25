@@ -74,7 +74,6 @@ class _DoctorsListPageState extends State<DoctorsListPage> {
                   style: AppTextStyles.w500.copyWith(fontSize: 18),
                 ),
                 const Spacer(),
-                const Icon(Icons.menu),
               ],
             ),
           ),

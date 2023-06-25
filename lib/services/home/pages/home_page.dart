@@ -6,7 +6,6 @@ import 'package:flutter_project_base/routers/routers.dart';
 import 'package:flutter_project_base/services/home/models/char_data_model.dart';
 import 'package:flutter_project_base/utilities/theme/text_styles.dart';
 import 'package:intl/intl.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 import '../../../handlers/shared_handler.dart';
 import '../../../utilities/components/custom_page_body.dart';
@@ -52,7 +51,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    askForCameraPermission();
     getUserName();
     ChartsDataController.instance.addListener(() {
       setState(() {});
@@ -65,16 +63,9 @@ class _HomePageState extends State<HomePage> {
         ?.getData(key: SharedKeys().user, valueType: ValueType.map)['name'];
   }
 
-  void askForCameraPermission() async {
-    var status = await Permission.camera.status;
-    if (!status.isGranted) {
-      await Permission.camera.request();
-    }
-  }
-
   String get format {
     if (filterType == 'day') return 'hh:mm a';
-    return 'dd-MM-yyyy';
+    return 'dd/MM';
   }
 
   @override
@@ -108,7 +99,7 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                   const Spacer(),
-                  const Icon(Icons.menu),
+                  // const Icon(Icons.menu),
                 ],
               ),
             ),
@@ -159,9 +150,6 @@ class _HomePageState extends State<HomePage> {
                         },
                         onChangeChartFilter: (filter) {
                           filterType = filter.value;
-                          if (filter.value == 'day') {
-                          } else if (filter.value == 'week') {
-                          } else {}
 
                           setState(() {});
                         }),

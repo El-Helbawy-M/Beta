@@ -27,7 +27,7 @@ class _LoginPageState extends State<LoginPage> {
     return CustomPageBody(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
+        child: ListView(
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 120),

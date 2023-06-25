@@ -26,9 +26,9 @@ class _ScanFoodViewState extends State<ScanFoodView> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(20.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
+      child: ListView(
+        // crossAxisAlignment: CrossAxisAlignment.center,
+        // mainAxisAlignment: MainAxisAlignment.center,
         children: [
           if (image == null) ...[
             Stack(
@@ -51,27 +51,36 @@ class _ScanFoodViewState extends State<ScanFoodView> {
               ],
             ),
           ] else ...[
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.file(
-                    image!,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.file(
+                  image!,
+                  width: 250,
+                  height: 250,
+                ),
+                if (msg != 'Not recognized') ...[
+                  const SizedBox(height: 14),
+                  Image.asset(
+                    'assets/images/ml_image.jpeg',
                     width: 250,
                     height: 250,
                   ),
-                  const SizedBox(height: 14),
-                  Text(
+                ],
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  child: Text(
                     msg,
+                    textAlign: TextAlign.center,
                     style: const TextStyle(
                       color: Colors.black,
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
             CustomBtn(
               buttonColor: Theme.of(context).colorScheme.primary,
@@ -89,7 +98,7 @@ class _ScanFoodViewState extends State<ScanFoodView> {
   }
 
   void pickImage() async {
-    XFile? image = await ImagePicker().pickImage(source: ImageSource.camera);
+    XFile? image = await ImagePicker().pickImage(source: ImageSource.gallery);
 
     if (image == null) return;
 
@@ -105,13 +114,14 @@ class _ScanFoodViewState extends State<ScanFoodView> {
     }
     switch (type) {
       case 1:
-        msg = 'No Diabetic Retinopathy';
+        msg = '''Fat = 46g
+Carb = 88 g
+Calories = 900
+Protein= 34 g''';
         break;
       case 2:
-        msg = 'Level 3, Proliferate_DR';
-        break;
       case 3:
-        msg = 'Level 4, severe';
+        msg = 'Not recognized';
         break;
     }
 

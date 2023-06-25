@@ -124,13 +124,22 @@ class ChartWidget extends StatelessWidget {
                                     BarChartRodData(
                                       toY: data[index]!.value.toDouble(),
                                       width: 3,
-                                      color: data[index]!.value > 80
-                                          ? Colors.red
-                                          : data[index]!.value < 40
+                                      color: data[index]!.value > 80 &&
+                                              data[index]!.value < 150
+                                          ? Colors.green
+                                          : data[index]!.value > 160 &&
+                                                  data[index]!.value < 200
                                               ? Colors.orange
-                                              : Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
+                                              : data[index]!.value > 60 &&
+                                                      data[index]!.value < 80
+                                                  ? Colors.orange
+                                                  : data[index]!.value > 200
+                                                      ? Colors.red
+                                                      : data[index]!.value < 60
+                                                          ? Colors.red
+                                                          : Theme.of(context)
+                                                              .colorScheme
+                                                              .primary,
                                       borderRadius: BorderRadius.circular(15),
                                     )
                                   ],
@@ -193,5 +202,11 @@ class ChartWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+extension Range on num {
+  bool isBetween(num from, num to) {
+    return from < this && this < to;
   }
 }
