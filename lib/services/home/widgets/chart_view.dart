@@ -2,11 +2,11 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project_base/base/models/select_option.dart';
 import 'package:flutter_project_base/base/widgets/fields/single_select_bottomsheet/single_select_input_field.dart';
-import 'package:flutter_project_base/config/api_names.dart';
 import 'package:flutter_project_base/services/home/models/char_data_model.dart';
 import 'package:flutter_project_base/utilities/theme/media.dart';
 
 import '../../../utilities/theme/text_styles.dart';
+import '../pages/home_page.dart';
 
 class ChartWidget extends StatelessWidget {
   const ChartWidget({
@@ -14,16 +14,18 @@ class ChartWidget extends StatelessWidget {
     required this.data,
     this.max = 120,
     required this.onSelectItem,
+    required this.onChangeChartFilter,
   }) : super(key: key);
   final List<CharDataModel> data;
   final int max;
   final void Function(SelectOption) onSelectItem;
+  final void Function(SelectOption) onChangeChartFilter;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: SizedBox(
-        height: 400,
+        height: data.isEmpty ? 150 : 400,
         width: MediaHelper.width,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,7 +36,8 @@ class ChartWidget extends StatelessWidget {
               children: [
                 Expanded(
                   child: SingleSelectSheetField(
-                    initialValue: SelectOption("اليوم", "اليوم"),
+                    initialValue: SelectOption("day", "اليوم"),
+                    onChange: onChangeChartFilter,
                     valueSet: [
                       SelectOption("day", "اليوم"),
                       SelectOption("week", "الاسبوع"),
@@ -45,106 +48,101 @@ class ChartWidget extends StatelessWidget {
                 const SizedBox(width: 16),
                 Expanded(
                   child: SingleSelectSheetField(
-                    initialValue:
-                        SelectOption(ApiNames.bloodSugarList, "سكر الدم"),
+                    initialValue: SelectOption(
+                        ChartsDataController.bloodSugarType, "سكر الدم"),
                     onChange: onSelectItem,
                     valueSet: [
-                      SelectOption(ApiNames.weightList, "الوزن"),
-                      SelectOption(ApiNames.bloodPressureList, "ضغط الدم"),
-                      SelectOption(ApiNames.bloodSugarList, "سكر الدم"),
+                      SelectOption(ChartsDataController.weightType, "الوزن"),
+                      SelectOption(
+                          ChartsDataController.bloodPressureType, "ضغط الدم"),
+                      SelectOption(
+                          ChartsDataController.bloodSugarType, "سكر الدم"),
                     ],
                   ),
                 ),
               ],
             ),
             const SizedBox(height: 8),
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(15),
-                  border: Border.all(
-                      width: 1,
-                      color: Theme.of(context).dividerColor.withOpacity(.05)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey[300]!.withOpacity(.4),
-                      blurRadius: 10,
-                      offset: const Offset(0, 3),
-                    ),
-                  ],
+            if (data.isEmpty) ...[
+              const Center(
+                  child: Text(
+                'لا توجد إحصائيات في الوقت الحالي',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
                 ),
-                padding: const EdgeInsets.only(right: 16, top: 16, bottom: 16),
-                child: BarChart(
-                  BarChartData(
-                      groupsSpace: 50,
-                      borderData: FlBorderData(
-                        show: true,
-                        border: Border.symmetric(
-                          horizontal: BorderSide(
-                              width: .5, color: Theme.of(context).dividerColor),
-                        ),
+                textAlign: TextAlign.center,
+              ))
+            ] else ...[
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(15),
+                    border: Border.all(
+                        width: 1,
+                        color: Theme.of(context).dividerColor.withOpacity(.05)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey[300]!.withOpacity(.4),
+                        blurRadius: 10,
+                        offset: const Offset(0, 3),
                       ),
-                      maxY: max.toDouble(),
-                      gridData: FlGridData(
-                        show: true,
-                        drawHorizontalLine: true,
-                        drawVerticalLine: false,
-                        horizontalInterval: max.toDouble() / 12,
-                        getDrawingHorizontalLine: (value) {
-                          return FlLine(
-                              color: Theme.of(context).dividerColor,
-                              strokeWidth: .5);
-                        },
-                      ),
-                      barGroups: List.generate(
-                        data.length,
-                        (index) => BarChartGroupData(
-                          x: index,
-                          barRods: [
-                            BarChartRodData(
-                              toY: data[index].value.toDouble(),
-                              width: 3,
-                              color: data[index].value > 80
-                                  ? Colors.red
-                                  : data[index].value < 40
-                                      ? Colors.orange
-                                      : Theme.of(context).colorScheme.primary,
-                              borderRadius: BorderRadius.circular(15),
-                            )
-                          ],
-                        ),
-                      ),
-                      titlesData: FlTitlesData(
-                        show: true,
-                        bottomTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                            showTitles: true,
-                            interval: 1,
-                            getTitlesWidget: (value, meta) => SideTitleWidget(
-                              axisSide: meta.axisSide,
-                              space: 4.0,
-                              child: Text(
-                                data[value.toInt()].label,
-                                style: AppTextStyles.w600.copyWith(
-                                    fontSize: 12,
-                                    fontFamily: "txt",
-                                    color: Colors.black),
-                              ),
-                            ),
+                    ],
+                  ),
+                  padding:
+                      const EdgeInsets.only(right: 16, top: 16, bottom: 16),
+                  child: BarChart(
+                    BarChartData(
+                        groupsSpace: 50,
+                        borderData: FlBorderData(
+                          show: true,
+                          border: Border.symmetric(
+                            horizontal: BorderSide(
+                                width: .5,
+                                color: Theme.of(context).dividerColor),
                           ),
                         ),
-                        leftTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                            showTitles: true,
-                            reservedSize: 50,
-                            interval: max.toDouble() / 12,
-                            getTitlesWidget: (value, meta) => SideTitleWidget(
-                              axisSide: meta.axisSide,
-                              space: 0,
-                              child: Center(
+                        maxY: max.toDouble(),
+                        gridData: FlGridData(
+                          show: true,
+                          drawHorizontalLine: true,
+                          drawVerticalLine: false,
+                          horizontalInterval: max.toDouble() / 12,
+                          getDrawingHorizontalLine: (value) {
+                            return FlLine(
+                                color: Theme.of(context).dividerColor,
+                                strokeWidth: .5);
+                          },
+                        ),
+                        barGroups: List.generate(
+                          data.length,
+                          (index) => BarChartGroupData(
+                            x: index,
+                            barRods: [
+                              BarChartRodData(
+                                toY: data[index].value.toDouble(),
+                                width: 3,
+                                color: data[index].value > 80
+                                    ? Colors.red
+                                    : data[index].value < 40
+                                        ? Colors.orange
+                                        : Theme.of(context).colorScheme.primary,
+                                borderRadius: BorderRadius.circular(15),
+                              )
+                            ],
+                          ),
+                        ),
+                        titlesData: FlTitlesData(
+                          show: true,
+                          bottomTitles: AxisTitles(
+                            sideTitles: SideTitles(
+                              showTitles: true,
+                              interval: 1,
+                              getTitlesWidget: (value, meta) => SideTitleWidget(
+                                axisSide: meta.axisSide,
+                                space: 4.0,
                                 child: Text(
-                                  value.toInt().toString(),
+                                  data[value.toInt()].label,
                                   style: AppTextStyles.w600.copyWith(
                                       fontSize: 12,
                                       fontFamily: "txt",
@@ -153,17 +151,37 @@ class ChartWidget extends StatelessWidget {
                               ),
                             ),
                           ),
-                        ),
-                        topTitles: AxisTitles(
-                          sideTitles: SideTitles(showTitles: false),
-                        ),
-                        rightTitles: AxisTitles(
-                          sideTitles: SideTitles(showTitles: false),
-                        ),
-                      )),
+                          leftTitles: AxisTitles(
+                            sideTitles: SideTitles(
+                              showTitles: true,
+                              reservedSize: 50,
+                              interval: max.toDouble() / 12,
+                              getTitlesWidget: (value, meta) => SideTitleWidget(
+                                axisSide: meta.axisSide,
+                                space: 0,
+                                child: Center(
+                                  child: Text(
+                                    value.toInt().toString(),
+                                    style: AppTextStyles.w600.copyWith(
+                                        fontSize: 12,
+                                        fontFamily: "txt",
+                                        color: Colors.black),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          topTitles: AxisTitles(
+                            sideTitles: SideTitles(showTitles: false),
+                          ),
+                          rightTitles: AxisTitles(
+                            sideTitles: SideTitles(showTitles: false),
+                          ),
+                        )),
+                  ),
                 ),
               ),
-            ),
+            ]
           ],
         ),
       ),

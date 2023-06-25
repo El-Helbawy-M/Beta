@@ -31,7 +31,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
   bool loading = true;
   @override
   void initState() {
-    getChatMessages();
+    // getChatMessages();
     super.initState();
   }
 
@@ -132,23 +132,56 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
       body: Column(
         children: [
           Expanded(
-            child: loading
-                ? Center(
-                    child: CircularProgressIndicator(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                  )
-                : ListView.separated(
-                    reverse: true,
-                    itemBuilder: (_, int index) => MessageCard(
-                      message: messages[index],
-                      userId: widget.userId,
-                    ),
-                    separatorBuilder: (_, __) => const SizedBox(height: 8),
-                    itemCount: messages.length,
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                  ),
+            child: StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection('Chats')
+                    .doc(widget.chat.id)
+                    .collection('Messages')
+                    .orderBy(createdDateKey, descending: true)
+                    .snapshots(),
+                builder: (_, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    );
+                  } else {
+                    messages.clear();
+                    for (var data in snapshot.data!.docs) {
+                      messages.add(MessageModel.fromFireStore(data));
+                    }
+
+                    return ListView.separated(
+                      reverse: true,
+                      itemBuilder: (_, int index) => MessageCard(
+                        message: messages[index],
+                        userId: widget.userId,
+                      ),
+                      separatorBuilder: (_, __) => const SizedBox(height: 8),
+                      itemCount: messages.length,
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                    );
+                  }
+                }),
           ),
+
+          //loading
+          //                 ? Center(
+          //                     child: CircularProgressIndicator(
+          //                       color: Theme.of(context).colorScheme.primary,
+          //                     ),
+          //                   )
+          //                 : ListView.separated(
+          //                     reverse: true,
+          //                     itemBuilder: (_, int index) => MessageCard(
+          //                       message: messages[index],
+          //                       userId: widget.userId,
+          //                     ),
+          //                     separatorBuilder: (_, __) => const SizedBox(height: 8),
+          //                     itemCount: messages.length,
+          //                     padding: const EdgeInsets.symmetric(horizontal: 16),
+          //                   )
           Divider(
             height: 0,
             color: Theme.of(context).dividerColor,
@@ -201,7 +234,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
       'createdDate': DateTime.now().toString(),
     });
 
-    await getChatMessages();
+    // await getChatMessages();
   }
 }
 

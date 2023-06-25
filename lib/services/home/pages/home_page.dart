@@ -1,7 +1,5 @@
 import 'dart:math';
 
-import 'package:collection/collection.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project_base/routers/navigator.dart';
 import 'package:flutter_project_base/routers/routers.dart';
@@ -10,10 +8,7 @@ import 'package:flutter_project_base/utilities/theme/text_styles.dart';
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../../../base/utils.dart';
-import '../../../config/api_names.dart';
 import '../../../handlers/shared_handler.dart';
-import '../../../network/network_handler.dart';
 import '../../../utilities/components/custom_page_body.dart';
 import '../widgets/chart_view.dart';
 import '../widgets/follow_doctor_btn.dart';
@@ -51,16 +46,16 @@ class _HomePageState extends State<HomePage> {
     () => CustomNavigator.push(Routes.weightList),
   ];
 
-  List<MapEntry<String, int>> items = <MapEntry<String, int>>[];
-
   String? userName;
-  bool loading = false;
+  String chartType = ChartsDataController.bloodSugarType;
 
   @override
   void initState() {
     askForCameraPermission();
     getUserName();
-    getItems(ApiNames.bloodSugarList);
+    ChartsDataController.instance.addListener(() {
+      setState(() {});
+    });
     super.initState();
   }
 
@@ -121,27 +116,31 @@ class _HomePageState extends State<HomePage> {
                 physics: const BouncingScrollPhysics(),
                 child: Column(
                   children: [
-                    loading
-                        ? const Center(
-                            child: CircularProgressIndicator(),
-                          )
-                        : items.isEmpty
-                            ? const SizedBox()
-                            : ChartWidget(
-                                data: items
-                                    .map((e) => CharDataModel(
-                                        label: e.key, value: e.value))
-                                    .toList(),
-                                max: items.isEmpty
-                                    ? 0
-                                    : items
-                                        .map((e) => e.value)
-                                        .toList()
-                                        .reduce(max),
-                                onSelectItem: (option) {
-                                  getItems(option.value);
-                                },
-                              ),
+                    ChartWidget(
+                        data: ChartsDataController.instance
+                            .items(chartType)
+                            .map((e) =>
+                                CharDataModel(label: e.key, value: e.value))
+                            .toList(),
+                        max: ChartsDataController.instance
+                                .items(chartType)
+                                .isEmpty
+                            ? 0
+                            : ChartsDataController.instance
+                                .items(chartType)
+                                .map((e) => e.value)
+                                .toList()
+                                .reduce(max),
+                        onSelectItem: (option) {
+                          chartType = option.value;
+                          setState(() {});
+                          // ChartsDataController.instance.
+                        },
+                        onChangeChartFilter: (filter) {
+                          if (filter.value == 'day') {
+                          } else if (filter.value == 'week') {
+                          } else {}
+                        }),
                     const SizedBox(height: 64),
                     const FollowDoctorButton(),
                     const SizedBox(height: 32),
@@ -172,61 +171,46 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-
-  void getItems(String url) async {
-    try {
-      loading = true;
-      setState(() {});
-
-      final Response? response = await NetworkHandler.instance?.get(
-        url: url,
-        withToken: true,
-      );
-
-      if (response == null) return;
-      if (!mounted) return;
-
-      List<ChartItem> chartItems = <ChartItem>[];
-
-      for (var item in response.data['data']) {
-        print(item['sugar_concentration']);
-        // items.add(
-        //     MapEntry('test', int.tryParse(item['sugar_concentration']) ?? 0));
-
-        // chartItems
-        //     .add(ChartItem(item: 'kk', value: DateTime.parse(item['date'])));
-      }
-
-      print(groupBy(
-          chartItems, (p0) => DateFormat('dd-MM-yyyy').format(p0.value)));
-
-      for (var item in chartItems) {
-        items.add(MapEntry(item.item, 30));
-      }
-    } on DioError catch (e) {
-      String? msg = e.response?.data.toString();
-
-      if (e.response?.data is Map &&
-          (e.response?.data as Map).containsKey('errors')) {
-        msg = e.response?.data['errors'].toString();
-      }
-
-      showSnackBar(
-        context,
-        msg,
-        type: SnackBarType.warning,
-      );
-    }
-    loading = false;
-    setState(() {});
-  }
 }
 
-class ChartItem {
-  final String item;
-  final DateTime value;
-  ChartItem({
-    required this.value,
-    required this.item,
-  });
+class ChartsDataController extends ChangeNotifier {
+  ChartsDataController._();
+
+  static ChartsDataController instance = ChartsDataController._();
+  static String bloodSugarType = 'bloodSugar';
+  static String bloodPressureType = 'bloodPressure';
+  static String weightType = 'weight';
+
+  List<MapEntry<String, int>> bloodSugar = <MapEntry<String, int>>[
+    MapEntry(DateFormat('dd-MM-yyyy').format(DateTime(202, 6, 12)), 90),
+    MapEntry(DateFormat('dd-MM-yyyy').format(DateTime(2023, 6, 24)), 666),
+    MapEntry(DateFormat('dd-MM-yyyy').format(DateTime(2023, 6, 20)), 333),
+  ];
+  List<MapEntry<String, int>> bloodPressure = <MapEntry<String, int>>[
+    MapEntry(DateFormat('dd-MM-yyyy').format(DateTime(2023, 6, 12)), 80),
+  ];
+  List<MapEntry<String, int>> weight = <MapEntry<String, int>>[
+    MapEntry(DateFormat('dd-MM-yyyy').format(DateTime(2023, 3, 21)), 70),
+  ];
+
+  void setNewItemTo(String itemType, MapEntry<String, int> data) {
+    if (itemType == bloodSugarType) {
+      bloodSugar.add(data);
+    } else if (itemType == bloodPressureType) {
+      bloodPressure.add(data);
+    } else {
+      weight.add(data);
+    }
+    notifyListeners();
+  }
+
+  List<MapEntry<String, int>> items(String itemType) {
+    if (itemType == bloodSugarType) {
+      return bloodSugar;
+    } else if (itemType == bloodPressureType) {
+      return bloodPressure;
+    } else {
+      return weight;
+    }
+  }
 }
