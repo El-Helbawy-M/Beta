@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project_base/handlers/icon_handler.dart';
@@ -26,6 +28,8 @@ class DoctorDetailsPage extends StatefulWidget {
 class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
   DoctorModel? doctorDetails;
   int? userId;
+
+  bool loading = false;
 
   TextEditingController comment = TextEditingController();
   @override
@@ -61,6 +65,7 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
         msg = e.response?.data['errors'].toString();
       }
 
+      if (!mounted) return;
       showSnackBar(
         context,
         msg,
@@ -88,7 +93,7 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
         ),
         titleSpacing: 4,
         title: Text(
-          doctorDetails == null ? '' : "د.احمد عوض",
+          doctorDetails == null ? '' : (doctorDetails?.name ?? ''),
           style: AppTextStyles.w500.copyWith(fontSize: 18),
         ),
       ),
@@ -96,173 +101,198 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
           ? const Center(
               child: CircularProgressIndicator(),
             )
-          : SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Column(
-                children: [
-                  const SizedBox(height: 24),
-                  Hero(
-                    tag: "doctorId",
-                    child: Container(
-                      width: 150,
-                      height: 150,
-                      decoration: BoxDecoration(
-                        color: const Color(0xffD3E4FF),
-                        borderRadius: BorderRadius.circular(20),
-                        image: DecorationImage(
-                            image:
-                                NetworkImage(doctorDetails!.profilePic ?? ''),
-                            fit: BoxFit.cover),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  Text(
-                    doctorDetails?.name ?? '',
-                    style: AppTextStyles.w700.copyWith(fontSize: 26),
-                  ),
-                  Divider(
-                    height: 32,
-                    color: Theme.of(context).dividerColor,
-                  ),
-                  InfoSection(
-                    label: "معلومات عن الدكتور",
-                    body: ReadMoreText(
-                      doctorDetails!.bio ?? '',
-                      trimLines: 3,
-                      colorClickableText: Theme.of(context).colorScheme.primary,
-                      trimMode: TrimMode.Line,
-                      trimCollapsedText: '\t\tاظهر المزيد',
-                      trimExpandedText: '\t\tاختصار',
-                      moreStyle: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.primary),
-                      lessStyle: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.primary),
-                    ),
-                  ),
-                  Divider(
-                    height: 32,
-                    color: Theme.of(context).dividerColor,
-                  ),
-                  InfoSection(
-                    with24Padding: false,
-                    label: "احجز استشارة",
-                    body: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 24),
-                          child: Row(
-                            children: [
-                              drawSvgIcon("cash", iconColor: Colors.green),
-                              const SizedBox(width: 8),
-                              Text(
-                                " 150 ج.م",
-                                style: AppTextStyles.w500.copyWith(
-                                    fontSize: 18, color: Colors.green),
-                              ),
-                            ],
+          : Stack(
+              children: [
+                SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 24),
+                      Hero(
+                        tag: "doctorId",
+                        child: Container(
+                          width: 150,
+                          height: 150,
+                          decoration: BoxDecoration(
+                            color: const Color(0xffD3E4FF),
+                            borderRadius: BorderRadius.circular(20),
+                            image: DecorationImage(
+                                image: NetworkImage(
+                                    doctorDetails!.profilePic ?? ''),
+                                fit: BoxFit.cover),
                           ),
                         ),
-                        const SizedBox(height: 16),
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          physics: const BouncingScrollPhysics(),
-                          child: Row(
-                              children: (doctorDetails?.appointments ?? [])
-                                  .map((e) => TicketCard(e, doctorDetails))
-                                  .toList()),
+                      ),
+                      const SizedBox(height: 24),
+                      Text(
+                        doctorDetails?.name ?? '',
+                        style: AppTextStyles.w700.copyWith(fontSize: 26),
+                      ),
+                      Divider(
+                        height: 32,
+                        color: Theme.of(context).dividerColor,
+                      ),
+                      InfoSection(
+                        label: "معلومات عن الدكتور",
+                        body: ReadMoreText(
+                          doctorDetails!.bio ?? '',
+                          trimLines: 3,
+                          colorClickableText:
+                              Theme.of(context).colorScheme.primary,
+                          trimMode: TrimMode.Line,
+                          trimCollapsedText: '\t\tاظهر المزيد',
+                          trimExpandedText: '\t\tاختصار',
+                          moreStyle: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.primary),
+                          lessStyle: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.primary),
                         ),
-                      ],
-                    ),
+                      ),
+                      Divider(
+                        height: 32,
+                        color: Theme.of(context).dividerColor,
+                      ),
+                      InfoSection(
+                        with24Padding: false,
+                        label: "احجز استشارة",
+                        body: Column(
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 24),
+                              child: Row(
+                                children: [
+                                  drawSvgIcon("cash", iconColor: Colors.green),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    " ${Random().nextInt(1000)} ج.م",
+                                    style: AppTextStyles.w500.copyWith(
+                                      fontSize: 18,
+                                      color: Colors.green,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              physics: const BouncingScrollPhysics(),
+                              child: Row(
+                                  children: (doctorDetails?.appointments ?? [])
+                                      .map((e) => TicketCard(e, doctorDetails,
+                                              onChooseItem: (value) {
+                                            loading = value;
+                                            setState(() {});
+                                          }))
+                                      .toList()),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const Divider(),
+                      const Text(
+                        'التعليقات',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 22),
+                        child: TextFormField(
+                          maxLines: 4,
+                          controller: comment,
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: TextButton(
+                          onPressed: () async {
+                            if (comment.text.isEmpty) return;
+                            DoctorCommentsController.instance.addComment(
+                              userId: doctorDetails!.id.toString(),
+                              comment: comment.text,
+                            );
+                            comment.clear();
+                            setState(() {});
+                          },
+                          child: const Text('أضف تعليق'),
+                        ),
+                      ),
+                      ListView.separated(
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.symmetric(horizontal: 22),
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (_, int index) => Container(
+                          color: Colors.grey[300],
+                          padding: const EdgeInsets.all(8),
+                          child: Text(DoctorCommentsController.instance
+                                      .comments[doctorDetails!.id.toString()]
+                                  ?[index] ??
+                              ''),
+                        ),
+                        separatorBuilder: (_, __) => const Divider(),
+                        itemCount: DoctorCommentsController
+                                .instance
+                                .comments[doctorDetails!.id.toString()]
+                                ?.length ??
+                            0,
+                      )
+                      // Divider(
+                      //   height: 32,
+                      //   color: Theme.of(context).dividerColor,
+                      // ),
+                      // InfoSection(
+                      //   with24Padding: false,
+                      //   label: "اطباء اخرون",
+                      //   body: Column(
+                      //     children: [
+                      //       Padding(
+                      //         padding: const EdgeInsets.symmetric(horizontal: 24),
+                      //         child: Row(
+                      //           children: [
+                      //             drawSvgIcon("cash", iconColor: Colors.green),
+                      //             const SizedBox(width: 8),
+                      //             Text(
+                      //               " 150 ج.م",
+                      //               style: AppTextStyles.w500.copyWith(fontSize: 18, color: Colors.green),
+                      //             ),
+                      //           ],
+                      //         ),
+                      //       ),
+                      //       const SizedBox(height: 16),
+                      //       SingleChildScrollView(
+                      //         scrollDirection: Axis.horizontal,
+                      //         physics: const BouncingScrollPhysics(),
+                      //         child: Row(
+                      //           children: [
+                      //             const SizedBox(width: 24),
+                      //             TicketCard(),
+                      //             TicketCard(isTaken: true),
+                      //             TicketCard(isTaken: true),
+                      //             TicketCard(),
+                      //             TicketCard(),
+                      //           ],
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                    ],
                   ),
-                  const Divider(),
-                  const Text(
-                    'التعليقات',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 22),
-                    child: TextFormField(
-                      maxLines: 4,
-                      controller: comment,
+                ),
+                if (loading)
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    color: Colors.white30,
+                    child: const Center(
+                      child: CircularProgressIndicator(),
                     ),
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: TextButton(
-                      onPressed: () async {
-                        if (comment.text.isEmpty) return;
-                        DoctorCommentsController.instance.addComment(
-                          userId: userId!.toString(),
-                          comment: comment.text,
-                        );
-                        setState(() {});
-                      },
-                      child: const Text('أضف تعليق'),
-                    ),
-                  ),
-                  ListView.separated(
-                    shrinkWrap: true,
-                    padding: const EdgeInsets.symmetric(horizontal: 22),
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (_, int index) => Container(
-                      color: Colors.grey[300],
-                      padding: const EdgeInsets.all(8),
-                      child: Text(DoctorCommentsController
-                              .instance.comments[userId]?[index] ??
-                          ''),
-                    ),
-                    separatorBuilder: (_, __) => const Divider(),
-                    itemCount: DoctorCommentsController
-                            .instance.comments[userId]?.length ??
-                        0,
                   )
-                  // Divider(
-                  //   height: 32,
-                  //   color: Theme.of(context).dividerColor,
-                  // ),
-                  // InfoSection(
-                  //   with24Padding: false,
-                  //   label: "اطباء اخرون",
-                  //   body: Column(
-                  //     children: [
-                  //       Padding(
-                  //         padding: const EdgeInsets.symmetric(horizontal: 24),
-                  //         child: Row(
-                  //           children: [
-                  //             drawSvgIcon("cash", iconColor: Colors.green),
-                  //             const SizedBox(width: 8),
-                  //             Text(
-                  //               " 150 ج.م",
-                  //               style: AppTextStyles.w500.copyWith(fontSize: 18, color: Colors.green),
-                  //             ),
-                  //           ],
-                  //         ),
-                  //       ),
-                  //       const SizedBox(height: 16),
-                  //       SingleChildScrollView(
-                  //         scrollDirection: Axis.horizontal,
-                  //         physics: const BouncingScrollPhysics(),
-                  //         child: Row(
-                  //           children: [
-                  //             const SizedBox(width: 24),
-                  //             TicketCard(),
-                  //             TicketCard(isTaken: true),
-                  //             TicketCard(isTaken: true),
-                  //             TicketCard(),
-                  //             TicketCard(),
-                  //           ],
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
-                ],
-              ),
+              ],
             ),
     );
   }

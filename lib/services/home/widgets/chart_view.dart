@@ -2,19 +2,22 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project_base/base/models/select_option.dart';
 import 'package:flutter_project_base/base/widgets/fields/single_select_bottomsheet/single_select_input_field.dart';
+import 'package:flutter_project_base/config/api_names.dart';
 import 'package:flutter_project_base/services/home/models/char_data_model.dart';
 import 'package:flutter_project_base/utilities/theme/media.dart';
 
-import '../../../base/widgets/fields/date_input_field.dart';
 import '../../../utilities/theme/text_styles.dart';
 
 class ChartWidget extends StatelessWidget {
   const ChartWidget({
     Key? key,
     required this.data,
+    this.max = 120,
+    required this.onSelectItem,
   }) : super(key: key);
   final List<CharDataModel> data;
-  final int max = 120;
+  final int max;
+  final void Function(SelectOption) onSelectItem;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -29,19 +32,26 @@ class ChartWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Expanded(
-                  child: DateInputField(
-                    hintText: "اختر اليوم",
+                Expanded(
+                  child: SingleSelectSheetField(
+                    initialValue: SelectOption("اليوم", "اليوم"),
+                    valueSet: [
+                      SelectOption("day", "اليوم"),
+                      SelectOption("week", "الاسبوع"),
+                      SelectOption("month", "الشهر"),
+                    ],
                   ),
                 ),
                 const SizedBox(width: 16),
                 Expanded(
                   child: SingleSelectSheetField(
-                    initialValue: SelectOption("A1C", "A1C"),
+                    initialValue:
+                        SelectOption(ApiNames.bloodSugarList, "سكر الدم"),
+                    onChange: onSelectItem,
                     valueSet: [
-                      SelectOption("weight", "الوزن"),
-                      SelectOption("bloodPressure", "ضغط الدم"),
-                      SelectOption("A1C", "A1C"),
+                      SelectOption(ApiNames.weightList, "الوزن"),
+                      SelectOption(ApiNames.bloodPressureList, "ضغط الدم"),
+                      SelectOption(ApiNames.bloodSugarList, "سكر الدم"),
                     ],
                   ),
                 ),
@@ -95,7 +105,11 @@ class ChartWidget extends StatelessWidget {
                             BarChartRodData(
                               toY: data[index].value.toDouble(),
                               width: 3,
-                              color: Theme.of(context).colorScheme.primary,
+                              color: data[index].value > 80
+                                  ? Colors.red
+                                  : data[index].value < 40
+                                      ? Colors.orange
+                                      : Theme.of(context).colorScheme.primary,
                               borderRadius: BorderRadius.circular(15),
                             )
                           ],

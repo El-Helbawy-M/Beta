@@ -8,11 +8,14 @@ import '../../../utilities/theme/text_styles.dart';
 import '../blocs/add_meal_bloc.dart';
 import '../widgets/meal_view.dart';
 
-class AddMealDetailsView extends StatelessWidget {
-  const AddMealDetailsView({
-    super.key,
-  });
+class AddMealDetailsView extends StatefulWidget {
+  const AddMealDetailsView({super.key});
 
+  @override
+  State<AddMealDetailsView> createState() => _AddMealDetailsViewState();
+}
+
+class _AddMealDetailsViewState extends State<AddMealDetailsView> {
   @override
   Widget build(BuildContext context) {
     var bloc = BlocProvider.of<AddMealBloc>(context);
@@ -26,9 +29,10 @@ class AddMealDetailsView extends StatelessWidget {
             return Column(
               children: [
                 const SizedBox(height: 16),
-                const TextInputField(
+                TextInputField(
                   labelText: "اسم الوجبة",
                   hintText: "ادخل اسم الوجبة",
+                  controller: bloc.name,
                 ),
                 const SizedBox(height: 16),
                 ...List.generate(
@@ -43,8 +47,10 @@ class AddMealDetailsView extends StatelessWidget {
                   onTap: () => bloc.addElement(),
                   child: Row(
                     children: [
-                      drawSvgIcon("add_circled",
-                          iconColor: Theme.of(context).colorScheme.primary),
+                      drawSvgIcon(
+                        "add_circled",
+                        iconColor: Theme.of(context).colorScheme.primary,
+                      ),
                       const SizedBox(width: 8),
                       Text(
                         "اضافة عنصر اخر",

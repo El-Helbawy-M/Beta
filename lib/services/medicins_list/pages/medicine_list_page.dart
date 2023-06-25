@@ -72,12 +72,10 @@ class MedicinesListPage extends StatelessWidget {
                     children: [
                       const SizedBox(height: 16),
                       ...List.generate(
-                          4,
+                          2,
                           (index) => MedicineCard([
-                                'الدواء الاول',
-                                'الدواء الثاني',
-                                'الدواء الثالث',
-                                'الدواء الرابع',
+                                'سلفونيليوريا',
+                                'مغليتينيد',
                               ][index])),
                     ],
                   ),

@@ -95,7 +95,7 @@ class DoctorCard extends StatelessWidget {
                   child: Hero(
                     tag: "doctorId",
                     child: Image.network(
-                      doctorModel.profilePic ?? '',
+                      'https://beta-diabetics.me.click-transfer.com/public/default/doctor.jpg',
                       width: 100,
                       height: 170,
                       fit: BoxFit.cover,

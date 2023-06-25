@@ -3,13 +3,20 @@ import 'package:flutter_project_base/services/food_list/widgets/food_card_view.d
 
 import '../../../routers/navigator.dart';
 import '../../../routers/routers.dart';
-import '../../../utilities/components/arrow_back.dart';
 import '../../../utilities/components/custom_page_body.dart';
 import '../../../utilities/theme/text_styles.dart';
+import '../../add_meals/models/element_model.dart';
 import '../widgets/food_info_view.dart';
 
-class FoodListPage extends StatelessWidget {
+class FoodListPage extends StatefulWidget {
   const FoodListPage({super.key});
+
+  @override
+  State<FoodListPage> createState() => _FoodListPageState();
+}
+
+class _FoodListPageState extends State<FoodListPage> {
+  List<MealElementModel> items = [];
 
   @override
   Widget build(BuildContext context) {
@@ -46,16 +53,22 @@ class FoodListPage extends StatelessWidget {
                 child: ListView(
                   physics: const BouncingScrollPhysics(),
                   children: [
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     ...List.generate(
-                      12,
-                      (index) => const FoodCard(
-                        name: "وجبة الغداء",
+                      items.length,
+                      (index) => FoodCard(
+                        name: items[index].name ?? '',
                         calories: 200,
                         infos: [
-                          FoodInfo(label: "الكربوهيدرات", value: "20"),
-                          FoodInfo(label: "البروتين", value: "20"),
-                          FoodInfo(label: "الدهون", value: "20"),
+                          FoodInfo(
+                              label: "الكربوهيدرات",
+                              value: items[index].carbohydrates.toString()),
+                          FoodInfo(
+                              label: "البروتين",
+                              value: items[index].protein.toString()),
+                          FoodInfo(
+                              label: "الدهون",
+                              value: items[index].fat.toString()),
                         ],
                       ),
                     )
@@ -67,7 +80,20 @@ class FoodListPage extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => CustomNavigator.push(Routes.addMeal),
+        onPressed: () async {
+          final result = await CustomNavigator.push(Routes.addMeal);
+          if (result == null) return;
+          print(result);
+          items.add(MealElementModel(
+            name: result['name'],
+            calories: result['totalCalories'],
+            carbohydrates: result['totalCarbohydrates'],
+            fat: result['totalFat'],
+            protein: result['totalProtein'],
+          ));
+
+          setState(() {});
+        },
         backgroundColor: Theme.of(context).colorScheme.primary,
         child: const Icon(Icons.add, color: Colors.white),
       ),

@@ -1,3 +1,7 @@
+import 'dart:async';
+import 'dart:math';
+
+import 'package:draggable_widget/draggable_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project_base/handlers/icon_handler.dart';
 import 'package:flutter_project_base/services/home/pages/home_page.dart';
@@ -38,9 +42,7 @@ class _BasePageState extends State<BasePage> {
 
   @override
   void initState() {
-    print('ChangeBottomNavigationInit');
     ChangeBottomNavigationController.instance.addListener(() {
-      print('ChangeBottomNavigationController');
       _index = ChangeBottomNavigationController.instance.pageIndex;
       setState(() {});
     });
@@ -97,10 +99,23 @@ class _BasePageState extends State<BasePage> {
               backgroundColor: Theme.of(context).colorScheme.primary),
         ],
       ),
-      body: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: screen[_index],
+      body: Stack(
+        children: [
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: screen[_index],
+          ),
+          DraggableWidget(
+            bottomMargin: 80,
+            topMargin: 80,
+            intialVisibility: true,
+            horizontalSpace: 20,
+            shadowBorderRadius: 50,
+            initialPosition: AnchoringPosition.topLeft,
+            child: const SugarTimer(),
+          ),
+        ],
       ),
     );
   }
@@ -139,5 +154,62 @@ class ChangeBottomNavigationController extends ChangeNotifier {
   void changeBottomNavigation(int index) {
     pageIndex = index;
     notifyListeners();
+  }
+}
+
+class SugarTimer extends StatefulWidget {
+  const SugarTimer({super.key});
+
+  @override
+  State<SugarTimer> createState() => _SugarTimerState();
+}
+
+class _SugarTimerState extends State<SugarTimer> {
+  int sugar = 0;
+  late Timer timer;
+
+  @override
+  void initState() {
+    timer = Timer.periodic(const Duration(seconds: 4), (timer) {
+      int min = 25;
+      int max = 210;
+      sugar = min + Random().nextInt(max - min);
+      setState(() {});
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 100,
+      width: 100,
+      padding: EdgeInsets.all(12),
+      decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.white,
+          border: Border.all(color: Theme.of(context).colorScheme.primary)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text(
+            'قياس السكر الان هو',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          Text(
+            sugar.toString(),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
   }
 }

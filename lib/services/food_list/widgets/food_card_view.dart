@@ -43,11 +43,14 @@ class _FoodCardState extends State<FoodCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(widget.name,
-                        style: Theme.of(context).textTheme.headline5),
+                        style: Theme.of(context).textTheme.headlineSmall),
                     const SizedBox(height: 8),
-                    Text(widget.calories.toString() + "  سعر حراري",
-                        style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                            color: Theme.of(context).colorScheme.primary)),
+                    Text("${widget.calories}  سعر حراري",
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium!
+                            .copyWith(
+                                color: Theme.of(context).colorScheme.primary)),
                   ],
                 ),
                 GestureDetector(

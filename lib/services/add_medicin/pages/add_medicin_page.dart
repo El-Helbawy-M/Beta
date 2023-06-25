@@ -45,15 +45,15 @@ class AddMedicinPage extends StatelessWidget {
           return Column(
             children: [
               IndicatorHeader(
-                title: bloc.pageIndex != 1 ? "تفاصيل الدواء" : "مدة الدواء",
+                title: bloc.pageIndex != 0 ? "تفاصيل الدواء" : "مدة الدواء",
                 totalSteps: 2,
                 progress: bloc.pageIndex,
               ),
               Expanded(
                 child: SingleChildScrollView(
-                  child: bloc.pageIndex == 1
-                      ? const DurationStepView()
-                      : MedicinsStepView(),
+                  child: bloc.pageIndex == 0
+                      ? const MedicinsStepView()
+                      : const DurationStepView(),
                 ),
               ),
               Padding(
@@ -61,7 +61,7 @@ class AddMedicinPage extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
                 child: Row(
                   children: [
-                    if (bloc.pageIndex != 1)
+                    if (bloc.pageIndex != 0)
                       Expanded(
                         child: CustomBtn(
                           text: "السابق",
@@ -74,7 +74,7 @@ class AddMedicinPage extends StatelessWidget {
                     const SizedBox(width: 16),
                     Expanded(
                       child: CustomBtn(
-                        text: bloc.pageIndex == 1 ? "التالي" : "ارسال",
+                        text: bloc.pageIndex == 0 ? "التالي" : "ارسال",
                         onTap: () => bloc.add(Next()),
                       ),
                     ),

@@ -9,6 +9,7 @@ class AddMealBloc extends Bloc<AppEvents, AppStates> {
     on<Update>(_update);
   }
 
+  TextEditingController name = TextEditingController();
   ScrollController scrollController = ScrollController();
   String? mealName;
   bool mealNameValidation = true;

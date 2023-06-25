@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_project_base/base/widgets/fields/text_input_field.dart';
-import 'package:flutter_project_base/config/app_states.dart';
 import 'package:flutter_project_base/handlers/icon_handler.dart';
 
 import '../blocs/add_meal_bloc.dart';
@@ -18,6 +17,7 @@ class MealView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var bloc = context.read<AddMealBloc>();
+
     return Container(
       padding: const EdgeInsets.all(16),
       margin: const EdgeInsets.only(bottom: 16),

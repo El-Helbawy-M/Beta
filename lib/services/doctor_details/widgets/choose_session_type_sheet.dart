@@ -52,7 +52,6 @@ class _ChooseSessionTypeSheetState extends State<ChooseSessionTypeSheet> {
               if (result == null) return;
 
               if (result) {
-                print('ksksksk');
                 final user = (await SharedHandler.instance?.getData(
                     key: SharedKeys().user,
                     valueType: ValueType.map) as Map<String, dynamic>);

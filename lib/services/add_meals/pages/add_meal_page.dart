@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_project_base/base/widgets/fields/text_input_field.dart';
-import 'package:flutter_project_base/config/app_events.dart';
-import 'package:flutter_project_base/config/app_states.dart';
-import 'package:flutter_project_base/handlers/icon_handler.dart';
 import 'package:flutter_project_base/services/add_meals/blocs/add_meal_bloc.dart';
-import 'package:flutter_project_base/services/add_meals/widgets/meal_view.dart';
-import 'package:flutter_project_base/services/add_medicin/blocs/add_medicin_bloc.dart';
+import 'package:flutter_project_base/services/add_meals/models/element_model.dart';
+import 'package:flutter_project_base/services/add_meals/pages/scan_food_view.dart';
 import 'package:flutter_project_base/utilities/components/custom_btn.dart';
 import 'package:flutter_project_base/utilities/components/custom_page_body.dart';
+
 import '../../../routers/navigator.dart';
 import '../../../utilities/components/arrow_back.dart';
 import '../../../utilities/theme/text_styles.dart';
@@ -25,6 +22,7 @@ class _AddMealPageState extends State<AddMealPage> {
   int _index = 0;
   @override
   Widget build(BuildContext context) {
+    var bloc = context.read<AddMealBloc>();
     return CustomPageBody(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -58,7 +56,7 @@ class _AddMealPageState extends State<AddMealPage> {
                     });
                   },
                   child: AnimatedContainer(
-                    duration: Duration(milliseconds: 400),
+                    duration: const Duration(milliseconds: 400),
                     height: 56,
                     decoration: BoxDecoration(
                         border: Border(
@@ -90,7 +88,7 @@ class _AddMealPageState extends State<AddMealPage> {
                     });
                   },
                   child: AnimatedContainer(
-                    duration: Duration(milliseconds: 400),
+                    duration: const Duration(milliseconds: 400),
                     height: 56,
                     decoration: BoxDecoration(
                         border: Border(
@@ -119,13 +117,8 @@ class _AddMealPageState extends State<AddMealPage> {
           Expanded(
             child: _index == 0
                 ? const AddMealDetailsView()
-                : Center(
-                    child: drawSvgIcon(
-                      "upload",
-                      iconColor: Theme.of(context).colorScheme.primary,
-                      width: 100,
-                      height: 100,
-                    ),
+                : const Center(
+                    child: ScanFoodView(),
                   ),
           ),
           if (_index == 0) const SizedBox(height: 8),
@@ -136,7 +129,18 @@ class _AddMealPageState extends State<AddMealPage> {
                 buttonColor: Theme.of(context).colorScheme.primary,
                 textColor: Colors.white,
                 text: "اضافة وجبة",
-                onTap: () => CustomNavigator.pop(),
+                onTap: () {
+                  Map? data;
+
+                  if (_index == 0) {
+                    data = MealElementModel.calculateTotalValues(
+                      bloc.name.text,
+                      bloc.elements,
+                    );
+                  }
+
+                  CustomNavigator.pop(result: data);
+                },
               ),
             ),
         ],

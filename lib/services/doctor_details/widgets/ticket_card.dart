@@ -1,19 +1,30 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_project_base/services/doctor_details/widgets/choose_session_type_sheet.dart';
+import 'package:flutter_project_base/services/doctor_details/widgets/payment.dart';
 import 'package:flutter_project_base/services/doctors/model/doctor_model.dart';
 import 'package:intl/intl.dart';
 
+import '../../../base/pages/base_page.dart';
+import '../../../handlers/shared_handler.dart';
 import '../../../utilities/theme/text_styles.dart';
+import '../../chats/model/chat_model.dart';
 
-class TicketCard extends StatelessWidget {
+class TicketCard extends StatefulWidget {
   const TicketCard(
     this.appointmentModel,
     this.doctorDetails, {
     super.key,
+    required this.onChooseItem,
   });
   final AppointmentModel appointmentModel;
   final DoctorModel? doctorDetails;
+  final void Function(bool) onChooseItem;
 
+  @override
+  State<TicketCard> createState() => _TicketCardState();
+}
+
+class _TicketCardState extends State<TicketCard> {
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -39,7 +50,7 @@ class TicketCard extends StatelessWidget {
                   ),
                   child: Center(
                     child: Text(
-                      "${DateFormat('E').format(appointmentModel.day!)} ${DateFormat('dd/MM').format(appointmentModel.day!)}",
+                      "${DateFormat('E').format(widget.appointmentModel.day!)} ${DateFormat('dd/MM').format(widget.appointmentModel.day!)}",
                       style: AppTextStyles.w500
                           .copyWith(fontSize: 14, color: Colors.white),
                     ),
@@ -47,7 +58,9 @@ class TicketCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  (appointmentModel.intervals ?? []).first.split(' - ')[0],
+                  (widget.appointmentModel.intervals ?? [])
+                      .first
+                      .split(' - ')[0],
                   style: AppTextStyles.w500.copyWith(fontSize: 18),
                 ),
                 Text(
@@ -56,21 +69,47 @@ class TicketCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  (appointmentModel.intervals ?? []).first.split(' - ')[1],
+                  (widget.appointmentModel.intervals ?? [])
+                      .first
+                      .split(' - ')[1],
                   style: AppTextStyles.w500.copyWith(fontSize: 18),
                 ),
                 const SizedBox(height: 10),
                 InkWell(
-                  onTap: () {
-                    showBottomSheet(
-                        context: context,
-                        constraints: const BoxConstraints(maxHeight: 280),
-                        builder: (_) => ChooseSessionTypeSheet(doctorDetails),
-                        shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(12),
-                          topRight: Radius.circular(12),
-                        )));
+                  onTap: () async {
+                    final result = await Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => const PaymentView()),
+                    );
+
+                    if (result == null) return;
+
+                    if (result) {
+                      widget.onChooseItem(true);
+                      final user = (await SharedHandler.instance?.getData(
+                          key: SharedKeys().user,
+                          valueType: ValueType.map) as Map<String, dynamic>);
+                      await FirebaseFirestore.instance
+                          .collection('Chats')
+                          .doc('${widget.doctorDetails!.id}-${user['id']}')
+                          .set({
+                        doctorIdKey: widget.doctorDetails!.id,
+                        doctorNameKey: widget.doctorDetails!.name,
+                        doctorPhotoKey: '',
+                        lastMessageKey: '',
+                        lastMessageDateKey: '',
+                        lastMessageSenderIdKey: 0,
+                        patentIdKey: user['id'],
+                        patentNameKey: user['name'],
+                        patentPhotoKey: '',
+                        'seenLastMessage': true,
+                      });
+
+                      widget.onChooseItem(false);
+                      if (!mounted) return;
+                      Navigator.pop(context);
+                      ChangeBottomNavigationController.instance
+                          .changeBottomNavigation(1);
+                    }
                   },
                   child: Container(
                     height: 24,

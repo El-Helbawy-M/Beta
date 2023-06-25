@@ -23,14 +23,14 @@ class _PaymentViewState extends State<PaymentView> {
           onPageFinished: (String url) {},
           onWebResourceError: (WebResourceError error) {},
           onNavigationRequest: (NavigationRequest request) {
-            if (request.url.startsWith('https://www.paypal.com/eg/home')) {
+            if (request.url.startsWith('https://www.fawry.com/ar/')) {
               return NavigationDecision.prevent;
             }
             return NavigationDecision.navigate;
           },
         ),
       )
-      ..loadRequest(Uri.parse('https://www.paypal.com/eg/home'));
+      ..loadRequest(Uri.parse('https://www.fawry.com/ar/'));
     super.initState();
   }
 
