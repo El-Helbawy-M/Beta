@@ -58,7 +58,7 @@ dependencies:
 
   # Device resources
   file_picker: ^5.2.5
-  flutter_blue_plus: ^1.4.0
+  flutter_bluetooth_serial: ^0.4.0
   qr_code_scanner: ^1.0.1
   permission_handler: ^10.2.0
   image_picker: ^0.8.7+4

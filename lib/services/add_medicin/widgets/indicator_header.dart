@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../routers/navigator.dart';
-import '../../../utilities/components/arrow_back.dart';
 import '../../../utilities/theme/media.dart';
 
 class IndicatorHeader extends StatelessWidget {

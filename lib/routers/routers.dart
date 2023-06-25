@@ -20,4 +20,5 @@ abstract class Routes {
   static const String addMeal = "add_meal";
   static const String addWeight = "add_weight";
   static const String weightList = "weight_list";
+  static const String bluetoothDeviceView = "bluetooth_device";
 }

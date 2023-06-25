@@ -19,6 +19,7 @@ import '../services/add_meals/pages/add_meal_page.dart';
 import '../services/add_medicin/pages/add_medicin_page.dart';
 import '../services/authentication/login/pages/login.dart';
 import '../services/authentication/register/pages/registration_page.dart';
+import '../services/bluetooth_connection/view.dart';
 import '../services/chats/model/chat_model.dart';
 import '../services/diabtes_list/pages/diabetes_details.dart';
 import '../services/doctor_details/pages/doctor_details_page.dart';
@@ -98,6 +99,8 @@ class CustomNavigator {
         return _pageRoute(const AddWeightPage());
       case Routes.weightList:
         return _pageRoute(const WeightListPage());
+      case Routes.bluetoothDeviceView:
+        return _pageRoute(const BluetoothConnectionView());
       case Routes.chatRoom:
         final List args = settings.arguments as List;
         return _pageRoute(

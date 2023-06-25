@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:draggable_widget/draggable_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project_base/handlers/icon_handler.dart';
+import 'package:flutter_project_base/routers/routers.dart';
 import 'package:flutter_project_base/services/home/pages/home_page.dart';
 
 import '../../services/chats/pages/chats_list_page.dart';
@@ -187,28 +188,31 @@ class _SugarTimerState extends State<SugarTimer> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 100,
-      width: 100,
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Colors.white,
-          border: Border.all(color: Theme.of(context).colorScheme.primary)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Text(
-            'قياس السكر الان هو',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          Text(
-            sugar.toString(),
-            textAlign: TextAlign.center,
-          ),
-        ],
+    return InkWell(
+      onTap: () => Navigator.pushNamed(context, Routes.bluetoothDeviceView),
+      child: Container(
+        height: 100,
+        width: 100,
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.white,
+            border: Border.all(color: Theme.of(context).colorScheme.primary)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              'قياس السكر الان هو',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            Text(
+              sugar.toString(),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
       ),
     );
   }
