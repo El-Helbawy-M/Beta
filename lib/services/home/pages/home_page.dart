@@ -146,7 +146,6 @@ class _HomePageState extends State<HomePage> {
                         onSelectItem: (option) {
                           chartType = option.value;
                           setState(() {});
-                          // ChartsDataController.instance.
                         },
                         onChangeChartFilter: (filter) {
                           filterType = filter.value;

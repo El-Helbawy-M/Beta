@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer' as dev;
-import 'dart:math';
 
 import 'package:draggable_widget/draggable_widget.dart';
 import 'package:flutter/material.dart';
@@ -314,9 +313,14 @@ class _BasePageState extends State<BasePage> {
 
             number = ascii.decode(data);
 
+            int numberNum = int.tryParse(number ?? '0') ?? 0;
             MapEntry<String, int> item = MapEntry(
-                DateFormat('hh:mm a').format(DateTime.now()),
-                int.tryParse(number ?? '0') ?? 0);
+                DateFormat('hh:mm a').format(DateTime.now()), numberNum);
+
+            if (numberNum > 160) {
+              show("قياس السكر عالى للغاية");
+            }
+
             ChartsDataController.instance
                 .setNewItemTo(ChartsDataController.bloodSugarType, item);
             setState(() {});
@@ -429,12 +433,12 @@ class _SugarTimerState extends State<SugarTimer> {
 
   @override
   void initState() {
-    timer = Timer.periodic(const Duration(seconds: 4), (timer) {
-      int min = 25;
-      int max = 210;
-      sugar = min + Random().nextInt(max - min);
-      setState(() {});
-    });
+    // timer = Timer.periodic(const Duration(seconds: 4), (timer) {
+    //   int min = 25;
+    //   int max = 210;
+    //   sugar = min + Random().nextInt(max - min);
+    //   setState(() {});
+    // });
     super.initState();
   }
 
