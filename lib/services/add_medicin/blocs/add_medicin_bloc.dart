@@ -2,7 +2,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_project_base/base/models/select_option.dart';
 import 'package:flutter_project_base/config/app_events.dart';
 import 'package:flutter_project_base/config/app_states.dart';
-import 'package:flutter_project_base/routers/navigator.dart';
 
 class AddMedicinBloc extends Bloc<AppEvents, AppStates> {
   AddMedicinBloc() : super(Start()) {
@@ -12,7 +11,7 @@ class AddMedicinBloc extends Bloc<AppEvents, AppStates> {
   }
 
   //================================================== Veriables ===============================
-  int pageIndex = 1;
+  int pageIndex = 2;
   //=====================
   bool isTablets = false;
   String? name;
@@ -61,14 +60,14 @@ class AddMedicinBloc extends Bloc<AppEvents, AppStates> {
   void _goToNextPage(AppEvents event, Emitter emit) {
     switch (pageIndex) {
       case 1:
-        if (_checkDurationStep()) {
+        if (_checkMedicinDetailsStep()) {
           pageIndex++;
         }
         add(Update());
         break;
       case 2:
-        if (_checkMedicinDetailsStep()) {
-          CustomNavigator.pop();
+        if (_checkDurationStep()) {
+          // CustomNavigator.pop();
         }
         add(Update());
     }
@@ -78,5 +77,5 @@ class AddMedicinBloc extends Bloc<AppEvents, AppStates> {
     pageIndex--;
     add(Update());
   }
-  //=============================================================================================
+//=============================================================================================
 }

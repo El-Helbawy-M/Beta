@@ -194,13 +194,13 @@ class ChartsDataController extends ChangeNotifier {
 
   //DateFormat('dd-MM-yyyy').format(DateTime(202, 6, 12)), 90)
   List<MapEntry<String, int>> bloodSugar = <MapEntry<String, int>>[
-    MapEntry(DateTime(202, 6, 12).toString(), 90),
-    MapEntry(DateTime(2023, 6, 24).toString(), 666),
-    MapEntry(DateTime(2023, 6, 20).toString(), 333),
-    MapEntry(DateTime(2023, 6, 25).toString(), 33),
-    MapEntry(DateTime(2023, 6, 25, 6).toString(), 40),
-    MapEntry(DateTime(2023, 6, 25, 22).toString(), 80),
-    MapEntry(DateTime(2023, 6, 25, 4).toString(), 120),
+    // MapEntry(DateTime(202, 6, 12).toString(), 90),
+    // MapEntry(DateTime(2023, 6, 24).toString(), 666),
+    // MapEntry(DateTime(2023, 6, 20).toString(), 333),
+    // MapEntry(DateTime(2023, 6, 25).toString(), 33),
+    // MapEntry(DateTime(2023, 6, 25, 6).toString(), 40),
+    // MapEntry(DateTime(2023, 6, 25, 22).toString(), 80),
+    // MapEntry(DateTime(2023, 6, 25, 4).toString(), 120),
   ];
   List<MapEntry<String, int>> bloodPressure = <MapEntry<String, int>>[
     MapEntry(DateTime(2023, 6, 12).toString(), 80),

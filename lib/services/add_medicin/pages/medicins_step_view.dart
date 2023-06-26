@@ -6,10 +6,17 @@ import 'package:flutter_project_base/base/models/select_option.dart';
 import 'package:flutter_project_base/base/widgets/fields/single_select_bottomsheet/single_select_input_field.dart';
 import 'package:flutter_project_base/base/widgets/fields/text_input_field.dart';
 import 'package:flutter_project_base/config/app_events.dart';
+
 import '../blocs/add_medicin_bloc.dart';
 
 class MedicinsStepView extends StatefulWidget {
-  const MedicinsStepView({super.key});
+  const MedicinsStepView({
+    super.key,
+    required this.onChangeMedicineType,
+    required this.name,
+  });
+  final TextEditingController name;
+  final void Function(String) onChangeMedicineType;
 
   @override
   State<MedicinsStepView> createState() => _MedicinsStepViewState();
@@ -33,6 +40,7 @@ class _MedicinsStepViewState extends State<MedicinsStepView> {
                   onTap: () {
                     bloc.isTablets = true;
                     bloc.add(Update());
+                    widget.onChangeMedicineType('1');
                   },
                   borderRadius: BorderRadius.circular(8),
                   child: Container(
@@ -64,6 +72,7 @@ class _MedicinsStepViewState extends State<MedicinsStepView> {
                   onTap: () {
                     bloc.isTablets = false;
                     bloc.add(Update());
+                    widget.onChangeMedicineType('2');
                   },
                   borderRadius: BorderRadius.circular(8),
                   child: Container(
@@ -93,6 +102,7 @@ class _MedicinsStepViewState extends State<MedicinsStepView> {
           TextInputField(
             labelText: 'اسم الدواء',
             hintText: 'ادخل اسم الدواء',
+            controller: widget.name,
             keyboardType: TextInputType.text,
             hasError: !bloc.nameValidation,
             errorText: "من فضلك ادخل اسم الدواء",

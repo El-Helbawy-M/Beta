@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project_base/base/widgets/pressure_info_view.dart';
 import 'package:flutter_project_base/handlers/icon_handler.dart';
+import 'package:flutter_project_base/services/medicins_list/models/medicine_model.dart';
 import 'package:flutter_project_base/utilities/theme/text_styles.dart';
 
 class MedicineCard extends StatelessWidget {
-  const MedicineCard(this.text, {super.key});
-  final String text;
+  const MedicineCard(this.item, {super.key});
+  final MedicineModel item;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,7 @@ class MedicineCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                text,
+                item.name ?? '',
                 style: AppTextStyles.w600.copyWith(fontSize: 20),
               ),
               const SizedBox(height: 16),
@@ -43,7 +44,7 @@ class MedicineCard extends StatelessWidget {
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      "3:30 PM",
+                      item.time ?? '',
                       style: AppTextStyles.w400.copyWith(fontSize: 16),
                     ),
                   ),
@@ -53,7 +54,7 @@ class MedicineCard extends StatelessWidget {
               InfoView(
                 title: "الجرعة",
                 value: Text(
-                  "2 ملعقة",
+                  "${item.dose} ${item.insulinType == '1' ? 'ملعقة' : 'حقنه'}",
                   style: AppTextStyles.w600.copyWith(fontSize: 16),
                 ),
               ),
@@ -64,7 +65,6 @@ class MedicineCard extends StatelessWidget {
           height: 32,
           width: 46,
           decoration: const BoxDecoration(
-            // color: Theme.of(context).colorScheme.primary,
             color: Colors.green,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(8),

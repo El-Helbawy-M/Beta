@@ -57,7 +57,7 @@ class CustomNavigator {
       case Routes.addMedicines:
         return _pageRoute(BlocProvider(
           create: (context) => AddMedicinBloc(),
-          child: const AddMedicinPage(),
+          child: const AddMedicinePage(),
         ));
       case Routes.register:
         return _pageRoute(const RegistrationPage());

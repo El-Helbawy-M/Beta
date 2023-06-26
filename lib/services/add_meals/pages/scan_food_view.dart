@@ -60,14 +60,14 @@ class _ScanFoodViewState extends State<ScanFoodView> {
                   width: 250,
                   height: 250,
                 ),
-                if (msg != 'Not recognized') ...[
-                  const SizedBox(height: 14),
-                  Image.asset(
-                    'assets/images/ml_image.jpeg',
-                    width: 250,
-                    height: 250,
-                  ),
-                ],
+                // if (msg != 'Not recognized') ...[
+                //   const SizedBox(height: 14),
+                //   Image.asset(
+                //     'assets/images/ml_image.jpeg',
+                //     width: 250,
+                //     height: 250,
+                //   ),
+                // ],
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20),
                   child: Text(
@@ -80,6 +80,20 @@ class _ScanFoodViewState extends State<ScanFoodView> {
                     ),
                   ),
                 ),
+                if (msg != 'Not recognized') ...[
+                  const Padding(
+                    padding: EdgeInsets.only(bottom: 20),
+                    child: Text(
+                      'معدل زيادة سكر الدم سيكون بمقدار 62',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  )
+                ],
               ],
             ),
             CustomBtn(

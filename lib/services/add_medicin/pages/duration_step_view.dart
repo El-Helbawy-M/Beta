@@ -4,14 +4,23 @@ import 'package:flutter_project_base/base/widgets/fields/date_input_field.dart';
 import 'package:flutter_project_base/base/widgets/fields/text_input_field.dart';
 import 'package:flutter_project_base/config/app_events.dart';
 import 'package:flutter_project_base/config/app_states.dart';
-import 'package:intl/intl.dart';
 
 import '../../../utilities/theme/text_styles.dart';
 import '../blocs/add_medicin_bloc.dart';
 import '../widgets/days_selector_view.dart';
 
 class DurationStepView extends StatelessWidget {
-  const DurationStepView({super.key});
+  const DurationStepView({
+    super.key,
+    required this.numberOfDays,
+    required this.onChooseDate,
+    required this.timesInDay,
+    required this.onChooseDay,
+  });
+  final TextEditingController timesInDay;
+  final TextEditingController numberOfDays;
+  final void Function(DateTime) onChooseDate;
+  final void Function(String) onChooseDay;
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +73,7 @@ class DurationStepView extends StatelessWidget {
                   bloc.days.clear();
                   bloc.startDate = date;
                   bloc.add(Update());
+                  onChooseDate(date);
                 },
                 hasError: !bloc.startDateValidation,
                 errorText: "من فضلك ادخل تاريخ بداية الدواء",
@@ -79,6 +89,7 @@ class DurationStepView extends StatelessWidget {
                     } else {
                       bloc.days.add(value);
                     }
+                    onChooseDay(value);
                     bloc.add(Update());
                   },
                 ),

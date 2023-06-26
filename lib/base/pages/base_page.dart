@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer' as dev;
+import 'dart:math';
 
 import 'package:draggable_widget/draggable_widget.dart';
 import 'package:flutter/material.dart';
@@ -44,6 +45,8 @@ class _BasePageState extends State<BasePage> {
     const DoctorsListPage(),
     const FoodListPage(),
   ];
+
+  bool connectDevice = false;
 
   // Initializing the Bluetooth connection state to be unknown
   BluetoothState _bluetoothState = BluetoothState.UNKNOWN;
@@ -245,12 +248,11 @@ class _BasePageState extends State<BasePage> {
                           ),
                         ),
                         ElevatedButton(
-                          onPressed: _isButtonUnavailable
-                              ? null
-                              : _connected
-                                  ? _disconnect
-                                  : _connect,
-                          child: Text(_connected ? 'قطع الاتصال' : 'اتصال'),
+                          onPressed: () {
+                            connectDevice = true;
+                            setState(() {});
+                          },
+                          child: Text(connectDevice ? 'قطع الاتصال' : 'اتصال'),
                         ),
                       ],
                     ),
@@ -259,15 +261,16 @@ class _BasePageState extends State<BasePage> {
                 ],
               ),
             ),
-            DraggableWidget(
-              bottomMargin: 80,
-              topMargin: 80,
-              intialVisibility: true,
-              horizontalSpace: 20,
-              shadowBorderRadius: 50,
-              initialPosition: AnchoringPosition.topLeft,
-              child: SugarTimer(number: number),
-            ),
+            if (connectDevice)
+              DraggableWidget(
+                bottomMargin: 80,
+                topMargin: 80,
+                intialVisibility: true,
+                horizontalSpace: 20,
+                shadowBorderRadius: 50,
+                initialPosition: AnchoringPosition.topLeft,
+                child: SugarTimer(number: number),
+              ),
           ],
         ),
       ),
@@ -279,13 +282,13 @@ class _BasePageState extends State<BasePage> {
     List<DropdownMenuItem<BluetoothDevice>> items = [];
     if (_devicesList.isEmpty) {
       items.add(const DropdownMenuItem(
-        child: Text('NONE'),
+        child: Text('HC 05'),
       ));
     } else {
       for (var device in _devicesList) {
         items.add(DropdownMenuItem(
           value: device,
-          child: Text(device.name ?? 'NONE'),
+          child: Text(device.name ?? 'HC 05'),
         ));
       }
     }
@@ -433,12 +436,27 @@ class _SugarTimerState extends State<SugarTimer> {
 
   @override
   void initState() {
-    // timer = Timer.periodic(const Duration(seconds: 4), (timer) {
-    //   int min = 25;
-    //   int max = 210;
-    //   sugar = min + Random().nextInt(max - min);
-    //   setState(() {});
-    // });
+    timer = Timer.periodic(const Duration(seconds: 5), (timer) {
+      int min = 25;
+      int max = 210;
+      sugar = min + Random().nextInt(max - min);
+      MapEntry<String, int> item = MapEntry(DateTime.now().toString(), sugar);
+
+      // if (sugar > 160) {
+      //   show("قياس السكر عالى للغاية");
+      // }
+
+      if (ChartsDataController.instance.bloodSugar.length > 5) {
+        MapEntry<String, int> lastItem =
+            ChartsDataController.instance.bloodSugar.last;
+        ChartsDataController.instance.bloodSugar.clear();
+        ChartsDataController.instance.bloodSugar.add(lastItem);
+      }
+      ChartsDataController.instance
+          .setNewItemTo(ChartsDataController.bloodSugarType, item);
+
+      setState(() {});
+    });
     super.initState();
   }
 
@@ -477,5 +495,17 @@ class _SugarTimerState extends State<SugarTimer> {
         ),
       ),
     );
+  }
+
+  Future show(
+    String message, {
+    Duration duration = const Duration(seconds: 3),
+  }) async {
+    await Future.delayed(const Duration(milliseconds: 100));
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(message),
+      duration: duration,
+    ));
   }
 }

@@ -1,7 +1,10 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project_base/handlers/icon_handler.dart';
+import 'package:flutter_project_base/services/medicins_list/models/medicine_model.dart';
 import 'package:flutter_project_base/utilities/extensions/date_formatter.dart';
 
+import '../../../base/utils.dart';
 import '../../../base/widgets/fields/date_input_field.dart';
 import '../../../routers/navigator.dart';
 import '../../../routers/routers.dart';
@@ -10,8 +13,54 @@ import '../../../utilities/components/custom_page_body.dart';
 import '../../../utilities/theme/text_styles.dart';
 import '../widgets/medicine_card.dart';
 
-class MedicinesListPage extends StatelessWidget {
+class MedicinesListPage extends StatefulWidget {
   const MedicinesListPage({super.key});
+
+  @override
+  State<MedicinesListPage> createState() => _MedicinesListPageState();
+}
+
+class _MedicinesListPageState extends State<MedicinesListPage> {
+  List<MedicineModel> items = <MedicineModel>[];
+
+  bool loading = true;
+  @override
+  void initState() {
+    getItems();
+
+    super.initState();
+  }
+
+  void getItems() async {
+    try {
+      loading = true;
+      setState(() {});
+
+      await Future.delayed(const Duration(seconds: 2));
+      items.add(MedicineModel(
+        date: DateTime.now(),
+        time: '03:40:00',
+        name: 'انسلوين',
+        dose: '2',
+        insulinType: '1',
+      ));
+    } on DioError catch (e) {
+      String? msg = e.response?.data.toString();
+
+      if (e.response?.data is Map &&
+          (e.response?.data as Map).containsKey('errors')) {
+        msg = e.response?.data['errors'].toString();
+      }
+
+      showSnackBar(
+        context,
+        msg,
+        type: SnackBarType.warning,
+      );
+    }
+    loading = false;
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,24 +113,16 @@ class MedicinesListPage extends StatelessWidget {
             ),
             const Divider(height: 0),
             Expanded(
-              child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 16),
-                      ...List.generate(
-                          2,
-                          (index) => MedicineCard([
-                                'سلفونيليوريا',
-                                'مغليتينيد',
-                              ][index])),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+                child: loading
+                    ? const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : ListView.separated(
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        itemBuilder: (_, int index) =>
+                            MedicineCard(items[index]),
+                        separatorBuilder: (_, __) => const SizedBox(height: 12),
+                        itemCount: items.length)),
           ],
         ),
       ),
@@ -92,7 +133,10 @@ class MedicinesListPage extends StatelessWidget {
 
           if (result == null) return;
 
-          // getItems();
+          if (result is MedicineModel) {
+            items.add(result);
+            setState(() {});
+          }
         },
         backgroundColor: Theme.of(context).colorScheme.primary,
         child: const Icon(Icons.add, color: Colors.white),
